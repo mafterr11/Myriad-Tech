@@ -1,0 +1,251 @@
+{
+  "Hero": {
+    "title": "Clean design. Efficient code. Guaranteed performance",
+    "subtitle": "Full Stack Developer based in ",
+    "subtitle2": "Bucharest, Romania",
+    "subtitle3": ", crafting smart, practical solutions for the web and software. Let's connect and build something great!",
+    "contact-button": "Contact Me",
+    "contact-link": "/en/contact",
+    "download-button": "Download CV"
+  },
+  "About": {
+    "title": "About Me",
+    "tab1": {
+      "trigger": "Personal Info",
+      "title": "Top-Tier Service Excellence",
+      "description": "I excel in developing user-friendly websites using advanced technology, offering dynamic and engaging interactions. I provide web design services in Bucharest and customized web design solutions."
+    },
+    "tab2": {
+      "trigger": "Qualifications",
+      "title": "Qualifications & Professional Journey"
+    },
+    "tab3": {
+      "trigger": "Skills",
+      "title": "What I Use Everyday"
+    },
+    "exp": "Experience",
+    "edu": "Education"
+  },
+  "Services": {
+    "title": "My Services",
+    "first": {
+      "description": "Through Figma, we create visually impressive and intuitive websites, prioritizing user experience. Our team focuses on custom web design to meet each client's requirements."
+    },
+    "second": {
+      "description": "We build robust and scalable web solutions with the latest technologies, delivering high-performance websites customized for your business needs. Services include website creation and web application development."
+    },
+    "third": {
+      "description": "We enhance your website's online visibility through SEO strategies that include image optimization, metadata management, and keyword placement. We optimize the website structure to maximize organic traffic and conversions."
+    },
+    "fourth": {
+      "description": "Maximizing your online visibility and driving targeted traffic to your site with customized Google Ads strategies.",
+      "soon": "COMING SOON"
+    }
+  },
+  "Work": {
+    "empty": "No featured projects are available right now.",
+    "error": "Featured projects are temporarily unavailable.",
+    "title": "Latest Projects",
+    "subtitle": "My latest achievements and creative ventures.",
+    "projects-button": "All Projects",
+    "projects-link": "/en/projects"
+  },
+  "Reviews": {
+    "title": "Client Testimonials",
+    "madiny": "I collaborated with Alexandru for the creation of my website, and I can say that the experience was fantastic. The website is animated and minimalist, which showcases my artworks in a very professional manner.",
+    "tng": "We communicated very effectively throughout the entire process, and this was reflected in the final quality of the website. I did not encounter any technical issues, which is essential for a hassle-free online presence. Thank you for your dedication and professionalism!",
+    "monte-bianco": "Collaborating with Alexandru for the creation of the Montebianco.ro website was an excellent choice, as all our requirements were met with creative and efficient solutions. I highly recommend his services to anyone who wants a functional and attractive website.",
+    "mbody": "The website created for my personal training services is exactly what I wanted. The design is dynamic and inspirational, just like the workouts I offer. The transition from one section to another is smooth, and users can easily find the information they need. Thank you for the effort to understand and bring my vision to reality!",
+    "dianazu": "As a graphic designer, I need a website that showcases my work, and that's exactly what you achieved. The design is clean and modern, and my portfolio looks fantastic on any device."
+  },
+  "Cta": {
+    "title": "Prepared to turn your dreams into reality?",
+    "title2": "Contact Myriad Tech for professional web design and development services",
+    "contact-button": "Contact Me"
+  },
+  "Proiecte": {
+    "page": {
+      "empty": "No published projects are available right now.",
+      "error": "Projects are temporarily unavailable.",
+      "title": "My Projects",
+      "tab": "All Projects",
+      "demo": "See the live demo"
+    },
+    "category": {
+      "presentation": "Presentation",
+      "progress": "In progress",
+      "shop": "E-commerce",
+      "wordpress": "Wordpress",
+      "others": "Others"
+    }
+  },
+  "AdminLogin": {
+    "title": "Admin sign in",
+    "subtitle": "Use an authorized Supabase account to manage projects.",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "working": "Signing in...",
+    "invalid": "The email or password is incorrect.",
+    "unavailable": "Supabase authentication is not configured yet."
+  },
+  "Admin": {
+    "title": "Project administration",
+    "subtitle": "Create, publish, order, and maintain the projects shown on the site.",
+    "newProject": "New project",
+    "editProject": "Edit project",
+    "createProject": "Create project",
+    "saveChanges": "Save changes",
+    "cancel": "Cancel",
+    "logout": "Sign out",
+    "slug": "Slug",
+    "name": "Name",
+    "category": "Category",
+    "descriptionRo": "Romanian description",
+    "descriptionEn": "English description",
+    "imageUrl": "Direct image URL",
+    "imageFile": "Image file",
+    "imageHint": "Upload an image or paste a local path/public project-images Storage URL. Maximum 5 MB for uploads.",
+    "projectUrl": "Project URL",
+    "githubUrl": "GitHub URL (optional)",
+    "published": "Published",
+    "featured": "Show on homepage",
+    "featuredOrder": "Homepage order",
+    "sortOrder": "Projects page order",
+    "categoryOptions": {
+      "presentation": "Presentation",
+      "progress": "In progress",
+      "shop": "E-commerce",
+      "wordpress": "Wordpress",
+      "others": "Others"
+    },
+    "statusPublished": "Published",
+    "statusDraft": "Draft",
+    "edit": "Edit",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "delete": "Delete",
+    "confirmDelete": "Delete this project?",
+    "empty": "No projects exist yet.",
+    "loadError": "Projects could not be loaded.",
+    "failed": "The action could not be completed."
+  },
+  "Nav": {
+    "home": {
+      "name": "Home",
+      "link": "/"
+    },
+    "projects": {
+      "name": "Projects",
+      "link": "/projects"
+    },
+    "contact": {
+      "name": "Contact",
+      "link": "/contact"
+    },
+    "specialBtn": {
+      "name": "Hire me",
+      "title": "Would you like a quote?",
+      "subtext": "Feel free to contact me directly via WhatsApp. I am always available to promptly answer any questions you may have.",
+      "tel": "Call me",
+      "wapp": "Send a message"
+    }
+  },
+  "Contact": {
+    "title": "Let's Work Together",
+    "subtitle": "I am eager to start our journey - let's collaborate to create something truly remarkable. Reach out today and let's turn your ideas into reality!",
+    "subtitle2": "Say Hello",
+    "or": "OR",
+    "whatsapp": "Message me on WhatsApp!",
+    "email": "Send me an email",
+    "form": {
+      "name": {
+        "label": "Full Name",
+        "input": "Add your full name"
+      },
+      "email": {
+        "label": "Email",
+        "input": "Your email address"
+      },
+      "tel": {
+        "label": "Phone Number",
+        "input": "Enter your phone number"
+      },
+      "msg": {
+        "label": "Message",
+        "input": "What would you like to discuss?"
+      },
+      "gdpr": "I agree to data processing (GDPR)",
+      "btn": "Submit",
+      "reCaptcha": {
+        "1": "This site is protected by reCAPTCHA and the Google",
+        "2": "Privacy Policy",
+        "3": "and",
+        "4": "Terms of Service",
+        "5": "apply."
+      }
+    },
+    "faq": {
+      "q1": "What services do I offer?",
+      "a1": "I offer custom web development services including website design, development, e-commerce setup, and optimization. I specialize in frameworks like Next.js and Wordpress, ensuring your site is fast, secure, and scalable. Additionally, I can help with website maintenance and updates post-launch.",
+      "q2": "What is the cost of developing a website?",
+      "a2": "Pricing varies based on the scope of the project. I typically charge per project, offering different packages for basic websites, e-commerce, or custom web applications. After an initial consultation, I can provide a clear, detailed estimate tailored to your needs.",
+      "q3": "Will my website be mobile-friendly and optimized?",
+      "a3": "Yes, every website I develop is fully responsive, meaning it will look great and function perfectly on all devices, from smartphones to desktops. I also optimize for speed and SEO to ensure your site performs well.",
+      "q4": "What is the process for getting started?",
+      "a4": "The process begins with an initial consultation to discuss your project goals and requirements. From there, I`ll create a proposal outlining the timeline, cost, and deliverables. Once agreed, we move into the development phase with regular check-ins to ensure everything is on track. After launch, I offer support services as needed."
+    }
+  },
+  "Terms": {
+    "titlu": "Privacy Policy",
+    "1": "Myriad Tech is committed to managing the personal data provided by its users securely and responsibly, in accordance with the General Data Protection Regulation (GDPR - EU 2016/679). This privacy policy applies exclusively to the website www.myriad-tech.ro and explains how we collect, use, and protect personal information, ensuring that it is used only for well-defined purposes and communicated in advance to our users.",
+    "2": "We take responsibility for protecting the personal data of the visitors of the website www.myriad-tech.ro through a set of technical measures and organizational procedures. These measures are designed to defend the data against any form of unauthorized access, manipulation, or accidental loss. We commit to continuously monitor and adapt these measures, aligning them with current technological developments. In the unlikely event of a data security breach that could pose a risk to your rights and freedoms, we assure you that you will be notified without delay.",
+    "3": "We explicitly warn that the services of the website www.myriad-tech.ro are intended and allow the processing of personal data only for persons who have reached the age of 16. The use of our services by minors under this age requires the express consent of parents or legal guardians. If we identify cases of processing personal data of minors without this consent, we will immediately stop processing and take appropriate measures to rectify the situation.",
+    "4": "Personal data are processed by us in accordance with the current legal provisions regarding the protection of personal data. If you correspond with us or fill out a form on our web page, www.myriad-tech.ro, please consider that the data mentioned by you on that form will be processed for the purposes described below.",
+    "5": "When sending the contact form, or the request for a quote form, your personal data from the categories: contact and identification data as well as the text of your request will be processed. If you do not provide these data, we will not be able to contact you and we will not be able to provide the requested information.",
+    "6": "The purpose is to respond to your request and to inform you about the services provided.",
+    "7": "Our interest is to process your requests and to be able to respond as quickly and accurately as possible.",
+    "8": "The personal data that we process, when you become the beneficiary/client of our services, are mainly identification and contact data (name, surname, home address, identity card series and number, phone number, email), data regarding your real estate property involved in the services we offer, billing details, payment method, and other personal data that we collect directly from you or from other sources (public authorities, utility providers, etc.).",
+    "9": "At Myriad Tech, the processing of personal data is strictly based on the necessity to fulfill contractual and legal obligations, such as managing contracts and processing payments for the services offered. We base the processing of data on legitimate interest, public interests, or, when necessary, on the informed consent of the client.",
+    "10": "We process personal data strictly for the purpose of fulfilling the obligations from the service execution contracts, etc., concluded with you. This includes activities necessary for efficient collaboration with institutions, authorities, organizations, and other relevant entities, to honor the contractual commitments agreed with you. Your data are necessary for making payments and fulfilling the fiscal obligations related to the contract. The phone number and email address are used for efficient communication both with you and with the entities involved in fulfilling the contract. We also commit to keeping the confidentiality of your data.",
+    "11": "In order to provide high-quality services and to comply with legal obligations, we may share some of your personal data with public authorities, utility providers, judicial courts, notaries, external experts and consultants. This is done only when necessary and we always ensure the adequate protection of your information. Your personal data will be processed for the duration of our contractual relationship. After its completion, we will keep the data according to the period set by the applicable legislation, which includes the terms for archiving commercial documents.",
+    "12": "You have the following legal rights regarding your personal data:",
+    "13": "1. The right to information: You can request confirmation of the processing of your data and details about how they are used.",
+    "14": "2. The right to rectification: You have the possibility to correct inaccurate data.",
+    "15": "3. The right to data erasure: You can request the erasure of data when they are no longer necessary, when you have withdrawn consent, when you object to their processing, or when processing is non-compliant with GDPR.",
+    "16": "4. The right to restrict processing: You have the right to restrict the processing of data under certain conditions, such as disputing the accuracy of the data or opposing processing.",
+    "17": "5. The right to data portability: You can receive the personal data provided in a structured format or you can request their transmission to another operator.",
+    "18": "6. The right to object: You can object to data processing for specific personal reasons.",
+    "19": "7. The right to lodge a complaint: You can file a complaint with the supervisory authority if you believe that the processing of your personal data does not comply with the regulations.",
+    "20": "8. The right to withdraw consent: You can withdraw your consent for processing based on it at any time.",
+    "21": "9. Rights related to automated decisions: In the case of automated data processing, you can request human review, express a point of view, or contest the decision.",
+    "22": "Myriad Tech may periodically update its privacy policies, according to changes in data protection legislation. Any changes will be published on our website, where you will find updated information."
+  },
+  "Cookies": {
+    "path": "/en/cookie-policy",
+    "name": "Cookie Policy",
+    "text1": "We use the cookie system to ensure the proper functioning of the website. If you wish to continue using the site, it means that you agree with the",
+    "text2": "and accept it.",
+    "buttons": {
+      "yes": "Accept",
+      "no": "Decline"
+    },
+    "title": "Cookie Policy",
+    "1": "A cookie is a small file containing special, often encoded text fragments sent by a server to a web browser and then sent back (unchanged) by the browser each time it accesses that server. The cookie is installed by a request issued by a web server to a browser (e.g., Internet Explorer, Chrome, Mozilla) and is completely 'passive' (it does not contain software programs, viruses, or spyware and cannot access the user's hard drive information). Cookies are used for authentication as well as to collect information such as the browser type and operating system, the source page, the domain name from which the visitor connected to the site, with the purpose of making it possible to recognize the user's device, understand how visitors use the web page, and present the site's content in a relevant manner, adapted to the user's preferences.",
+    "2": "Thus, cookies ensure a pleasant browsing experience for users and support our efforts to provide them with superior quality services. They are also used in preparing aggregated anonymous statistics that help understand how a user benefits from www.myriad-tech.ro, allowing for the improvement of the site's structure and content, but excluding the personal identification of the user. We use session and persistent cookies (temporary files that remain in the user's device until the session ends, the application/browser is closed, or until they are manually deleted by the user). The cookies used by the partners of a web page operator, including, without limitation, the users of the web page, are subject to the respective privacy policy.",
+    "3": "The personal data collected through the use of cookies may be collected only to facilitate certain functionalities for the user and are encrypted in a way that makes it impossible for unauthorized persons to access them. Generally, an application used to access web pages allows the saving of cookies on the device by default. These settings can be changed so that the automatic administration of cookies is blocked by the web browser, or the user is informed each time cookies are sent to their device. Detailed information about the possibilities and ways of managing cookies can be found in the settings area of the application (web browser). Limiting the use of cookies can affect certain functionalities of www.myriad-tech.ro.",
+    "4": "Cookies are central to the efficient functioning of the Internet, helping to generate a friendly browsing experience adapted to the preferences and interests of each user. Refusing or disabling cookies can make some sites impossible to use. Due to their flexibility and the fact that most of the largest and most visited sites use cookies, they are almost unavoidable; disabling them will not allow the user to access the most widespread and used sites, such as YouTube, Gmail, Yahoo, Facebook, Pinterest, and others.",
+    "5": "Examples of important uses of cookies: Marketing cookies are mainly used by advertising agencies to store a user's visits and searches on the web and to display relevant and engaging ads based on recent searches. Preference-related cookies, connected to the categories of products and services offered, allow the site to remember information such as the preferred language or the area where the user is located. Statistical cookies help us understand how users interact with our site by collecting information anonymously.",
+    "6": "Cookies retain child protection filters regarding Internet content (family mode options, safe search functions). The website uses the Google Analytics web analysis service provided by Google. The information generated by the cookie files regarding your use of the website (including your IP address) will be transmitted and stored by Google on servers that may be located in the EU, EEA, and/or the United States of America. Google will use this information to evaluate your use of the website, to compile reports on website activity for its operators, and to provide other services related to website activity and Internet usage.",
+    "7": "Cookies are NOT viruses and use plain text formats; they are not composed of code fragments, so they cannot be executed or self-run. Consequently, they cannot duplicate or replicate on other networks to run or replicate again. Since they cannot perform these functions, they cannot be considered viruses. However, cookies can be used for negative purposes because they store information about the users' preferences and browsing history on a specific site or across multiple sites, being used as a form of spyware (spying on consumer activity). Many anti-spyware products constantly mark cookies for deletion during anti-virus/anti-spyware scanning procedures. Generally, browsers have integrated privacy settings that provide different levels of cookie acceptance, validity period, and automatic deletion after the user has visited a specific site. Since identity protection is highly valuable and is the right of every internet user, it is advisable to know what potential issues cookies might create. Because they constantly transmit information between the browser and the website in both directions, if an attacker or unauthorized person intervenes in the data transmission path, the information contained in the cookie can be intercepted. Although very rare, this can happen if the browser connects to the server using an unencrypted network (e.g., an unsecured WiFi network). Other cookie-based attacks involve incorrect cookie settings on servers. It is very important that the user chooses the most suitable method to protect personal information and:",
+    "8": "customize the browser's settings regarding cookies to reflect a comfortable level of security for the use of cookies, set long expiration terms for storing browsing history and personal access data, consider setting the browser to delete individual browsing data each time the browser is closed; this is a way to access sites that place cookies and delete any visit information when the browsing session is closed, install and constantly update anti-spyware applications.",
+    "9": "Many spyware detection and prevention applications include detecting attacks on websites. Thus, they prevent the browser from accessing websites that could exploit the browser's vulnerabilities or download dangerous software. It is recommended to constantly update browsing programs because many cookie-based attacks are carried out by exploiting the weaknesses of old browser versions. All modern browsers offer the possibility to change cookie settings. These settings are usually found in the 'options' or 'preferences' menu of the browser. The cookie policy may be updated periodically. Therefore, the user needs to check this section to stay informed of any changes. For answers to questions or concerns regarding data processing and storage, we can be contacted at the email address."
+  },
+  "Footer": {
+    "gdpr": "/en/politica-de-confidentialitate",
+    "cookies": "/en/politica-cookies",
+    "name": "Privacy Policy",
+    "name2": "Cookie Policy",
+    "rights": "All rights reserved"
+  }
+}

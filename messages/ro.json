@@ -1,0 +1,250 @@
+{
+  "Hero": {
+    "title": "Design curat. Cod eficient. Performanță garantată",
+    "subtitle": "Dezvoltator Full Stack din ",
+    "subtitle2": "București, România",
+    "subtitle3": ", creând soluții inteligente și practice pentru tine. Îți stau la dispoziție pentru orice întrebare!",
+    "contact-button": "Contactați-mă",
+    "contact-link": "/ro/contact",
+    "download-button": "Descărcați CV"
+  },
+  "About": {
+    "title": "Despre mine",
+    "tab1": {
+      "trigger": "Informații personale",
+      "title": "Excelență de top în servicii",
+      "description": "Excelez în dezvoltarea de site-uri web prietenoase cu utilizatorul, folosind tehnologie avansată, oferind interacțiuni dinamice și captivante. Ofer servicii de web design București și soluții de design web personalizat."
+    },
+    "tab2": {
+      "trigger": "Calificări",
+      "title": "Calificări și parcurs profesional"
+    },
+    "tab3": {
+      "trigger": "Abilități",
+      "title": "Ce tehnologii folosesc"
+    },
+    "exp": "Experiență",
+    "edu": "Educație"
+  },
+  "Services": {
+    "title": "Serviciile mele",
+    "first": {
+      "description": "Prin intermediul Figma, realizăm site-uri web vizual impresionante și intuitive, prioritizând experiența utilizatorului. Echipa noastră se concentrează pe web design personalizat pentru a îndeplini cerințele fiecărui client."
+    },
+    "second": {
+      "description": "Construim soluții web robuste și scalabile cu ultimele tehnologii, livrând site-uri web de înaltă performanță, personalizate pentru nevoile afacerii dvs. Serviciile includ crearea de site-uri web și dezvoltare de aplicații web."
+    },
+    "third": {
+      "description": "Îmbunătățim vizibilitatea site-ului dvs. online prin strategii SEO care includ optimizarea imaginilor, gestionarea metadatelor și plasarea cuvintelor cheie. Optimizăm structura site-ului web pentru a maximiza traficul organic și conversiile."
+    },
+    "fourth": {
+      "description": "Maximizarea vizibilității dvs. online și direcționarea traficului țintit către site-ul dvs. cu strategii personalizate Google Ads.",
+      "soon": "ÎN CURÂND"
+    }
+  },
+  "Work": {
+    "empty": "Momentan nu exista proiecte selectate.",
+    "error": "Proiectele selectate nu sunt disponibile momentan.",
+    "title": "Ultimele proiecte",
+    "subtitle": "Evidențiind ultimele mele realizări și inițiative creative.",
+    "projects-button": "Toate Proiectele",
+    "projects-link": "/ro/projects"
+  },
+  "Reviews": {
+    "title": "Ce spun clienții",
+    "madiny": "Am colaborat cu Alexandru pentru crearea site-ului meu și pot spune că experiența a fost fantastică. Site-ul este animat și minimalist, ceea ce îmi pune în valoare lucrările de artă într-un mod foarte profesionist.",
+    "tng": "Am comunicat foarte eficient pe parcursul întregului proces, iar acest lucru s-a reflectat în calitatea finală a site-ului. Nu am întâmpinat probleme tehnice, ceea ce este esențial pentru o prezență online fără griji. Mulțumesc pentru dedicare și profesionalism!",
+    "monte-bianco": "Colaborarea cu Alexandru pentru crearea site-ului Montebianco.ro a fost o alegere excelentă, deoarece toate cerințele noastre au fost întâmpinate cu soluții creative și eficiente. Recomand cu căldură serviciile sale tuturor celor care își doresc un site funcțional și atractiv.",
+    "mbody": "Site-ul creat pentru serviciile mele de personal training este exact ceea ce îmi doream. Design-ul este dinamic și inspirațional, exact ca antrenamentele pe care le ofer. Trecerea de la o secțiune la alta este fluidă, iar utilizatorii pot găsi ușor informațiile de care au nevoie. Mulțumesc pentru efortul de a înțelege și de a transpune în realitate viziunea mea!",
+    "dianazu": "Ca designer grafic, am nevoie de un site care să-mi pună în valoare lucrările, și exact asta ai realizat. Designul este curat și modern, iar portofoliul meu arată fantastic pe orice dispozitiv. "
+  },
+  "Cta": {
+    "title": "Pregătit să îți transformi visele în realitate?",
+    "title2": "Contactează Myriad Tech pentru servicii profesionale de web design și development",
+    "contact-button": "Contactați-mă"
+  },
+  "Proiecte": {
+    "page": {
+      "empty": "Momentan nu exista proiecte publicate.",
+      "error": "Proiectele nu sunt disponibile momentan.",
+      "title": "Proiectele mele",
+      "tab": "Toate proiectele",
+      "demo": "Vezi demonstrația live"
+    },
+    "category": {
+      "presentation": "Site de prezentare",
+      "progress": "În desfășurare",
+      "shop": "Magazin online",
+      "wordpress": "Wordpress",
+      "others": "Altele"
+    }
+  },
+  "AdminLogin": {
+    "title": "Autentificare administrator",
+    "subtitle": "Foloseste un cont Supabase autorizat pentru administrarea proiectelor.",
+    "email": "Email",
+    "password": "Parola",
+    "submit": "Autentificare",
+    "working": "Se autentifica...",
+    "invalid": "Emailul sau parola nu sunt corecte.",
+    "unavailable": "Autentificarea Supabase nu este configurata inca."
+  },
+  "Admin": {
+    "title": "Administrare proiecte",
+    "subtitle": "Creeaza, publica, ordoneaza si actualizeaza proiectele afisate pe site.",
+    "newProject": "Proiect nou",
+    "editProject": "Editeaza proiectul",
+    "createProject": "Creeaza proiectul",
+    "saveChanges": "Salveaza modificarile",
+    "cancel": "Anuleaza",
+    "logout": "Deconectare",
+    "slug": "Slug",
+    "name": "Nume",
+    "category": "Categorie",
+    "descriptionRo": "Descriere in romana",
+    "descriptionEn": "Descriere in engleza",
+    "imageUrl": "URL direct pentru imagine",
+    "imageFile": "Fisier imagine",
+    "imageHint": "Incarca o imagine sau introdu un path local/URL public din Storage project-images. Incarcarile au maximum 5 MB.",
+    "projectUrl": "URL proiect",
+    "githubUrl": "URL GitHub (optional)",
+    "published": "Publicat",
+    "featured": "Afiseaza pe homepage",
+    "featuredOrder": "Ordine pe homepage",
+    "sortOrder": "Ordine in pagina proiectelor",
+    "categoryOptions": {
+      "presentation": "Site de prezentare",
+      "progress": "In desfasurare",
+      "shop": "Magazin online",
+      "wordpress": "Wordpress",
+      "others": "Altele"
+    },
+    "statusPublished": "Publicat",
+    "statusDraft": "Ciorna",
+    "edit": "Editeaza",
+    "publish": "Publica",
+    "unpublish": "Retrage",
+    "delete": "Sterge",
+    "confirmDelete": "Stergi acest proiect?",
+    "empty": "Nu exista inca proiecte.",
+    "loadError": "Proiectele nu au putut fi incarcate.",
+    "failed": "Actiunea nu a putut fi finalizata."
+  },
+  "Nav": {
+    "home": {
+      "name": "Acasă",
+      "link": "/ro"
+    },
+    "projects": {
+      "name": "Proiecte",
+      "link": "/projects"
+    },
+    "contact": {
+      "name": "Contact",
+      "link": "/contact"
+    },
+    "specialBtn": {
+      "name": "Angajează-mă",
+      "title": "Vreți o ofertă?",
+      "subtext": "Nu ezitați să mă contactați direct prin WhatsApp. Sunt mereu disponibil pentru a răspunde prompt la orice întrebări pe care le aveți.",
+      "tel": "Sună-mă",
+      "wapp": "Trimite un mesaj"
+    }
+  },
+  "Contact": {
+    "title": "Haideți să colaborăm",
+    "subtitle": "Sunt nerăbdător să începem călătoria noastră și să colaborăm pentru a crea ceva cu adevărat remarcabil. Ia legătura astăzi și haideți să va transform ideile în realitate!",
+    "subtitle2": "Salutare!",
+    "or": "SAU",
+    "whatsapp": "Trimiteți un mesaj pe WhatsApp!",
+    "email": "Dați-ne un email",
+    "form": {
+      "name": {
+        "label": "Nume",
+        "input": "Numele Complet"
+      },
+      "email": {
+        "label": "Email",
+        "input": "Adresa dvs. de email"
+      },
+      "tel": {
+        "label": "Telefon",
+        "input": "Număr de telefon"
+      },
+      "msg": {
+        "label": "Mesaj",
+        "input": "Transmiteți un mesaj"
+      },
+      "gdpr": "Sunt de acord cu prelucrarea datelor personale(GDPR).",
+      "btn": "Trimite",
+      "reCaptcha": {
+        "1": "Site protejat de reCAPTCHA și se aplică",
+        "2": "Politica de confidențialitate",
+        "3": "și",
+        "4": "Termenii și condițiile",
+        "5": "Google."
+      }
+    },
+    "faq": {
+      "q1": "Ce servicii ofer?",
+      "a1": "Ofer servicii personalizate de dezvoltare web, inclusiv design de website, dezvoltare, configurare e-commerce și optimizare. Sunt specializat în framework-uri precum Next.js și Wordpress, asigurându-mă că site-ul tău este rapid, securizat și scalabil. De asemenea, pot ajuta cu mentenanța și actualizările site-ului după lansare.",
+      "q2": "Care este costul pentru dezvoltarea unui website?",
+      "a2": "Prețul variază în funcție de complexitatea proiectului. În general, percep taxe pe proiect, oferind diferite pachete pentru site-uri de bază, e-commerce sau aplicații web personalizate. După o consultație inițială, pot oferi o estimare clară și detaliată adaptată nevoilor tale.",
+      "q3": "Website-ul meu va fi optimizat și compatibil cu dispozitivele mobile?",
+      "a3": "Da, fiecare site pe care îl dezvolt este complet responsive, ceea ce înseamnă că va arăta și funcționa perfect pe toate dispozitivele, de la telefoane mobile la desktopuri. De asemenea, optimizez pentru viteză și SEO, pentru a mă asigura că site-ul tău are performanțe bune.",
+      "q4": "Care este procesul pentru a începe?",
+      "a4": "Procesul începe cu o consultație inițială pentru a discuta obiectivele și cerințele proiectului tău. După aceea, voi crea o propunere care detaliază termenii, costurile și livrabilele. Odată ce ne înțelegem, trecem la faza de dezvoltare, cu verificări regulate pentru a ne asigura că totul este conform planului. După lansare, ofer servicii de suport, dacă este necesar."
+    }
+  },
+  "Terms": {
+    "titlu": "Politica de confidențialitate",
+    "1": "Myriad Tech se angajează să gestioneze în mod sigur și responsabil datele personale furnizate de către utilizatorii săi, conform Regulamentului General pentru Protecția Datelor (GDPR - EU 2016/679). Această politică de confidențialitate se aplică exclusiv website-ului www.myriad-tech.ro și explică cum colectăm, utilizăm și protejăm informațiile personale, asigurându-ne că acestea sunt folosite numai pentru scopuri bine definite și comunicate în prealabil utilizatorilor noștri.",
+    "2": "Ne asumăm responsabilitatea de a proteja datele personale ale vizitatorilor site-ului www.myriad-tech.ro printr-un set de măsuri tehnice și proceduri organizatorice. Aceste măsuri sunt menite să apere datele împotriva oricărei forme de acces neautorizat, manipulare sau pierdere accidentală. Ne angajăm să monitorizăm și să adaptăm continuu aceste măsuri, aliniindu-ne la evoluția tehnologică actuală. În cazul improbabil al unei încălcări a securității datelor care ar putea prezenta un risc pentru drepturile și libertățile dvs., vă asigurăm că veți fi notificat(ă) fără întârziere.",
+    "3": "Atenționăm explicit că serviciile site-ului www.myriad-tech.ro sunt destinate și permit prelucrarea datelor personale doar pentru persoanele care au atins vârsta de 16 ani. Folosirea serviciilor noastre de către minorii sub această vârstă necesită acordul expres al părinților sau al reprezentanților legali. Dacă identificăm cazuri de prelucrare a datelor personale ale minorilor fără acest consimțământ, vom opri imediat prelucrarea și vom lua măsuri adecvate pentru a rectifica situația.",
+    "4": "Datele cu caracter personal sunt prelucrate de noi conform prevederilor legale în vigoare privind protecția datelor cu caracter personal. În cazul în care corespundeți cu noi sau completați un formular cu date pe pagina noastră de web, www.myriad-tech.ro, vă rugăm să aveți în vedere faptul că datele menționate de dumneavoastră pe formularul respectiv vor fi prelucrate în scopurile descrise în continuare.",
+    "5": "La trimiterea formularului de contact, respectiv a formularului de solicitare de ofertă, vor fi prelucrate datele dumneavoastra cu caracter personal din categoriile: date de contact și identificare precum și textul solicitării dumneavoastră. În situația în care nu furnizați aceste date, nu ne veți putea contacta și nu vă vom putea furniza informațiile solicitate.",
+    "6": "Scopul este de a răspunde la solicitarea dvs. și de a vă informa în legătură cu serviciile furnizate.",
+    "7": "Interesul nostru este de a prelucra solicitările dumneavoastră și de a putea răspunde în cel mai scurt timp și cât mai precis.",
+    "8": "Datele personale pe care le prelucrăm, atunci când deveniți beneficiarul/clientul serviciilor noastre, sunt, în principal, datele de identificare și contact (nume, prenume, adresa de domiciliu, serie și număr carte de identitate, număr de telefon, e-mail), date cu privire la proprietatea dumneavoastră imobiliară implicată în serviciile pe care vi le oferim, detalii de facturare, metodă de plată, alte date personale pe care le colectăm direct de la dumneavoastră sau din alte surse (autorități publice, furnizori de utilități etc).",
+    "9": "La Myriad Tech, prelucrarea datelor personale este strict bazată pe necesitatea de a îndeplini obligațiile contractuale și legale, cum ar fi gestionarea contractelor și procesarea plăților pentru serviciile oferite. Fundamentăm prelucrarea datelor pe baza interesului legitim, a intereselor publice sau, atunci când este necesar, pe consimțământul informat al clientului.",
+    "10": "Prelucrăm datele personale strict în scopul îndeplinirii obligațiilor din contractele de servicii de execuție etc. încheiate cu dumneavoastră. Acest lucru include activități necesare pentru colaborarea eficientă cu instituții, autorități, organizații și alte entități relevante, pentru a onora angajamentele contractuale convenite cu dumneavoastră. Datele dvs. ne sunt necesare pentru efectuarea plăților și îndeplinirea obligațiilor fiscale aferente contractului. Numărul de telefon și adresa de e-mail sunt folosite pentru comunicarea eficientă atât cu dumneavoastră, cât și cu entitățile implicate în îndeplinirea contractului. De asemenea, ne angajăm să păstrăm confidențialitatea datelor dumneavoastră.",
+    "11": "Pentru a vă oferi servicii de înaltă calitate și pentru a respecta obligațiile legale, putem partaja unele dintre datele dumneavoastră personale cu autorități publice, furnizori de utilități, instanțe judiciare, notari, experți și consultanți externi. Aceasta se face numai când este necesar și asigurăm întotdeauna protecția adecvată a informațiilor dumneavoastră. Datele dumneavoastră personale vor fi prelucrate pe durata întregii noastre relații contractuale. După finalizarea acesteia, vom păstra datele conform perioadei stabilite de legislația aplicabilă, care include și termenele pentru arhivarea documentelor comerciale.",
+    "12": "Aveți următoarele drepturi legale referitoare la datele dumneavoastră personale:",
+    "13": "1. Dreptul la informare: Puteți cere confirmarea procesării datelor dvs. și detalii despre cum sunt folosite.",
+    "14": "2. Dreptul la rectificare: Aveți posibilitatea de a corecta datele inexacte.",
+    "15": "3. Dreptul la ștergerea datelor: Puteți solicita ștergerea datelor când nu mai sunt necesare, când ați retras consimțământul, când vă opuneți procesării lor, sau când procesarea este neconformă cu GDPR.",
+    "16": "4. Dreptul la restricționarea prelucrării: Aveți dreptul de a limita prelucrarea datelor în anumite condiții, cum ar fi contestarea exactității datelor sau opoziția față de prelucrare.",
+    "17": "5. Dreptul la portabilitatea datelor: Puteți primi datele personale furnizate într-un format structurat sau puteți cere transmiterea lor altui operator.",
+    "18": "6. Dreptul de opoziție: Puteți obiecta prelucrării datelor din motive personale specifice.",
+    "19": "7. Dreptul de a depune plângere: Puteți face plângere la autoritatea de supraveghere dacă considerați că prelucrarea datelor dvs. personale nu respectă regulamentele.",
+    "20": "8. Dreptul de retragere a consimțământului: Puteți retrage consimțământul pentru prelucrarea bazată pe acesta, oricând.",
+    "21": "9. Drepturi legate de deciziile automate: În cazul prelucrării automate a datelor, puteți cere revizuirea umană, puteți exprima un punct de vedere sau puteți contesta decizia.",
+    "22": "Myriad Tech poate actualiza periodic politicile de confidențialitate, conform schimbărilor în legislația privind protecția datelor. Orice modificări vor fi publicate pe site-ul nostru, unde veți găsi informații actualizate"
+  },
+  "Cookies": {
+    "path": "/ro/politica-cookies",
+    "name": "Politica cookies",
+    "text1": "Folosim sistemul cookies pentru a asigura buna functionare a website-ului. Daca doresti sa utilizezi site-ul in continuare inseamna ca esti de acord cu",
+    "text2": "si o accepti.",
+    "buttons": {
+      "yes": "Accept",
+      "no": "Refuz"
+    },
+    "1": "Cookie-ul este un fisier de mici dimensiuni, continand fragmente de text special, deseori codificat, expediat de un server unui navigator web si apoi trimis inapoi (nemodificat) de catre navigator, de fiecare data cand acceseaza acel server. Cookie-ul este instalat prin solicitarea emisa de catre un web-server unui browser (ex: Internet Explorer, Chrome, Mozilla) si este complet “pasiv” (nu contine programe software, virusi sau spyware si nu poate accesa informatiile de pe hard driver-ul utilizatorului). Cookie-urile sunt folosite atat pentru autentificare, cat si pentru a colecta informatii precum tipul de browser si sistemul de operare, pagina sursa, denumirea domeniului din care vizitatorul s-a conectat la site, scopul fiind de a face posibila recunoasterea terminalului utilizatorului, a intelege cum folosesc vizitatorii pagina de web si a prezenta continutul site-lui intr-un mod relevant, adaptat preferintelor utilizatorului.",
+    "2": "Astfel, cookie-urile asigura utilizatorilor o experienta placuta de navigare si sustin eforturile noastre pentru a le oferi servicii de calitate superioara. De asemenea, sunt utilizate in pregatirea unor statistici anonime agregate, care ajuta la intelegerea modalitatii in care un utilizator beneficiaza de www.myriad-tech.ro, permitand imbunatatirea structurii si continutului site-ului, dar excluzand indentificarea personala a utilizatorului. Folosesim cookie-uri per sesiune si fixe (fisiere temporare ce raman in terminalul utilizatorului pana la incheierea sesiunii, inchiderea aplicatiei/browser-ului web, sau pana cand sunt sterse manual de utilizator. Cookie-urile folosite de partenerii operatorului unei pagini web, incluzand, fara limitari, utilizatorii paginii web, fac obiectul politicii de confidentialitate respective.",
+    "3": "Datele personale colectate prin utilizarea cookie-urilor pot fi colectate doar pentru a facilita anumite functionalitati pentru utilizator si sunt criptate intr-un mod care face imposibil accesul persoanelor neautorizate la ele. In general, o aplicatie folosita pentru accesarea paginilor web permite salvarea cookie-urilor pe terminal in mod implicit. Aceste setari pot fi schimbate in asa fel incat administrarea automata a cookie-urilor sa fie blocata de browser-ul web sau utilizatorul sa fie informat de fiecare data cand sunt trimise cookie-uri catre terminalul sau. Informatii detaliate despre posibilitatile si modurile de administrare a cookie-urilor pot fi gasite in zona de setari a aplicatiei (browser-ului web). Limitarea folosirii cookie-urilor poate afecta anumite functionalitati ale www.myriad-tech.ro.",
+    "4": "Cookie-urile reprezinta punctul central al functionarii eficiente a Internetului, ajutand la generarea unei experiente de navigare prietenoase si adaptata preferintelor si intereselor fiecarui utilizator. Refuzarea sau dezactivarea cookie-urilor poate face unele site-uri imposibil de folosit. Datorita flexibilitatii lor si faptului ca majoritatea dintre cele mai mari si mai vizitate site-uri folosesc cookie-uri, acestea sunt aproape inevitabile; dezactivarea lor nu va permite accesul utilizatorului pe site-urile cele mai raspandite si utilizate, cum sunt Youtube, Gmail, Yahoo, Facebook, Pinterest si altele.",
+    "5": "Exemple de intrebuintari importante ale cookie-urilor: Cookie-urile pentru marketing sunt folosite indeosebi de agentiile de publicitate pentru a stoca vizitele si cautarile unui utilizator pe web si a-i afisa anunturi relevante si antrenante, in functie de cautarile recente. Cookie-urile referitoare la preferinte, aflate in legatura cu categoriile de produse si servicii oferite, permit site-ului sa aminteasca informatii precum limba preferata sau zona in care se afla utilizatorul. Cookie-urile statistice ne ajuta sa intelegem cum interactioneaza utilizatori cu site-ul nostru prin colectarea informatiilor in mod anonim",
+    "6": "Prin cookie-uri se retin filtrele de protectie a copiilor privind continutul pe Internet (optiuni family mode, functii de safe search). Website-ul  utilizeaza serviciul pentru analiza web Google Analytics furnizat de Google. Informatiile generate de fisierele de tip cookie cu privire la utilizarea de catre dvs. a website-ului (inclusiv adresa dvs. IP)  vor fi transmise si stocate de Google pe servere care pot fi localizate in UE, SEE si/sau Statele Unite ale Americii. Google va utiliza aceste informatii in scopul evaluarii utilizarii de catre dvs. a website-ului, elaborand rapoarte cu privire la activitatea website-ului pentru operatorii acestuia si furnizand alte servicii referitoare la activitatea  si la utilizarea internetului.",
+    "7": "Cookie-urile NU sunt virusi si folosesc formate tip plain text; nu sunt alcatuite din portiuni de cod, astfel ca nu pot fi executate si nici nu pot auto-rula. In consecinta, nu se pot duplica sau replica pe alte retele pentru a se rula sau replica din nou. Deoarece nu pot indeplini aceste functii, nu pot fi considerate ca fiind virusi. Intrucat cookie-urile pot fi folosite pentru scopuri negative deoarece stocheaza informatii despre preferintele si istoricul de navigare al utilizatorilor, pe un anume site sau pe mai multe, fiind folosite ca o forma de Spyware (spionaj privind activitatea consumatorului), multe produse anti-spyware marcheaza cookie-urile in mod constant pentru a fi sterse in cadrul procedurilor de stergere/scanare anti-virus/anti-spyware. In general, browser-ele au integrate setari de confidentialitate care furnizeaza diferite nivele de acceptare a cookie-urilor, perioada de valabilitate si stergere automata dupa ce utilizatorul a vizitat un anumit site. Deoarece protectia identitatii este foarte valoroasa si reprezinta dreptul fiecarui utilizator de internet, este indicat sa se stie ce eventuale probleme pot crea cookie-urile. Pentru ca prin intermediul lor se transmit in mod constant in ambele sensuri informatii intre browser si website, daca un atacator sau persoana autorizata intervine in parcursul de transmitere a datelor, informatiile continute de cookie pot fi interceptate. Desi foarte rar, acest lucru se poate intampla daca browser-ul se conecteaza la server folosind o retea necriptata (ex: o retea WiFi nesecurizata). Alte atacuri bazate pe cookie implica setari gresite ale cookie-urilor pe servere. Este foarte important ca utilizatorul sa aleaga metoda cea mai potrivita de protectie a informatiilor personale si sa:",
+    "8": "particularizeze setarile browser-ului in ceea ce priveste cookie-urile pentru a reflecta un nivel confortabil al securitatii utilizarii cookie-urilor, seteze termene lungi de expirare pentru stocarea istoricului de navigare si al datelor personale de acces, ia in considerare setarea browser-ului pentru a sterge datele individuale de navigare de fiecare data cand este inchis browser-ul; aceasta este o varianta de a accesa site-urile care plaseaza cookie-uri si de a sterge orice informatie de vizitare la inchiderea sesiunii de navigare, instaleze si sa actualizeze constant aplicatii anti-spyware.",
+    "9": "Multe dintre aplicatiile de detectare si prevenire a spyware-ului includ detectarea atacurilor pe site-uri. Astfel, impiedica browser-ul de la a accesa website-uri care ar putea sa exploateze vulnerabilitatile browser-ului sau sa descarce software periculos. Se recomanda actualizarea programelor de navigare in mod constant, pentru ca multe dintre atacurile bazate pe cookie-uri se realizeaza exploatand punctele slabe ale versiunilor vechi ale browserelor. Toate browser-ele moderne ofera posibilitatea de a schimba setarile cookie-urilor. Aceste setari se gasesc de regula in “optiuni” sau in meniul de “preferinte” al browser-ului. Este posibil ca politica de cookie-uri sa fie actualizata periodic. De aceea, este necesar ca utilizatorul sa consulte aceasta sectiune pentru a fi la curent cu orice modificare. Pentru raspunsuri la intrebari sau nelamuriri cu privire la prelucrarea si stocarea datelor putem fi contactati la adresa de e-mail. "
+  },
+  "Footer": {
+    "gdpr": "/ro/politica-de-confidentialitate",
+    "cookies": "/ro/politica-cookies",
+    "name": "Politica de confidențialitate",
+    "name2": "Politica cookies",
+    "rights": "Toate drepturile rezervate"
+  }
+}
