@@ -101,7 +101,7 @@ const NavMobile = () => {
         aria-expanded={isMenuOpen}
         aria-controls="mobile-navigation"
         onClick={() => setIsMenuOpen((open) => !open)}
-        className="focus-ring flex h-10 w-10 items-center justify-center border border-line text-2xl text-black"
+        className="focus-ring flex h-10 w-10 items-center justify-center border-0 bg-transparent animate-none text-2xl text-black transition-none"
       >
         {isMenuOpen ? (
           <IoCloseOutline aria-hidden="true" />
@@ -143,7 +143,7 @@ const NavMobile = () => {
                       type="button"
                       onClick={closeMenu}
                       aria-label="Close navigation menu"
-                      className="focus-ring absolute top-4 right-3 flex h-9 w-9 items-center justify-center border border-line text-2xl sm:top-5 sm:right-5"
+                      className="focus-ring absolute top-4 right-3 flex h-9 w-9 items-center justify-center border-0 bg-transparent animate-none text-2xl transition-none sm:top-5 sm:right-5"
                     >
                       <IoCloseOutline aria-hidden="true" />
                     </button>
