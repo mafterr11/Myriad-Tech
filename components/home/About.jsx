@@ -105,6 +105,11 @@ const About = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
+            mobileViewport={{
+              once: true,
+              amount: 0.05,
+              margin: "0px 0px 80px 0px",
+            }}
             className="paper-panel min-w-0 p-5 sm:p-8"
           >
             <Tabs defaultValue="skills" className="w-full">
