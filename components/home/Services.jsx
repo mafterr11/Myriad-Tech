@@ -132,6 +132,11 @@ const Services = () => {
             >
               <Card
                 data-active={activeService === index}
+                onClick={() => {
+                  if (window.matchMedia(MOBILE_QUERY).matches) {
+                    setActiveService(index);
+                  }
+                }}
                 className="service-card h-full w-full p-6 sm:p-8"
               >
                 <CardHeader className="flex flex-row items-start justify-between p-0">
