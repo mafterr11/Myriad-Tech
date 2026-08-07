@@ -94,7 +94,7 @@ const NavMobile = () => {
   const isActive = (path) => (pathname || "/") === path;
   const panelTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.36, ease: [0.22, 1, 0.36, 1] };
+    : { duration: 0.24, ease: [0.22, 1, 0.36, 1] };
 
   return (
     <div className="xl:hidden">
@@ -126,7 +126,7 @@ const NavMobile = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.22 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.14 }}
                   className="fixed inset-0 z-[60] flex justify-end bg-black/20 xl:hidden"
                 >
                   <button
@@ -140,9 +140,9 @@ const NavMobile = () => {
                     role="dialog"
                     aria-modal="true"
                     aria-label="Mobile navigation"
-                    initial={{ x: "100%", opacity: 0.6 }}
+                    initial={{ x: "10%", opacity: 0.92 }}
                     animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: "100%", opacity: 0.6 }}
+                    exit={{ x: "10%", opacity: 0.92 }}
                     transition={panelTransition}
                     className="mobile-nav-panel full-mobile-height relative z-10 flex flex-col items-center justify-between border-l border-accent bg-body px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
                   >
