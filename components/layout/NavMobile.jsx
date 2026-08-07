@@ -106,24 +106,26 @@ const NavMobile = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.22 }}
+            onClick={closeMenu}
             className="fixed inset-0 z-40 flex justify-end bg-black/20 xl:hidden"
           >
             <button
               type="button"
               aria-label="Close navigation menu"
               onClick={closeMenu}
-              className="absolute inset-0 cursor-default"
+              className="absolute inset-0 z-0 cursor-default"
             />
             <motion.aside
               id="mobile-navigation"
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
+              onClick={(event) => event.stopPropagation()}
               initial={{ x: "100%", opacity: 0.6 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0.6 }}
               transition={panelTransition}
-              className="mobile-nav-panel full-mobile-height relative flex flex-col items-center justify-between border-l border-accent bg-body px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
+              className="mobile-nav-panel full-mobile-height relative z-10 flex flex-col items-center justify-between border-l border-accent bg-body px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
             >
               <button
                 type="button"
