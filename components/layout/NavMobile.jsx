@@ -11,15 +11,20 @@ import { useTranslations } from "next-intl";
 import Socials from "../Socials";
 import Logo from "./Logo";
 import LocalSwitcher from "../ui/LocalSwitcher";
-import HireMe from "./HireMe";
+import { HireMeButton, HireMeDialog } from "./HireMe";
 
 const NavMobile = () => {
   const t = useTranslations("Nav");
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isHireMeOpen, setIsHireMeOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
+  const openHireMe = () => {
+    setIsHireMeOpen(true);
+    closeMenu();
+  };
   const links = [
     {
       path: "/",
@@ -110,6 +115,8 @@ const NavMobile = () => {
         )}
       </button>
 
+      <HireMeDialog open={isHireMeOpen} onOpenChange={setIsHireMeOpen} />
+
       {isMounted
         ? createPortal(
             <AnimatePresence>
@@ -184,7 +191,7 @@ const NavMobile = () => {
                     </nav>
 
                     <div className="flex flex-col items-center justify-center gap-y-4 sm:gap-y-5">
-                      <HireMe onClick={closeMenu} />
+                      <HireMeButton onClick={openHireMe} />
                       <LocalSwitcher />
                       <Socials />
                     </div>
