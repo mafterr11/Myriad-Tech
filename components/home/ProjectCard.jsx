@@ -5,7 +5,7 @@ import { ArrowUpRight, ArrowRight, Link2Icon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, cardClassName = "h-[530px]" }) => {
   const t = useTranslations("Proiecte");
   const category = t.has(`category.${project.category}`)
     ? t(`category.${project.category}`)
@@ -14,7 +14,7 @@ const ProjectCard = ({ project }) => {
   const link = project.link || "#";
 
   return (
-    <Card className="project-card group flex h-[530px] w-full flex-col overflow-hidden">
+    <Card className={`project-card group flex ${cardClassName} w-full flex-col overflow-hidden`}>
       <CardHeader className="p-0">
         <div className="project-card-media bg-work">
           <Image

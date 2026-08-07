@@ -13,7 +13,7 @@ const WorkSwiper = ({ projects = [] }) => {
 
   return (
     <Swiper
-      className="h-[590px] !px-5 pb-10 sm:!px-7 xl:!px-0"
+      className="h-[620px] !px-5 pb-10 sm:!px-7 xl:!px-0"
       slidesPerView={1}
       slidesPerGroup={1}
       breakpoints={{
@@ -40,7 +40,7 @@ const WorkSwiper = ({ projects = [] }) => {
     >
       {projects.map((project) => (
         <SwiperSlide key={project.id || project.slug} className="!h-auto">
-          <ProjectCard project={project} />
+          <ProjectCard project={project} cardClassName="h-[560px]" />
         </SwiperSlide>
       ))}
     </Swiper>
