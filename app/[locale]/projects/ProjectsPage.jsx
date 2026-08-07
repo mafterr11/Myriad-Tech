@@ -14,6 +14,12 @@ const ProjectsPage = ({ projects = [], error }) => {
   const categoryLabel = (category) =>
     t.has(`category.${category}`) ? t(`category.${category}`) : category;
   const categoryValues = [...new Set(projectData.map((item) => item.category))];
+  const projectCountByCategory = Object.fromEntries(
+    categoryValues.map((item) => [
+      item,
+      projectData.filter((project) => project.category === item).length,
+    ]),
+  );
   const [category, setCategory] = useState("all");
   const filteredProjects =
     category === "all"
@@ -39,13 +45,26 @@ const ProjectsPage = ({ projects = [], error }) => {
         </div>
 
         <Tabs value={category} onValueChange={setCategory} className="w-full">
-          <TabsList className="mx-auto mb-10 max-w-full sm:w-fit sm:flex-nowrap">
-            <TabsTrigger value="all" className="min-w-[7.5rem] sm:flex-none">
-              {allProjects}
+          <TabsList className="mx-auto mb-12 max-w-full justify-center gap-3">
+            <TabsTrigger
+              value="all"
+              className="min-w-[8.5rem] flex-none justify-between gap-3"
+            >
+              <span>{allProjects}</span>
+              <span className="rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
+                {projectData.length}
+              </span>
             </TabsTrigger>
             {categoryValues.map((item) => (
-              <TabsTrigger value={item} key={item} className="min-w-[7.5rem] sm:flex-none">
-                {categoryLabel(item)}
+              <TabsTrigger
+                value={item}
+                key={item}
+                className="min-w-[8.5rem] flex-none justify-between gap-3"
+              >
+                <span>{categoryLabel(item)}</span>
+                <span className="rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
+                  {projectCountByCategory[item]}
+                </span>
               </TabsTrigger>
             ))}
           </TabsList>
