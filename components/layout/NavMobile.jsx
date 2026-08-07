@@ -184,7 +184,7 @@ const NavMobile = () => {
                     </nav>
 
                     <div className="flex flex-col items-center justify-center gap-y-4 sm:gap-y-5">
-                      <HireMe />
+                      <HireMe onClick={closeMenu} />
                       <LocalSwitcher />
                       <Socials />
                     </div>
