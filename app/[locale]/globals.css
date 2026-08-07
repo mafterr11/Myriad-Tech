@@ -643,3 +643,12 @@
     backdrop-filter: none !important;
   }
 }
+
+
+@media (max-width: 767px) and (hover: none) and (pointer: coarse) {
+  .service-card:hover:not([data-active="true"]) {
+    background: rgba(255, 253, 248, 0.48);
+    box-shadow: none;
+    transform: none;
+  }
+}
