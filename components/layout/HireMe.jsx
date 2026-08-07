@@ -10,12 +10,12 @@ import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 import { RiPhoneLine, RiWhatsappLine } from "react-icons/ri";
 
-const HireMe = () => {
+const HireMe = ({ onClick }) => {
   const t = useTranslations("Nav");
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm">{t("specialBtn.name")}</Button>
+        <Button size="sm" onClick={onClick}>{t("specialBtn.name")}</Button>
       </DialogTrigger>
       <DialogContent className="border-line bg-body p-7 sm:p-10">
         <DialogHeader>
