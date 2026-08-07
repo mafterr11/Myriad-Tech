@@ -123,7 +123,7 @@ const NavMobile = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0.6 }}
               transition={panelTransition}
-              className="mobile-nav-panel full-mobile-height relative flex flex-col items-center justify-between border-l border-line bg-body px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
+              className="mobile-nav-panel full-mobile-height relative flex flex-col items-center justify-between border-l border-accent bg-body px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
             >
               <button
                 type="button"
