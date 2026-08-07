@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://myriad-tech.ro/sitemap.xml
+Sitemap: https://www.myriad-tech.ro/sitemap.xml
