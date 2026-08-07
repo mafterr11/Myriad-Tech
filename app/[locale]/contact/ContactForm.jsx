@@ -28,12 +28,12 @@ import { useRecaptchaV3 } from "@/app/GoogleCaptchaWrapper";
 const formSchema = z.object({
   nume: z.string().min(3, { message: "Enter your full name" }),
   email: z.string().email(),
-  telefon: z
-    .string()
-    .trim()
-    .refine((value) => value === "" || value.length >= 10, {
+  telefon: z.union([
+    z.literal(""),
+    z.string().trim().min(10, {
       message: "Enter a valid phone number",
     }),
+  ]),
   mesaj: z
     .string()
     .min(10, { message: "Min 10 characters" })
