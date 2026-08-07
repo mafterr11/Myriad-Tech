@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import ProjectCard from "@/components/home/ProjectCard";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { MotionH1 } from "@/lib/motion-client";
 import { fadeIn } from "@/variants";
 
 const ProjectsPage = ({ projects = [], error }) => {
@@ -32,14 +32,14 @@ const ProjectsPage = ({ projects = [], error }) => {
         <div className="mb-12 flex flex-col justify-between gap-6 xl:mb-16 xl:flex-row xl:items-end">
           <div>
             <span className="section-kicker">Portfolio / Archive</span>
-            <motion.h1
+            <MotionH1
               variants={fadeIn("down", 0.2)}
               initial="hidden"
               animate="show"
               className="mt-4 max-w-3xl"
             >
               {t("page.title")}
-            </motion.h1>
+            </MotionH1>
           </div>
           <p className="section-copy xl:max-w-md xl:text-right">{t("page.demo")}</p>
         </div>
