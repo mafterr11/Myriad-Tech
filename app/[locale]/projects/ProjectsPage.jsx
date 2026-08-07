@@ -45,13 +45,13 @@ const ProjectsPage = ({ projects = [], error }) => {
         </div>
 
         <Tabs value={category} onValueChange={setCategory} className="w-full">
-          <TabsList className="mx-auto mb-12 max-w-full justify-center gap-3">
+          <TabsList className="mx-auto mb-12 grid w-full max-w-full grid-cols-2 gap-2 sm:flex sm:w-fit sm:flex-nowrap sm:justify-center sm:gap-3">
             <TabsTrigger
               value="all"
-              className="min-w-[8.5rem] flex-none justify-between gap-3"
+              className="col-span-2 min-w-0 flex-none justify-between gap-3 whitespace-normal sm:col-span-1 sm:min-w-[8.5rem]"
             >
-              <span>{allProjects}</span>
-              <span className="rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
+              <span className="min-w-0 leading-tight">{allProjects}</span>
+              <span className="shrink-0 rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
                 {projectData.length}
               </span>
             </TabsTrigger>
@@ -59,10 +59,10 @@ const ProjectsPage = ({ projects = [], error }) => {
               <TabsTrigger
                 value={item}
                 key={item}
-                className="min-w-[8.5rem] flex-none justify-between gap-3"
+                className="min-w-0 flex-none justify-between gap-3 whitespace-normal sm:min-w-[8.5rem]"
               >
-                <span>{categoryLabel(item)}</span>
-                <span className="rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
+                <span className="min-w-0 leading-tight">{categoryLabel(item)}</span>
+                <span className="shrink-0 rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
                   {projectCountByCategory[item]}
                 </span>
               </TabsTrigger>
