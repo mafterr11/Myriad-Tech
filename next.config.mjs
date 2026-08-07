@@ -1,6 +1,11 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "4.5mb",
+    },
+  },
   async redirects() {
     return [
       {

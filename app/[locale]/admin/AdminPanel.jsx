@@ -28,11 +28,12 @@ const emptyProject = {
   is_published: false,
   is_featured: false,
   featured_order: null,
-  sort_order: 0,
+  sort_order: null,
 };
 
 const categories = ["presentation", "progress", "shop", "wordpress", "others"];
 const initialActionState = { success: false, error: null, message: null };
+const maxImageSize = 4 * 1024 * 1024;
 
 function ActionFeedback({ state }) {
   if (!state?.error && !state?.message) {
@@ -49,9 +50,18 @@ function ActionFeedback({ state }) {
   );
 }
 
-function ProjectForm({ project, locale, onCancel, onSaved }) {
+function ProjectForm({
+  project,
+  locale,
+  onCancel,
+  onSaved,
+  pageOrderMax,
+  featuredOrderMax,
+}) {
   const t = useTranslations("Admin");
   const router = useRouter();
+  const [isFeatured, setIsFeatured] = useState(project.is_featured);
+  const [clientError, setClientError] = useState(null);
   const action = project.id ? updateProject : createProject;
   const [state, formAction, isPending] = useActionState(
     action,
@@ -70,6 +80,18 @@ function ProjectForm({ project, locale, onCancel, onSaved }) {
   return (
     <form
       action={formAction}
+      onSubmit={(event) => {
+        const fileInput = event.currentTarget.elements.namedItem("image_file");
+        const file = fileInput?.files?.[0];
+
+        if (file && file.size > maxImageSize) {
+          event.preventDefault();
+          setClientError(t("imageTooLarge"));
+          return;
+        }
+
+        setClientError(null);
+      }}
       className="border border-line bg-white/70 p-5 sm:p-7"
     >
       {project.id ? <input type="hidden" name="id" value={project.id} /> : null}
@@ -175,8 +197,9 @@ function ProjectForm({ project, locale, onCancel, onSaved }) {
               id="project-sort-order"
               name="sort_order"
               type="number"
-              min="0"
-              defaultValue={project.sort_order ?? 0}
+              min="1"
+              max={pageOrderMax}
+              defaultValue={project.sort_order ?? pageOrderMax}
             />
           </div>
           <div>
@@ -185,11 +208,14 @@ function ProjectForm({ project, locale, onCancel, onSaved }) {
               id="project-featured-order"
               name="featured_order"
               type="number"
-              min="0"
-              defaultValue={project.featured_order ?? ""}
+              min="1"
+              max={featuredOrderMax}
+              defaultValue={project.featured_order ?? featuredOrderMax}
+              disabled={!isFeatured}
             />
           </div>
         </div>
+        <p className="text-sm text-black/55 md:col-span-2">{t("orderHint")}</p>
       </div>
 
       <div className="mt-6 flex flex-wrap gap-6 border-t border-line pt-5">
@@ -208,7 +234,8 @@ function ProjectForm({ project, locale, onCancel, onSaved }) {
             type="checkbox"
             name="is_featured"
             value="true"
-            defaultChecked={project.is_featured}
+            checked={isFeatured}
+            onChange={(event) => setIsFeatured(event.target.checked)}
             className="h-4 w-4 accent-[var(--color-accent)]"
           />
           {t("featured")}
@@ -219,7 +246,7 @@ function ProjectForm({ project, locale, onCancel, onSaved }) {
         <Button type="submit" disabled={isPending}>
           {isPending ? "..." : project.id ? t("saveChanges") : t("createProject")}
         </Button>
-        <ActionFeedback state={state} />
+        <ActionFeedback state={clientError ? { error: clientError } : state} />
       </div>
     </form>
   );
@@ -261,7 +288,21 @@ export default function AdminPanel({ locale, projects = [], error }) {
   const t = useTranslations("Admin");
   const [editingProjectId, setEditingProjectId] = useState(null);
   const editingProject = projects.find((project) => project.id === editingProjectId);
-  const editorProject = editingProjectId === "new" ? emptyProject : editingProject;
+  const featuredCount = projects.filter((project) => project.is_featured).length;
+  const newProject = {
+    ...emptyProject,
+    sort_order: projects.length + 1,
+    featured_order: featuredCount + 1,
+  };
+  const editorProject = editingProjectId === "new" ? newProject : editingProject;
+  const pageOrderMax =
+    editingProjectId === "new" ? projects.length + 1 : projects.length;
+  const featuredOrderMax =
+    editingProjectId === "new"
+      ? featuredCount + 1
+      : editingProject?.is_featured
+        ? Math.max(featuredCount, 1)
+        : featuredCount + 1;
 
   return (
     <div className="min-h-screen pb-24 pt-36 sm:pt-44">
@@ -273,7 +314,11 @@ export default function AdminPanel({ locale, projects = [], error }) {
             <p className="section-copy mt-5 max-w-2xl">{t("subtitle")}</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Button type="button" onClick={() => setEditingProjectId("new")}>
+            <Button
+              type="button"
+              disabled={Boolean(error)}
+              onClick={() => setEditingProjectId("new")}
+            >
               {t("newProject")}
             </Button>
             <form action={signOut}>
@@ -293,6 +338,8 @@ export default function AdminPanel({ locale, projects = [], error }) {
               locale={locale}
               onCancel={() => setEditingProjectId(null)}
               onSaved={() => setEditingProjectId(null)}
+              pageOrderMax={pageOrderMax}
+              featuredOrderMax={featuredOrderMax}
             />
           </div>
         ) : null}
