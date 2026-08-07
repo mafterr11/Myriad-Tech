@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import * as z from "zod";
 
 const RECAPTCHA_ACTION = "InquirySubmit";
-const RECAPTCHA_MIN_SCORE = 0.3;
+const RECAPTCHA_MIN_SCORE = 0.1;
 const RECAPTCHA_ALLOWED_HOSTNAMES = new Set([
   "myriad-tech.ro",
   "www.myriad-tech.ro",
