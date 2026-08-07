@@ -280,7 +280,8 @@
     transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
   }
 
-  .service-card:hover {
+  .service-card:hover,
+  .service-card[data-active="true"] {
     background: rgba(255, 253, 248, 0.88);
     box-shadow: 0.65rem 0.65rem 0 rgba(103, 72, 57, 0.11);
     transform: translateY(-0.35rem);
@@ -620,6 +621,7 @@
   }
 
   .service-card:hover,
+  .service-card[data-active="true"],
   .project-card:hover,
   .project-card:hover .project-card-media img {
     transform: none;
