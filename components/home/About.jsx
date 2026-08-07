@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
 import { fadeIn } from "@/variants";
 import {
+  Code2,
   User2,
   MailIcon,
   PhoneCall,
@@ -107,10 +108,31 @@ const About = () => {
             className="paper-panel min-w-0 p-5 sm:p-8"
           >
             <Tabs defaultValue="skills" className="w-full">
-              <TabsList className="mb-8">
-                <TabsTrigger value="skills">{t("tab3.trigger")}</TabsTrigger>
-                <TabsTrigger value="personal">{t("tab1.trigger")}</TabsTrigger>
-                <TabsTrigger value="qualifications">{t("tab2.trigger")}</TabsTrigger>
+              <TabsList className="mb-8 grid grid-cols-3 gap-2">
+                <TabsTrigger
+                  value="skills"
+                  className="flex-col gap-1 px-1 py-2 tracking-[0.04em] sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:tracking-[0.08em]"
+                >
+                  <Code2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{t("tab3.trigger")}</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="personal"
+                  className="flex-col gap-1 px-1 py-2 tracking-[0.04em] sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:tracking-[0.08em]"
+                >
+                  <User2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{t("tab1.trigger")}</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="qualifications"
+                  className="flex-col gap-1 px-1 py-2 tracking-[0.04em] sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:tracking-[0.08em]"
+                >
+                  <GraduationCap
+                    className="h-4 w-4 shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span>{t("tab2.trigger")}</span>
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="skills">
