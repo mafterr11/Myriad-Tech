@@ -3,18 +3,26 @@ import { Resend } from "resend";
 import * as z from "zod";
 
 const RECAPTCHA_ACTION = "InquirySubmit";
-const RECAPTCHA_MIN_SCORE = 0.5;
+const RECAPTCHA_MIN_SCORE = 0.3;
+const RECAPTCHA_ALLOWED_HOSTNAMES = new Set([
+  "myriad-tech.ro",
+  "www.myriad-tech.ro",
+]);
 
 const contactFormSchema = z.object({
   nume: z.string().trim().min(3).max(120),
   email: z.string().trim().email().max(254),
-  telefon: z.string().trim().min(10).max(30),
+  telefon: z
+    .string()
+    .trim()
+    .max(30)
+    .refine((value) => value === "" || value.length >= 10),
   mesaj: z.string().trim().min(10).max(200),
   acceptTerms: z.literal(true),
   gRecaptchaToken: z.string().min(1),
 });
 
-async function verifyRecaptcha(token, expectedHostname) {
+async function verifyRecaptcha(token) {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
   if (!secret) {
     throw new Error("Missing RECAPTCHA_SECRET_KEY");
@@ -41,7 +49,7 @@ async function verifyRecaptcha(token, expectedHostname) {
     typeof result.score === "number" &&
     result.score >= RECAPTCHA_MIN_SCORE &&
     result.action === RECAPTCHA_ACTION &&
-    result.hostname === expectedHostname;
+    RECAPTCHA_ALLOWED_HOSTNAMES.has(result.hostname);
 
   return { valid, result };
 }
@@ -69,11 +77,7 @@ export async function POST(request) {
   const { gRecaptchaToken, ...formData } = parsedForm.data;
 
   try {
-    const expectedHostname = new URL(request.url).hostname;
-    const { valid, result } = await verifyRecaptcha(
-      gRecaptchaToken,
-      expectedHostname,
-    );
+    const { valid, result } = await verifyRecaptcha(gRecaptchaToken);
 
     if (!valid) {
       console.warn("reCAPTCHA rejected contact submission", {
