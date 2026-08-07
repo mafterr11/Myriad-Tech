@@ -625,3 +625,19 @@
     transform: none;
   }
 }
+
+
+@media (max-width: 1199px) {
+  .mobile-static-header,
+  .mobile-static-header *,
+  .mobile-static-header *::before,
+  .mobile-static-header *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .mobile-static-header {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
