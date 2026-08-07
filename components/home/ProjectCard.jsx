@@ -3,12 +3,31 @@ import Image from "next/image";
 import { Card, CardHeader } from "@/components/ui/card";
 import { ArrowUpRight, ArrowRight, Link2Icon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useTranslations } from "next-intl";
+
+const truncateDescription = (description, limit) => {
+  if (!description || description.length <= limit) return description || "";
+
+  const preview = description.slice(0, limit).trimEnd();
+  const lastSpace = preview.lastIndexOf(" ");
+
+  return `${preview.slice(0, lastSpace > 0 ? lastSpace : preview.length)}…`;
+};
 
 const ProjectCard = ({
   project,
   cardClassName = "h-[530px]",
   descriptionClassName = "line-clamp-4",
+  descriptionLimit = 140,
 }) => {
   const t = useTranslations("Proiecte");
   const category = t.has(`category.${project.category}`)
@@ -16,6 +35,9 @@ const ProjectCard = ({
     : project.category;
   const image = project.image || "/project-bg-light.png";
   const link = project.link || "#";
+  const description = project.description || "";
+  const hasMoreDescription = description.length > descriptionLimit;
+  const previewDescription = truncateDescription(description, descriptionLimit);
 
   return (
     <Card className={`project-card group flex ${cardClassName} w-full flex-col overflow-hidden`}>
@@ -53,8 +75,35 @@ const ProjectCard = ({
         </div>
         <h3 className="mb-4 font-recursive text-2xl">{project.name}</h3>
         <p className={`${descriptionClassName} text-base leading-7 text-black/70`}>
-          {project.description}
+          {previewDescription}
         </p>
+        {hasMoreDescription && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="focus-ring mt-2 h-auto min-w-0 self-start border-0 p-0 text-xs font-bold tracking-normal text-accent underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-accent hover:underline"
+              >
+                {t("page.readMore")}
+                <ArrowRight size={14} aria-hidden="true" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[85vh] overflow-y-auto rounded-none border-line bg-body px-6 py-8 sm:px-10 sm:py-10">
+              <DialogHeader className="pr-8">
+                <span className="text-xs font-bold tracking-[0.12em] text-accent uppercase">
+                  {category}
+                </span>
+                <DialogTitle className="font-recursive text-2xl leading-tight font-normal sm:text-3xl">
+                  {project.name}
+                </DialogTitle>
+              </DialogHeader>
+              <DialogDescription className="text-base leading-7 text-black/70 sm:text-lg sm:leading-8">
+                {description}
+              </DialogDescription>
+            </DialogContent>
+          </Dialog>
+        )}
         <Link
           href={link}
           target="_blank"

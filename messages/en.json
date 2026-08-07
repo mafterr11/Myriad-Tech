@@ -69,7 +69,8 @@
       "error": "Projects are temporarily unavailable.",
       "title": "My Projects",
       "tab": "All Projects",
-      "demo": "See the live demo"
+      "demo": "See the live demo",
+      "readMore": "Read more"
     },
     "category": {
       "presentation": "Presentation",

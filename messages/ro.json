@@ -69,7 +69,8 @@
       "error": "Proiectele nu sunt disponibile momentan.",
       "title": "Proiectele mele",
       "tab": "Toate proiectele",
-      "demo": "Vezi demonstrația live"
+      "demo": "Vezi demonstrația live",
+      "readMore": "Citește mai mult"
     },
     "category": {
       "presentation": "Site de prezentare",

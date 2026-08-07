@@ -44,6 +44,7 @@ const WorkSwiper = ({ projects = [] }) => {
             project={project}
             cardClassName="h-[560px]"
             descriptionClassName="line-clamp-5"
+            descriptionLimit={175}
           />
         </SwiperSlide>
       ))}
