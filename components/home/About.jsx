@@ -108,24 +108,24 @@ const About = () => {
             className="paper-panel min-w-0 p-5 sm:p-8"
           >
             <Tabs defaultValue="skills" className="w-full">
-              <TabsList className="mb-8 grid grid-cols-3 gap-2">
+              <TabsList className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 <TabsTrigger
                   value="skills"
-                  className="flex-col gap-1 px-1 py-2 tracking-[0.04em] sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:tracking-[0.08em]"
+                  className="min-w-0 flex-col gap-1.5 px-2 py-3 leading-tight tracking-[0.04em] whitespace-normal sm:flex-row sm:gap-2 sm:px-4 sm:tracking-[0.08em]"
                 >
                   <Code2 className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>{t("tab3.trigger")}</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="personal"
-                  className="flex-col gap-1 px-1 py-2 tracking-[0.04em] sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:tracking-[0.08em]"
+                  className="min-w-0 flex-col gap-1.5 px-2 py-3 leading-tight tracking-[0.04em] whitespace-normal sm:flex-row sm:gap-2 sm:px-4 sm:tracking-[0.08em]"
                 >
                   <User2 className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span>{t("tab1.trigger")}</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="qualifications"
-                  className="flex-col gap-1 px-1 py-2 tracking-[0.04em] sm:flex-row sm:gap-2 sm:px-4 sm:py-3 sm:tracking-[0.08em]"
+                  className="col-span-2 sm:col-span-1 min-w-0 flex-col gap-1.5 px-2 py-3 leading-tight tracking-[0.04em] whitespace-normal sm:flex-row sm:gap-2 sm:px-4 sm:tracking-[0.08em]"
                 >
                   <GraduationCap
                     className="h-4 w-4 shrink-0"
