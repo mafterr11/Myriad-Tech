@@ -5,7 +5,11 @@ import { ArrowUpRight, ArrowRight, Link2Icon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 
-const ProjectCard = ({ project, cardClassName = "h-[530px]" }) => {
+const ProjectCard = ({
+  project,
+  cardClassName = "h-[530px]",
+  descriptionClassName = "line-clamp-4",
+}) => {
   const t = useTranslations("Proiecte");
   const category = t.has(`category.${project.category}`)
     ? t(`category.${project.category}`)
@@ -42,18 +46,20 @@ const ProjectCard = ({ project, cardClassName = "h-[530px]" }) => {
         </div>
       </CardHeader>
 
-      <div className="flex flex-1 flex-col px-5 py-5">
+      <div className="flex min-h-0 flex-1 flex-col px-5 py-5">
         <div className="mb-3 flex items-center justify-between gap-3 text-xs font-bold tracking-[0.12em] text-black/45 uppercase">
           <span>Project</span>
           <ArrowUpRight size={16} aria-hidden="true" />
         </div>
         <h3 className="mb-4 font-recursive text-2xl">{project.name}</h3>
-        <p className="text-base leading-7 text-black/70">{project.description}</p>
+        <p className={`${descriptionClassName} text-base leading-7 text-black/70`}>
+          {project.description}
+        </p>
         <Link
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring mt-auto inline-flex w-fit items-center gap-2 pt-5 text-sm font-bold text-accent underline-offset-4 hover:underline"
+          className="focus-ring mt-auto inline-flex w-fit shrink-0 items-center gap-2 pt-5 text-sm font-bold text-accent underline-offset-4 hover:underline"
         >
           {t("page.demo")}
           <ArrowRight size={18} aria-hidden="true" />

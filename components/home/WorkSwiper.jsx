@@ -40,7 +40,11 @@ const WorkSwiper = ({ projects = [] }) => {
     >
       {projects.map((project) => (
         <SwiperSlide key={project.id || project.slug} className="!h-auto">
-          <ProjectCard project={project} cardClassName="h-[560px]" />
+          <ProjectCard
+            project={project}
+            cardClassName="h-[560px]"
+            descriptionClassName="line-clamp-5"
+          />
         </SwiperSlide>
       ))}
     </Swiper>
