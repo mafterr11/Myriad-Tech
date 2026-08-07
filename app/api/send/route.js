@@ -12,11 +12,10 @@ const RECAPTCHA_ALLOWED_HOSTNAMES = new Set([
 const contactFormSchema = z.object({
   nume: z.string().trim().min(3).max(120),
   email: z.string().trim().email().max(254),
-  telefon: z
-    .string()
-    .trim()
-    .max(30)
-    .refine((value) => value === "" || value.length >= 10),
+  telefon: z.union([
+    z.literal(""),
+    z.string().trim().min(10).max(30),
+  ]),
   mesaj: z.string().trim().min(10).max(200),
   acceptTerms: z.literal(true),
   gRecaptchaToken: z.string().min(1),
