@@ -94,7 +94,7 @@ const NavMobile = () => {
   const isActive = (path) => (pathname || "/") === path;
   const panelTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.24, ease: [0.22, 1, 0.36, 1] };
+    : { duration: 0.3, ease: [0.22, 1, 0.36, 1] };
 
   return (
     <div className="xl:hidden">
@@ -126,7 +126,7 @@ const NavMobile = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.14 }}
+                  transition={{ duration: prefersReducedMotion ? 0 : 0.18 }}
                   className="fixed inset-0 z-[60] flex justify-end bg-black/20 xl:hidden"
                 >
                   <button
