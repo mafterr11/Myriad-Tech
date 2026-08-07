@@ -1,10 +1,29 @@
 import { constructMetadata } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-export const metadata = constructMetadata({
-  title: "Politica de confidentialitate - Myriad Tech",
-  description: "Aceasta pagina cuprinde termenii si conditiile de utilizare a site-ului web Myriad Tech.",
-})
+const seo = {
+  ro: {
+    title: "Politica privind cookie-urile | Myriad Tech",
+    description:
+      "Află ce cookie-uri folosește site-ul Myriad Tech, de ce sunt utilizate și cum îți poți gestiona preferințele.",
+  },
+  en: {
+    title: "Cookie Policy | Myriad Tech",
+    description:
+      "Learn which cookies the Myriad Tech website uses, why they are used and how you can manage your preferences.",
+  },
+};
+
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
+  const content = locale === "en" ? seo.en : seo.ro;
+
+  return constructMetadata({
+    locale,
+    route: "cookies",
+    ...content,
+  });
+}
 
 const PoliticaCookies = () => {
   const t = useTranslations("Cookies");
