@@ -15,7 +15,9 @@ const HireMe = ({ onClick }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" onClick={onClick}>{t("specialBtn.name")}</Button>
+        <Button size="sm" onClick={onClick}>
+          {t("specialBtn.name")}
+        </Button>
       </DialogTrigger>
       <DialogContent className="border-line bg-body p-7 sm:p-10">
         <DialogHeader>
@@ -29,12 +31,21 @@ const HireMe = ({ onClick }) => {
         <p className="mb-6 max-w-xl text-lg">{t("specialBtn.subtext")}</p>
         <div className="flex items-center justify-center gap-3 max-md:flex-col">
           <Button asChild size="sm" className="relative w-full">
-            <a href="http://wa.me/+40720425840" target="_blank" rel="noopener noreferrer">
+            <a
+              href="http://wa.me/+40720425840"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <RiWhatsappLine size={22} className="absolute left-4" />{" "}
               {t("specialBtn.wapp")}
             </a>
           </Button>
-          <Button asChild size="sm" variant="secondary" className="relative w-full">
+          <Button
+            asChild
+            size="sm"
+            variant="secondary"
+            className="relative w-full"
+          >
             <a href="tel:+40720425840">
               <RiPhoneLine size={22} className="absolute left-4" />{" "}
               {t("specialBtn.tel")}
