@@ -94,26 +94,39 @@ export async function POST(request) {
 
     const resendApiKey = process.env.RESEND_API_KEY;
     if (!resendApiKey) {
-      throw new Error("Missing RESEND_API_KEY");
-    }
-
-    const resend = new Resend(resendApiKey);
-    const { data, error } = await resend.emails.send({
-      from: "Myriad@myriad-tech.ro",
-      to: ["alexandrumaftei95@gmail.com"],
-      subject: "Myriad - Solicitare noua",
-      react: EmailTemplate(formData),
-    });
-
-    if (error) {
-      console.error("Resend rejected contact email", error);
+      console.error("Contact email is not configured");
       return Response.json(
-        { success: false, message: "Email could not be sent" },
-        { status: 502 },
+        { success: false, message: "Email service is not configured" },
+        { status: 503 },
       );
     }
 
-    return Response.json({ success: true, data });
+    const resend = new Resend(resendApiKey);
+
+    try {
+      const { data, error } = await resend.emails.send({
+        from: "Myriad@myriad-tech.ro",
+        to: ["alexandrumaftei95@gmail.com"],
+        subject: "Myriad - Solicitare noua",
+        react: EmailTemplate(formData),
+      });
+
+      if (error) {
+        console.error("Resend rejected contact email", error);
+        return Response.json(
+          { success: false, message: "Email could not be sent" },
+          { status: 502 },
+        );
+      }
+
+      return Response.json({ success: true, data });
+    } catch (error) {
+      console.error("Resend request failed", error);
+      return Response.json(
+        { success: false, message: "Email service could not be reached" },
+        { status: 502 },
+      );
+    }
   } catch (error) {
     console.error("Contact submission failed", error);
     return Response.json(
