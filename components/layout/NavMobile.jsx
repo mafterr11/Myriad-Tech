@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { IoCloseOutline, IoHome, IoChatbubblesSharp } from "react-icons/io5";
@@ -17,6 +18,7 @@ const NavMobile = () => {
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
   const links = [
     {
@@ -35,6 +37,10 @@ const NavMobile = () => {
       icon: <IoChatbubblesSharp />,
     },
   ];
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const setVh = () => {
@@ -98,16 +104,17 @@ const NavMobile = () => {
         {isMenuOpen ? <IoCloseOutline aria-hidden="true" /> : <RiMenu2Line aria-hidden="true" />}
       </button>
 
-      <AnimatePresence>
-        {isMenuOpen ? (
+      {isMounted
+        ? createPortal(
+            <AnimatePresence>
+              {isMenuOpen ? (
           <motion.div
             key="mobile-navigation-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.22 }}
-            onClick={closeMenu}
-            className="fixed inset-0 z-40 flex justify-end bg-black/20 xl:hidden"
+            className="fixed inset-0 z-[60] flex justify-end bg-black/20 xl:hidden"
           >
             <button
               type="button"
@@ -120,7 +127,6 @@ const NavMobile = () => {
               role="dialog"
               aria-modal="true"
               aria-label="Mobile navigation"
-              onClick={(event) => event.stopPropagation()}
               initial={{ x: "100%", opacity: 0.6 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "100%", opacity: 0.6 }}
@@ -170,8 +176,11 @@ const NavMobile = () => {
               </div>
             </motion.aside>
           </motion.div>
-        ) : null}
-      </AnimatePresence>
+              ) : null}
+            </AnimatePresence>,
+            document.body,
+          )
+        : null}
     </div>
   );
 };
