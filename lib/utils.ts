@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const SITE_URL = "https://myriad-tech.ro";
+export const SITE_URL = "https://www.myriad-tech.ro";
 export const SITE_NAME = "Myriad Tech";
 
 export const localizedRoutes = {
