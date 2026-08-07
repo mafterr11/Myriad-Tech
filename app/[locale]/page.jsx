@@ -1,6 +1,7 @@
 import dynamicImport from "next/dynamic";
+import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
 import { getFeaturedProjects, localizeProject } from "@/lib/projects/queries";
-// Use dynamic for lazy loading non-critical components
+
 const Hero = dynamicImport(() => import("@/components/home/Hero"));
 const About = dynamicImport(() => import("@/components/home/About"));
 const Services = dynamicImport(() => import("@/components/home/Services"));
@@ -19,6 +20,7 @@ export default async function Home({ params }) {
 
   return (
     <>
+      <OrganizationJsonLd locale={locale} />
       <Hero />
       <About />
       <Services />
