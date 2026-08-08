@@ -30,8 +30,16 @@ const ProjectCard = ({
   const hasMoreDescription = description.length > readMoreThreshold;
 
   return (
-    <Card className={`project-card group flex ${cardClassName} w-full flex-col overflow-hidden`}>
-      <CardHeader className="p-0">
+    <Card className={`project-card group relative flex ${cardClassName} w-full flex-col overflow-hidden`}>
+      <Link
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${t("page.demo")}: ${project.name}`}
+        className="focus-ring absolute inset-0 z-10"
+      />
+
+      <CardHeader className="relative z-20 p-0 pointer-events-none">
         <div className="project-card-media bg-work">
           <Image
             className="object-cover object-top"
@@ -50,7 +58,7 @@ const ProjectCard = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${t("page.demo")}: ${project.name}`}
-              className="focus-ring flex h-10 w-10 items-center justify-center border border-white/70 bg-black/70 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 max-md:opacity-100"
+              className="focus-ring relative z-30 pointer-events-auto flex h-10 w-10 items-center justify-center border border-white/70 bg-black/70 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 max-md:opacity-100"
             >
               <Link2Icon size={18} aria-hidden="true" />
             </Link>
@@ -58,7 +66,7 @@ const ProjectCard = ({
         </div>
       </CardHeader>
 
-      <div className="flex min-h-0 flex-1 flex-col px-5 py-5">
+      <div className="relative z-20 flex min-h-0 flex-1 flex-col px-5 py-5 pointer-events-none">
         <div className="mb-3 flex items-center justify-between gap-3 text-xs font-bold tracking-[0.12em] text-black/45 uppercase">
           <span>Project</span>
           <ArrowUpRight size={16} aria-hidden="true" />
@@ -73,7 +81,7 @@ const ProjectCard = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className="focus-ring mt-2 h-auto min-w-0 self-start border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline"
+                className="focus-ring relative z-30 mt-2 h-auto min-w-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline"
               >
                 {t("page.readMore")}
                 <ArrowRight size={14} aria-hidden="true" />
@@ -98,7 +106,7 @@ const ProjectCard = ({
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring mt-auto inline-flex w-fit shrink-0 items-center gap-2 pt-5 text-sm font-bold text-accent underline-offset-4 hover:underline"
+          className="focus-ring relative z-30 mt-auto inline-flex w-fit shrink-0 items-center gap-2 pt-5 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline"
         >
           {t("page.demo")}
           <ArrowRight size={18} aria-hidden="true" />
