@@ -1,11 +1,31 @@
+"use client";
+
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 
 const Logo = ({ source, size }) => {
+  const pathname = usePathname();
+
+  const handleClick = (event) => {
+    if (
+      (pathname || "/") !== "/" ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <Link
       href="/"
       aria-label="Myriad Tech home"
+      onClick={handleClick}
       className="focus-ring inline-flex w-fit items-center"
     >
       <div className={`${size} w-auto`}>
