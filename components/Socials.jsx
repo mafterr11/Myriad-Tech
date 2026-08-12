@@ -4,8 +4,14 @@ import Link from "next/link";
 import { RiInstagramLine, RiGithubLine, RiWhatsappLine } from "react-icons/ri";
 import { BiPhone } from "react-icons/bi";
 
-const Socials = ({ className = "", linkClassName = "" }) => {
-  const linkStyles = `focus-ring transition-all duration-300 hover:scale-95 hover:text-accent ${linkClassName}`;
+const Socials = ({
+  className = "",
+  linkClassName = "",
+  // Callers that style the link as a box (e.g. the footer) opt out of the
+  // default icon-only hover so the two effects don't fight each other.
+  baseLinkStyles = "hover:scale-95 hover:text-accent",
+}) => {
+  const linkStyles = `focus-ring transition-all duration-300 ${baseLinkStyles} ${linkClassName}`;
 
   return (
     <div
