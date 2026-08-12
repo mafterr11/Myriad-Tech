@@ -251,10 +251,13 @@
     "name2": "Cookie Policy",
     "rights": "All rights reserved",
     "kicker": "Independent web studio",
-    "headline": "Thoughtful digital experiences, crafted from first idea to launch.",
-    "contact": "Start a conversation",
     "consumer": "Consumer protection",
     "connect": "Let's connect",
-    "legal": "Legal information"
+    "legal": "Legal information",
+    "description": "An independent Bucharest web studio focused on thoughtful design, solid development and fast, carefully crafted digital experiences.",
+    "directContact": "Direct contact",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Bucharest, Romania"
   }
 }
