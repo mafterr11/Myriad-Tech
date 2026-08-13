@@ -13,7 +13,13 @@ import {
 import { useTranslations } from "next-intl";
 import { Dot } from "../Dot";
 import { MotionDiv, MotionH2 } from "@/lib/motion-client";
+import { SITE_IMAGE_DEFAULTS } from "@/lib/site-images/constants";
 import Qualifications from "./Qualifications";
+
+const fallbackImage = {
+  src: SITE_IMAGE_DEFAULTS.about.image_url,
+  alt: SITE_IMAGE_DEFAULTS.about.alt_en,
+};
 
 const infoData = [
   { icon: <User2 size={20} />, text: "Maftei Alexandru" },
@@ -23,7 +29,7 @@ const infoData = [
   { icon: <GraduationCap size={20} />, text: "Academia de Studii Economice " },
 ];
 
-const About = () => {
+const About = ({ image = fallbackImage }) => {
   const t = useTranslations("About");
   const qualificationData = [
     {
@@ -86,11 +92,11 @@ const About = () => {
           >
             <div className="relative aspect-[0.88] border border-line bg-body-light p-3 shadow-[0.7rem_0.7rem_0_rgba(92,133,135,0.14)]">
               <Image
-                src="/about-option-2-process-v2.png"
+                src={image.src}
                 fill
                 sizes="(max-width: 1199px) 88vw, 28rem"
                 loading="lazy"
-                alt="Web design process with website wireframes"
+                alt={image.alt}
                 className="object-cover"
               />
             </div>

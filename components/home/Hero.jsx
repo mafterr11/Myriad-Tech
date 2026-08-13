@@ -5,8 +5,14 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { fadeIn } from "@/variants";
 import { MotionDiv, MotionH1, MotionP } from "@/lib/motion-client";
+import { SITE_IMAGE_DEFAULTS } from "@/lib/site-images/constants";
 
-const Hero = () => {
+const fallbackImage = {
+  src: SITE_IMAGE_DEFAULTS.hero.image_url,
+  alt: SITE_IMAGE_DEFAULTS.hero.alt_en,
+};
+
+const Hero = ({ image = fallbackImage }) => {
   const t = useTranslations("Hero");
 
   return (
@@ -110,8 +116,8 @@ const Hero = () => {
           >
             <div className="hero-frame">
               <Image
-                src="/alexandru-maftei-hero.jpeg"
-                alt="Alexandru Maftei, Full Stack Developer"
+                src={image.src}
+                alt={image.alt}
                 fill
                 priority
                 sizes="(max-width: 767px) 88vw, (max-width: 1199px) 55vw, 31rem"

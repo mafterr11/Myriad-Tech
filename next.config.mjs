@@ -59,6 +59,13 @@ const nextConfig = {
         pathname: "/storage/v1/object/public/project-images/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/site-images/**",
+        search: "",
+      },
     ],
   },
 };
