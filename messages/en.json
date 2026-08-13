@@ -131,7 +131,50 @@
     "confirmDelete": "Delete this project?",
     "empty": "No projects exist yet.",
     "loadError": "Projects could not be loaded.",
-    "failed": "The action could not be completed."
+    "failed": "The action could not be completed.",
+    "imagePreview": "Preview",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "orderPage": "Page",
+    "orderHome": "Home",
+    "reorderFilteredHint": "Clear the search and filters to reorder projects.",
+    "searchPlaceholder": "Search by name, slug, or category",
+    "resultCount": "Showing {shown} of {total} projects.",
+    "noMatches": "No project matches the current search or filter.",
+    "tabs": {
+      "projects": "Projects",
+      "siteImages": "Site images"
+    },
+    "stats": {
+      "total": "Projects",
+      "published": "Published",
+      "drafts": "Drafts",
+      "featured": "On homepage"
+    },
+    "filters": {
+      "all": "All",
+      "published": "Published",
+      "draft": "Drafts",
+      "featured": "Homepage"
+    },
+    "siteImages": {
+      "subtitle": "Replace the photos used in the homepage hero and about sections, and keep their alternative text accurate in both languages.",
+      "altRo": "Alternative text (Romanian)",
+      "altEn": "Alternative text (English)",
+      "hint": "Upload an image or paste a local path/public site-images Storage URL. Maximum 4 MB for uploads. Alternative text describes the image for screen readers and search engines.",
+      "defaultBadge": "Default",
+      "reset": "Restore the default image",
+      "confirmReset": "Restore the default image and alternative text?",
+      "loadError": "Saved site images could not be loaded, so the built-in defaults are shown. Apply the latest Supabase migration and try again.",
+      "hero": {
+        "section": "Homepage / Hero",
+        "title": "Hero portrait"
+      },
+      "about": {
+        "section": "Homepage / About",
+        "title": "About section image"
+      }
+    }
   },
   "Nav": {
     "home": {

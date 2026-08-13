@@ -131,7 +131,50 @@
     "confirmDelete": "Stergi acest proiect?",
     "empty": "Nu exista inca proiecte.",
     "loadError": "Proiectele nu au putut fi incarcate.",
-    "failed": "Actiunea nu a putut fi finalizata."
+    "failed": "Actiunea nu a putut fi finalizata.",
+    "imagePreview": "Previzualizare",
+    "moveUp": "Muta mai sus",
+    "moveDown": "Muta mai jos",
+    "orderPage": "Pagina",
+    "orderHome": "Acasa",
+    "reorderFilteredHint": "Sterge cautarea si filtrele pentru a reordona proiectele.",
+    "searchPlaceholder": "Cauta dupa nume, slug sau categorie",
+    "resultCount": "Se afiseaza {shown} din {total} proiecte.",
+    "noMatches": "Niciun proiect nu corespunde cautarii sau filtrului curent.",
+    "tabs": {
+      "projects": "Proiecte",
+      "siteImages": "Imaginile site-ului"
+    },
+    "stats": {
+      "total": "Proiecte",
+      "published": "Publicate",
+      "drafts": "Ciorne",
+      "featured": "Pe homepage"
+    },
+    "filters": {
+      "all": "Toate",
+      "published": "Publicate",
+      "draft": "Ciorne",
+      "featured": "Homepage"
+    },
+    "siteImages": {
+      "subtitle": "Inlocuieste fotografiile din sectiunile hero si despre mine de pe homepage si pastreaza textul alternativ corect in ambele limbi.",
+      "altRo": "Text alternativ (romana)",
+      "altEn": "Text alternativ (engleza)",
+      "hint": "Incarca o imagine sau introdu un path local/URL public din Storage site-images. Incarcarile au maximum 4 MB. Textul alternativ descrie imaginea pentru cititoarele de ecran si motoarele de cautare.",
+      "defaultBadge": "Implicita",
+      "reset": "Revino la imaginea implicita",
+      "confirmReset": "Revii la imaginea si textul alternativ implicite?",
+      "loadError": "Imaginile salvate nu au putut fi incarcate, asa ca sunt afisate valorile implicite. Aplica cea mai recenta migrare Supabase si incearca din nou.",
+      "hero": {
+        "section": "Homepage / Hero",
+        "title": "Fotografia din hero"
+      },
+      "about": {
+        "section": "Homepage / Despre",
+        "title": "Imaginea sectiunii despre mine"
+      }
+    }
   },
   "Nav": {
     "home": {
