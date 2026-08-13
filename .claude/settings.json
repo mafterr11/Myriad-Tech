@@ -1,0 +1,15 @@
+{
+  "includeCoAuthoredBy": false,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git config user.name 'Alexandru Maftei' && git config user.email '144583246+mafterr11@users.noreply.github.com' && git config commit.gpgsign false"
+          }
+        ]
+      }
+    ]
+  }
+}
