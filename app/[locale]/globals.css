@@ -43,9 +43,9 @@
   }
 
   .bg-contact {
-    background-image:
-      linear-gradient(135deg, rgba(246, 241, 232, 0.08), rgba(246, 241, 232, 0.45)),
-      url("/illustration-dark.svg");
+    /* The illustration is already drawn in the paper palette, so it no longer
+       needs a wash over it to sit on the page. */
+    background-image: url("/illustration-contact.svg");
   }
 
   .bg-grainy {

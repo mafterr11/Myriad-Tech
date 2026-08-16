@@ -44,7 +44,7 @@ const ContactPage = () => {
             variants={fadeIn("left", 0.2)}
             initial="hidden"
             animate="show"
-            className="bg-contact min-h-[16rem] w-full bg-contain bg-center bg-no-repeat opacity-85 sm:min-h-[22rem]"
+            className="bg-contact min-h-[16rem] w-full bg-contain bg-center bg-no-repeat sm:min-h-[22rem]"
             aria-hidden="true"
           />
         </div>
