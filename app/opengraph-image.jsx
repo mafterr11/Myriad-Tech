@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { BRAND, markDataUri } from "@/lib/brand";
+import BrandMark from "@/components/brand-mark";
+import { BRAND } from "@/lib/brand";
 import { SITE_NAME } from "@/lib/utils";
 
 // The logo file is square, so link previews used to crop it into a grey box.
@@ -26,7 +27,7 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <img width="88" height="88" src={markDataUri()} alt="" />
+          <BrandMark size={88} />
           <div
             style={{
               display: "flex",
