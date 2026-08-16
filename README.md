@@ -73,7 +73,14 @@ node scripts/generate-project-snapshot.mjs
 
 A Supabase project on the free plan pauses after seven days without database
 activity. `app/api/cron/keep-alive/route.js` performs one cheap count, and
-`vercel.json` schedules it daily at 06:00 UTC.
+`vercel.json` schedules it every five days at 06:00 UTC.
+
+`*/5` is a day-of-month step, not a rolling interval: it fires on the 1st, 6th,
+11th, 16th, 21st and 26th, so the longest gap is the 26th to the 1st of a
+31-day month — six days, one day inside the pause window. A failed run is not
+retried until the next slot, which would be day ten, so the route retries three
+times internally before reporting failure. Tighten the schedule to `0 6 */3 * *`
+if a missed run ever does put the project to sleep.
 
 Set `CRON_SECRET` in the Vercel project environment variables. Vercel sends it
 as `Authorization: Bearer <CRON_SECRET>`; the route refuses every request

@@ -2,9 +2,21 @@ import { NextResponse } from "next/server";
 import { getPublicClient } from "@/lib/supabase/public";
 
 // A Supabase project on the free plan pauses after seven days without database
-// activity, which is what used to empty the portfolio. One cheap read a day is
-// enough to keep it awake. Vercel calls this from the schedule in vercel.json.
+// activity, which is what used to empty the portfolio. Vercel calls this from
+// the schedule in vercel.json.
+//
+// The schedule runs every five days, so a run that fails is not retried for
+// another five — the next one would land on day ten and the project would
+// already be asleep. The retries below exist to make sure a transient blip
+// never costs the whole slot.
 export const dynamic = "force-dynamic";
+
+const ATTEMPTS = 3;
+const RETRY_DELAY_MS = 2000;
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -35,19 +47,41 @@ export async function GET(request) {
     );
   }
 
-  const { count, error } = await supabase
-    .from("projects")
-    .select("id", { count: "exact", head: true })
-    .eq("is_published", true);
+  let failure = null;
 
-  if (error) {
-    console.error(`[keep-alive] Supabase read failed: ${error.message}`);
-    return NextResponse.json({ ok: false, error: error.message }, { status: 502 });
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt += 1) {
+    try {
+      const { count, error } = await supabase
+        .from("projects")
+        .select("id", { count: "exact", head: true })
+        .eq("is_published", true);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return NextResponse.json({
+        ok: true,
+        publishedProjects: count ?? 0,
+        attempts: attempt,
+        checkedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      failure = error;
+      console.warn(
+        `[keep-alive] attempt ${attempt}/${ATTEMPTS} failed: ${error?.message}`,
+      );
+      if (attempt < ATTEMPTS) {
+        await wait(RETRY_DELAY_MS);
+      }
+    }
   }
 
-  return NextResponse.json({
-    ok: true,
-    publishedProjects: count ?? 0,
-    checkedAt: new Date().toISOString(),
-  });
+  // A non-2xx response is what makes the run show as failed in the Vercel cron
+  // log, which is the only warning that the project is about to pause.
+  console.error(`[keep-alive] all attempts failed: ${failure?.message}`);
+  return NextResponse.json(
+    { ok: false, error: failure?.message ?? "unknown error" },
+    { status: 502 },
+  );
 }
