@@ -1,5 +1,7 @@
 import { constructMetadata } from "@/lib/utils";
 import { getPublishedProjects, localizeProject } from "@/lib/projects/queries";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import ProjectsJsonLd from "@/components/seo/ProjectsJsonLd";
 import ProjectsPage from "./ProjectsPage";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +37,13 @@ const Projects = async ({ params }) => {
     localizeProject(project, locale),
   );
 
-  return <ProjectsPage projects={projects} error={result.error} />;
+  return (
+    <>
+      <BreadcrumbJsonLd locale={locale} route="projects" />
+      <ProjectsJsonLd locale={locale} projects={projects} />
+      <ProjectsPage projects={projects} error={result.error} />
+    </>
+  );
 };
 
 export default Projects;

@@ -45,6 +45,56 @@ Open `/ro/admin-login` or `/en/admin-login` to access the panel.
 
 **Site images tab** — replaces the homepage hero and about images from an upload or a URL, edits the Romanian and English alternative text, and restores the built-in defaults. Reordering is disabled while a search or filter is active, because positions apply to the full list rather than the filtered view.
 
+## Why the portfolio never renders empty
+
+Public project reads go through `lib/projects/queries.js`, which layers four
+things so an unreachable database can never blank the homepage carousel or the
+projects page:
+
+1. an anonymous, cookie-free Supabase client (`lib/supabase/public.js`) with a
+   3.5s request timeout, so a stalled connection fails fast instead of hanging
+   the render;
+2. the Next.js data cache, tagged `projects` and refreshed every five minutes;
+   admin mutations call `revalidateTag`, so edits still appear immediately;
+3. a per-instance memory of the last successful response;
+4. `lib/projects/snapshot.js`, a committed copy of the published projects.
+
+Only a *successful* read that returns nothing empties the page, which is what
+should happen when everything is genuinely unpublished. On the homepage, a
+missing featured selection also falls back to the newest published work.
+
+Regenerate the snapshot after publishing, unpublishing or reordering projects:
+
+```bash
+node scripts/generate-project-snapshot.mjs
+```
+
+## Keeping Supabase awake
+
+A Supabase project on the free plan pauses after seven days without database
+activity. `app/api/cron/keep-alive/route.js` performs one cheap count, and
+`vercel.json` schedules it daily at 06:00 UTC.
+
+Set `CRON_SECRET` in the Vercel project environment variables. Vercel sends it
+as `Authorization: Bearer <CRON_SECRET>`; the route refuses every request
+without it, and refuses all of them while the variable is unset. Test it with:
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" https://www.myriad-tech.ro/api/cron/keep-alive
+```
+
+## Icons and social images
+
+`public/icon.svg` is the favicon, drawn from the four-blade logo mark.
+
+`app/apple-icon.jsx` and `app/opengraph-image.jsx` render the 180x180 iOS icon
+and the 1200x630 link-preview card from `lib/brand.js`, so a colour change only
+has to happen in one place. `app/robots.js`, `app/sitemap.js` and
+`app/manifest.js` derive every absolute URL from `SITE_URL` in `lib/utils.ts`.
+
+Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` to emit the Search Console
+verification tag.
+
 ## Verification
 
 ```bash

@@ -10,7 +10,10 @@ export default async function proxy(request) {
  
 export const config = {
   // Match all pathnames except for
-  // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
+  // - … if they start with `/api`, `/trpc`, `/_next`, `/_vercel` or `/auth`
+  // - … the extensionless metadata routes Next.js generates
+  //   (`/opengraph-image`, `/apple-icon`, …), which must not be localized
   // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
+  matcher:
+    '/((?!api|trpc|_next|_vercel|auth|opengraph-image|twitter-image|apple-icon|icon|manifest|sitemap|robots|.*\\..*).*)'
 };

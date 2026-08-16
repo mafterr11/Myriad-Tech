@@ -12,7 +12,6 @@ import GoogleAnalytics from "@/components/google-analytics";
 import CookieBanner from "@/components/cookie-banner";
 import { getMessages } from "next-intl/server";
 import LenisScroll from "./LenisScroll";
-import Script from "next/script";
 import { routing } from "@/i18n/routing";
 
 const roboto = Roboto({
@@ -32,6 +31,11 @@ export async function generateMetadata({ params }) {
   return constructMetadata({ locale, route: "home" });
 }
 
+export const viewport = {
+  themeColor: "#674839",
+  colorScheme: "light",
+};
+
 export default async function RootLayout({ children, params }) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
@@ -39,24 +43,15 @@ export default async function RootLayout({ children, params }) {
   }
 
   const messages = await getMessages(locale);
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_KEY;
 
   return (
     <html lang={locale}>
-      <head>
-        {siteKey ? (
-          <Script
-            src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
-            strategy="afterInteractive"
-          />
-        ) : null}
-      </head>
-      <Suspense fallback={null}>
-        <GoogleAnalytics GA_MEASUREMENT_ID="G-EB4XXB3ES6" />
-      </Suspense>
       <body
         className={`${roboto.variable} ${recursive.variable} overflow-x-hidden max-md:min-h-svh`}
       >
+        <Suspense fallback={null}>
+          <GoogleAnalytics GA_MEASUREMENT_ID="G-EB4XXB3ES6" />
+        </Suspense>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
           <main>

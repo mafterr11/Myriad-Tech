@@ -46,7 +46,7 @@ const ProjectCard = ({
             src={image}
             fill
             sizes="(max-width: 699px) 90vw, (max-width: 1399px) 46vw, 31vw"
-            alt={project.name}
+            alt={t("page.imageAlt", { name: project.name, category })}
             loading="lazy"
           />
           <div className="absolute inset-x-4 top-4 z-10 flex items-start justify-between gap-3">

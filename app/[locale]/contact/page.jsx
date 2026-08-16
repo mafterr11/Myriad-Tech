@@ -1,4 +1,7 @@
+import Script from "next/script";
 import { constructMetadata } from "@/lib/utils";
+import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
+import FaqJsonLd from "@/components/seo/FaqJsonLd";
 import ContactPage from "./ContactPage";
 
 const seo = {
@@ -25,6 +28,23 @@ export async function generateMetadata({ params }) {
   });
 }
 
-export default function Contact() {
-  return <ContactPage />;
+export default async function Contact({ params }) {
+  const { locale } = await params;
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_KEY;
+
+  return (
+    <>
+      <BreadcrumbJsonLd locale={locale} route="contact" />
+      <FaqJsonLd locale={locale} />
+      {/* Only this page submits a protected form, so reCAPTCHA no longer costs
+          every other page a third-party request. */}
+      {siteKey ? (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
+          strategy="afterInteractive"
+        />
+      ) : null}
+      <ContactPage />
+    </>
+  );
 }

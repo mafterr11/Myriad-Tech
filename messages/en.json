@@ -70,7 +70,8 @@
       "title": "My Projects",
       "tab": "All Projects",
       "demo": "See the live demo",
-      "readMore": "More"
+      "readMore": "More",
+      "imageAlt": "Screenshot of the {name} website — {category}, built by Myriad Tech"
     },
     "category": {
       "presentation": "Presentation",
@@ -243,7 +244,6 @@
     }
   },
   "Terms": {
-    "titlu": "Privacy Policy",
     "1": "Myriad Tech is committed to managing the personal data provided by its users securely and responsibly, in accordance with the General Data Protection Regulation (GDPR - EU 2016/679). This privacy policy applies exclusively to the website www.myriad-tech.ro and explains how we collect, use, and protect personal information, ensuring that it is used only for well-defined purposes and communicated in advance to our users.",
     "2": "We take responsibility for protecting the personal data of the visitors of the website www.myriad-tech.ro through a set of technical measures and organizational procedures. These measures are designed to defend the data against any form of unauthorized access, manipulation, or accidental loss. We commit to continuously monitor and adapt these measures, aligning them with current technological developments. In the unlikely event of a data security breach that could pose a risk to your rights and freedoms, we assure you that you will be notified without delay.",
     "3": "We explicitly warn that the services of the website www.myriad-tech.ro are intended and allow the processing of personal data only for persons who have reached the age of 16. The use of our services by minors under this age requires the express consent of parents or legal guardians. If we identify cases of processing personal data of minors without this consent, we will immediately stop processing and take appropriate measures to rectify the situation.",
@@ -265,18 +265,10 @@
     "19": "7. The right to lodge a complaint: You can file a complaint with the supervisory authority if you believe that the processing of your personal data does not comply with the regulations.",
     "20": "8. The right to withdraw consent: You can withdraw your consent for processing based on it at any time.",
     "21": "9. Rights related to automated decisions: In the case of automated data processing, you can request human review, express a point of view, or contest the decision.",
-    "22": "Myriad Tech may periodically update its privacy policies, according to changes in data protection legislation. Any changes will be published on our website, where you will find updated information."
+    "22": "Myriad Tech may periodically update its privacy policies, according to changes in data protection legislation. Any changes will be published on our website, where you will find updated information.",
+    "titlu": "Privacy Policy"
   },
   "Cookies": {
-    "path": "/en/cookie-policy",
-    "name": "Cookie Policy",
-    "text1": "We use the cookie system to ensure the proper functioning of the website. If you wish to continue using the site, it means that you agree with the",
-    "text2": "and accept it.",
-    "buttons": {
-      "yes": "Accept",
-      "no": "Decline"
-    },
-    "title": "Cookie Policy",
     "1": "A cookie is a small file containing special, often encoded text fragments sent by a server to a web browser and then sent back (unchanged) by the browser each time it accesses that server. The cookie is installed by a request issued by a web server to a browser (e.g., Internet Explorer, Chrome, Mozilla) and is completely 'passive' (it does not contain software programs, viruses, or spyware and cannot access the user's hard drive information). Cookies are used for authentication as well as to collect information such as the browser type and operating system, the source page, the domain name from which the visitor connected to the site, with the purpose of making it possible to recognize the user's device, understand how visitors use the web page, and present the site's content in a relevant manner, adapted to the user's preferences.",
     "2": "Thus, cookies ensure a pleasant browsing experience for users and support our efforts to provide them with superior quality services. They are also used in preparing aggregated anonymous statistics that help understand how a user benefits from www.myriad-tech.ro, allowing for the improvement of the site's structure and content, but excluding the personal identification of the user. We use session and persistent cookies (temporary files that remain in the user's device until the session ends, the application/browser is closed, or until they are manually deleted by the user). The cookies used by the partners of a web page operator, including, without limitation, the users of the web page, are subject to the respective privacy policy.",
     "3": "The personal data collected through the use of cookies may be collected only to facilitate certain functionalities for the user and are encrypted in a way that makes it impossible for unauthorized persons to access them. Generally, an application used to access web pages allows the saving of cookies on the device by default. These settings can be changed so that the automatic administration of cookies is blocked by the web browser, or the user is informed each time cookies are sent to their device. Detailed information about the possibilities and ways of managing cookies can be found in the settings area of the application (web browser). Limiting the use of cookies can affect certain functionalities of www.myriad-tech.ro.",
@@ -285,7 +277,16 @@
     "6": "Cookies retain child protection filters regarding Internet content (family mode options, safe search functions). The website uses the Google Analytics web analysis service provided by Google. The information generated by the cookie files regarding your use of the website (including your IP address) will be transmitted and stored by Google on servers that may be located in the EU, EEA, and/or the United States of America. Google will use this information to evaluate your use of the website, to compile reports on website activity for its operators, and to provide other services related to website activity and Internet usage.",
     "7": "Cookies are NOT viruses and use plain text formats; they are not composed of code fragments, so they cannot be executed or self-run. Consequently, they cannot duplicate or replicate on other networks to run or replicate again. Since they cannot perform these functions, they cannot be considered viruses. However, cookies can be used for negative purposes because they store information about the users' preferences and browsing history on a specific site or across multiple sites, being used as a form of spyware (spying on consumer activity). Many anti-spyware products constantly mark cookies for deletion during anti-virus/anti-spyware scanning procedures. Generally, browsers have integrated privacy settings that provide different levels of cookie acceptance, validity period, and automatic deletion after the user has visited a specific site. Since identity protection is highly valuable and is the right of every internet user, it is advisable to know what potential issues cookies might create. Because they constantly transmit information between the browser and the website in both directions, if an attacker or unauthorized person intervenes in the data transmission path, the information contained in the cookie can be intercepted. Although very rare, this can happen if the browser connects to the server using an unencrypted network (e.g., an unsecured WiFi network). Other cookie-based attacks involve incorrect cookie settings on servers. It is very important that the user chooses the most suitable method to protect personal information and:",
     "8": "customize the browser's settings regarding cookies to reflect a comfortable level of security for the use of cookies, set long expiration terms for storing browsing history and personal access data, consider setting the browser to delete individual browsing data each time the browser is closed; this is a way to access sites that place cookies and delete any visit information when the browsing session is closed, install and constantly update anti-spyware applications.",
-    "9": "Many spyware detection and prevention applications include detecting attacks on websites. Thus, they prevent the browser from accessing websites that could exploit the browser's vulnerabilities or download dangerous software. It is recommended to constantly update browsing programs because many cookie-based attacks are carried out by exploiting the weaknesses of old browser versions. All modern browsers offer the possibility to change cookie settings. These settings are usually found in the 'options' or 'preferences' menu of the browser. The cookie policy may be updated periodically. Therefore, the user needs to check this section to stay informed of any changes. For answers to questions or concerns regarding data processing and storage, we can be contacted at the email address."
+    "9": "Many spyware detection and prevention applications include detecting attacks on websites. Thus, they prevent the browser from accessing websites that could exploit the browser's vulnerabilities or download dangerous software. It is recommended to constantly update browsing programs because many cookie-based attacks are carried out by exploiting the weaknesses of old browser versions. All modern browsers offer the possibility to change cookie settings. These settings are usually found in the 'options' or 'preferences' menu of the browser. The cookie policy may be updated periodically. Therefore, the user needs to check this section to stay informed of any changes. For answers to questions or concerns regarding data processing and storage, we can be contacted at the email address.",
+    "path": "/en/cookie-policy",
+    "name": "Cookie Policy",
+    "text1": "We use the cookie system to ensure the proper functioning of the website. If you wish to continue using the site, it means that you agree with the",
+    "text2": "and accept it.",
+    "buttons": {
+      "yes": "Accept",
+      "no": "Decline"
+    },
+    "title": "Cookie Policy"
   },
   "Footer": {
     "gdpr": "/en/politica-de-confidentialitate",

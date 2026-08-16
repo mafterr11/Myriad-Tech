@@ -66,7 +66,7 @@ export function constructMetadata({
   route = "home",
   title,
   description,
-  image = "/Myriad Tech logo.png",
+  image,
   noIndex = false,
 }: {
   locale?: string;
@@ -83,6 +83,23 @@ export function constructMetadata({
   const pageDescription = description ?? defaultMetadata[locale].description;
   const path = localizedRoutes[route][locale];
   const alternateUrls = getLocalizedUrls(route);
+  const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
+  // Points at the card rendered by app/opengraph-image.jsx. Naming it here
+  // rather than relying on the file convention is necessary because this
+  // object already defines `openGraph`, which suppresses the automatic tag.
+  const socialImages = [
+    {
+      url: image ?? "/opengraph-image",
+      width: 1200,
+      height: 630,
+      type: "image/png",
+      alt:
+        locale === "ro"
+          ? `${SITE_NAME} — web design, dezvoltare web și SEO din București`
+          : `${SITE_NAME} — web design, web development and SEO from Bucharest`,
+    },
+  ];
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -108,18 +125,13 @@ export function constructMetadata({
       locale: openGraphLocale,
       alternateLocale: [alternateLocale],
       type: "website",
-      images: [
-        {
-          url: image,
-          alt: `${SITE_NAME} — web design and development`,
-        },
-      ],
+      images: socialImages,
     },
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
       description: pageDescription,
-      images: [image],
+      images: socialImages,
     },
     robots: noIndex
       ? {
@@ -142,6 +154,13 @@ export function constructMetadata({
             "max-video-preview": -1,
           },
         },
-    icons: "/icon.svg",
+    icons: {
+      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+      apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
+    },
+    category: "technology",
+    verification: googleVerification
+      ? { google: googleVerification }
+      : undefined,
   };
 }
