@@ -8,15 +8,11 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // www is a duplicate host in Search Console's eyes — bounce every path
-      // to the bare domain before any of the path-only rules below run, so
-      // e.g. www/ro still lands on the canonical https://myriad-tech.ro/ro.
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.myriad-tech.ro" }],
-        destination: "https://myriad-tech.ro/:path*",
-        permanent: true,
-      },
+      // The www/non-www redirect belongs to the Vercel domain settings, not
+      // here: Vercel answers it before the app is reached, so a rule in this
+      // file pointing the other way produces an infinite redirect loop.
+      // Whichever host is marked primary in the dashboard has to match
+      // SITE_URL in lib/utils.ts.
       {
         source: "/",
         destination: "/ro",
