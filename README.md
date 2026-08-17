@@ -87,12 +87,15 @@ as `Authorization: Bearer <CRON_SECRET>`; the route refuses every request
 without it, and refuses all of them while the variable is unset. Test it with:
 
 ```bash
-curl -H "Authorization: Bearer $CRON_SECRET" https://www.myriad-tech.ro/api/cron/keep-alive
+curl -H "Authorization: Bearer $CRON_SECRET" https://myriad-tech.ro/api/cron/keep-alive
 ```
 
 ## Icons and social images
 
-`public/icon.svg` is the favicon, drawn from the four-blade logo mark.
+`public/icon.svg` is the browser-tab favicon; `app/favicon.ico` is the same
+mark rasterised to the classic 16/32/48px ICO sizes for crawlers and browsers
+that fetch `/favicon.ico` directly instead of reading the `<link>` tag —
+regenerate it with `node scripts/generate-favicon.mjs` if the mark changes.
 
 `app/apple-icon.jsx` and `app/opengraph-image.jsx` render the 180x180 iOS icon
 and the 1200x630 link-preview card from `lib/brand.js`, so a colour change only

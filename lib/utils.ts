@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const SITE_URL = "https://www.myriad-tech.ro";
+export const SITE_URL = "https://myriad-tech.ro";
 export const SITE_NAME = "Myriad Tech";
 
 export const localizedRoutes = {
@@ -155,7 +155,14 @@ export function constructMetadata({
           },
         },
     icons: {
-      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+      // favicon.ico first: browsers and crawlers that ignore <link rel="icon">
+      // (Google's favicon fetcher included) still request it by convention,
+      // and app/favicon.ico's own auto-injected tag is suppressed once this
+      // manual `icons` object is set, so it has to be listed explicitly.
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/icon.svg", type: "image/svg+xml" },
+      ],
       apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
     },
     category: "technology",

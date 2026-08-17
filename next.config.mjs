@@ -8,6 +8,15 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // www is a duplicate host in Search Console's eyes — bounce every path
+      // to the bare domain before any of the path-only rules below run, so
+      // e.g. www/ro still lands on the canonical https://myriad-tech.ro/ro.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.myriad-tech.ro" }],
+        destination: "https://myriad-tech.ro/:path*",
+        permanent: true,
+      },
       {
         source: "/",
         destination: "/ro",
