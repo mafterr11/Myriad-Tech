@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -51,15 +52,18 @@ const HireMeDialogContent = () => {
   );
 };
 
-export const HireMeButton = ({ onClick }) => {
+// forwardRef so Radix's `asChild` trigger can attach to the real button.
+export const HireMeButton = forwardRef(({ onClick, ...props }, ref) => {
   const t = useTranslations("Nav");
 
   return (
-    <Button size="sm" onClick={onClick}>
+    <Button ref={ref} size="sm" onClick={onClick} {...props}>
       {t("specialBtn.name")}
     </Button>
   );
-};
+});
+
+HireMeButton.displayName = "HireMeButton";
 
 export const HireMeDialog = ({ open, onOpenChange }) => (
   <Dialog open={open} onOpenChange={onOpenChange}>
@@ -67,17 +71,16 @@ export const HireMeDialog = ({ open, onOpenChange }) => (
   </Dialog>
 );
 
-const HireMe = () => {
-  const t = useTranslations("Nav");
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button size="sm">{t("specialBtn.name")}</Button>
-      </DialogTrigger>
-      <HireMeDialogContent />
-    </Dialog>
-  );
-};
+// The desktop nav opens the dialog from its own trigger; the mobile nav has to
+// close the drawer first, so it drives `HireMeDialog` with its own state.
+// Both render the same button and the same content.
+const HireMe = () => (
+  <Dialog>
+    <DialogTrigger asChild>
+      <HireMeButton />
+    </DialogTrigger>
+    <HireMeDialogContent />
+  </Dialog>
+);
 
 export default HireMe;

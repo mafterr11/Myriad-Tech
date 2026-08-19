@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Link as LocaleLink } from "@/i18n/navigation";
 import Socials from "../Socials";
@@ -89,68 +88,26 @@ const Footer = () => {
           </section>
         </div>
 
-        <div className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 sm:gap-12 lg:items-start">
-          <nav aria-labelledby="footer-explore-title">
-            <h2 id="footer-explore-title" className="footer-heading">
-              {t("explore")}
-            </h2>
-            <ul className="mt-4 space-y-3 text-[0.95rem]">
-              {exploreLinks.map((link) => (
-                <li key={link.href}>
-                  <LocaleLink
-                    href={link.href}
-                    className="focus-ring footer-link block"
-                  >
-                    {link.label}
-                  </LocaleLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <section
-            aria-labelledby="footer-consumer-title"
-            className="lg:justify-self-end lg:text-right"
-          >
-            <h2 id="footer-consumer-title" className="footer-heading">
-              {t("consumer")}
-            </h2>
-            <div className="mt-4 flex flex-wrap gap-4 lg:justify-end">
-              <a
-                href="https://anpc.ro/ce-este-sal/"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                aria-label="ANPC - Soluționarea Alternativă a Litigiilor"
-                className="focus-ring footer-badge"
-              >
-                <img
-                  className="h-auto w-full max-w-[10.5rem]"
-                  src="https://wpfitness.eu/wp-content/uploads/2022/10/anpc-sal.png"
-                  alt="Soluționarea Alternativă a Litigiilor"
-                  width={500}
-                  height={124}
-                  loading="lazy"
-                />
-              </a>
-              <a
-                href="https://ec.europa.eu/consumers/odr"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                aria-label="ANPC - Soluționarea Online a Litigiilor"
-                className="focus-ring footer-badge"
-              >
-                <img
-                  className="h-auto w-full max-w-[10.5rem]"
-                  src="https://wpfitness.eu/wp-content/uploads/2022/10/anpc-sol.png"
-                  alt="Soluționarea Online a Litigiilor"
-                  width={500}
-                  height={124}
-                  loading="lazy"
-                />
-              </a>
-            </div>
-          </section>
-        </div>
+        <nav
+          aria-labelledby="footer-explore-title"
+          className="mt-14 border-t border-line pt-10"
+        >
+          <h2 id="footer-explore-title" className="footer-heading">
+            {t("explore")}
+          </h2>
+          <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3 text-[0.95rem]">
+            {exploreLinks.map((link) => (
+              <li key={link.href}>
+                <LocaleLink
+                  href={link.href}
+                  className="focus-ring footer-link block"
+                >
+                  {link.label}
+                </LocaleLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <div className="footer-baseline">
@@ -162,18 +119,18 @@ const Footer = () => {
             aria-label={t("legal")}
             className="flex flex-wrap items-center gap-x-6 gap-y-2"
           >
-            <Link
-              href={t("gdpr")}
+            <LocaleLink
+              href="/politica-de-confidentialitate"
               className="focus-ring text-body/60 underline decoration-body/25 underline-offset-4 transition-colors hover:text-white hover:decoration-white/60"
             >
               {t("name")}
-            </Link>
-            <Link
-              href={t("cookies")}
+            </LocaleLink>
+            <LocaleLink
+              href="/politica-cookies"
               className="focus-ring text-body/60 underline decoration-body/25 underline-offset-4 transition-colors hover:text-white hover:decoration-white/60"
             >
               {t("name2")}
-            </Link>
+            </LocaleLink>
           </nav>
         </div>
       </div>

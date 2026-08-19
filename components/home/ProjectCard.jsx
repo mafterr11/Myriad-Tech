@@ -31,12 +31,18 @@ const ProjectCard = ({
 
   return (
     <Card className={`project-card group relative flex ${cardClassName} w-full flex-col overflow-hidden`}>
+      {/* The whole card is clickable, but only the "demo" link at the bottom
+          is focusable. The overlay and the corner icon repeat that exact
+          destination, so they stay real anchors — middle-click and ctrl-click
+          still work — while being kept out of the tab order and the
+          accessibility tree rather than giving every card three stops. */}
       <Link
         href={link}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`${t("page.demo")}: ${project.name}`}
-        className="focus-ring absolute inset-0 z-10"
+        aria-hidden="true"
+        tabIndex={-1}
+        className="absolute inset-0 z-10"
       />
 
       <CardHeader className="relative z-20 p-0 pointer-events-none">
@@ -53,15 +59,12 @@ const ProjectCard = ({
             <Badge className="rounded-none border border-white/40 bg-accent px-3 py-1 text-[10px] font-bold tracking-[0.1em] text-white uppercase">
               {category}
             </Badge>
-            <Link
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${t("page.demo")}: ${project.name}`}
-              className="focus-ring relative z-30 pointer-events-auto flex h-10 w-10 items-center justify-center border border-white/70 bg-black/70 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 max-md:opacity-100"
+            <span
+              aria-hidden="true"
+              className="relative z-30 flex h-10 w-10 items-center justify-center border border-white/70 bg-black/70 text-white opacity-0 transition-all duration-300 group-hover:opacity-100 max-md:opacity-100"
             >
-              <Link2Icon size={18} aria-hidden="true" />
-            </Link>
+              <Link2Icon size={18} />
+            </span>
           </div>
         </div>
       </CardHeader>
@@ -106,6 +109,7 @@ const ProjectCard = ({
           href={link}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`${t("page.demo")}: ${project.name}`}
           className="focus-ring relative z-30 mt-auto inline-flex w-fit shrink-0 items-center gap-2 pt-5 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline"
         >
           {t("page.demo")}

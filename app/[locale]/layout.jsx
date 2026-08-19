@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import "./globals.css";
 import Header from "../../components/layout/Header";
 import Footer from "../../components/layout/Footer";
+import SkipLink from "../../components/layout/SkipLink";
 import { Toaster } from "@/components/ui/toaster";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { Analytics } from "@vercel/analytics/react";
@@ -10,7 +11,7 @@ import { constructMetadata } from "@/lib/utils";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/google-analytics";
 import CookieBanner from "@/components/cookie-banner";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import LenisScroll from "./LenisScroll";
 import { routing } from "@/i18n/routing";
 
@@ -31,6 +32,12 @@ export async function generateMetadata({ params }) {
   return constructMetadata({ locale, route: "home" });
 }
 
+// Without this every route under `[locale]` is server-rendered on demand, even
+// the contact and legal pages that read no data at all.
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export const viewport = {
   themeColor: "#674839",
   colorScheme: "light",
@@ -41,6 +48,11 @@ export default async function RootLayout({ children, params }) {
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+
+  // Tells next-intl which locale to serve without reading the request, which
+  // is what allows everything below to be prerendered instead of rendered on
+  // demand. Every page under this layout has to call it too.
+  setRequestLocale(locale);
 
   const messages = await getMessages(locale);
 
@@ -53,8 +65,9 @@ export default async function RootLayout({ children, params }) {
           <GoogleAnalytics GA_MEASUREMENT_ID="G-EB4XXB3ES6" />
         </Suspense>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <SkipLink />
           <Header />
-          <main>
+          <main id="main-content" tabIndex={-1}>
             <LenisScroll />
             {children}
           </main>

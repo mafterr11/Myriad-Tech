@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import Script from "next/script";
 import { constructMetadata } from "@/lib/utils";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }) {
 
 export default async function Contact({ params }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_KEY;
 
   return (

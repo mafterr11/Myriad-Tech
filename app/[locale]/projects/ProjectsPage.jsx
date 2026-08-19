@@ -41,7 +41,9 @@ const ProjectsPage = ({ projects = [], error }) => {
               {t("page.title")}
             </MotionH1>
           </div>
-          <p className="section-copy xl:max-w-md xl:text-right">{t("page.demo")}</p>
+          <p className="section-copy xl:max-w-md xl:text-right">
+            {t("page.subtitle")}
+          </p>
         </div>
 
         <Tabs value={category} onValueChange={setCategory} className="w-full">

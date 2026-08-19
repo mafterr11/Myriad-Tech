@@ -1,5 +1,6 @@
 import { constructMetadata } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import LegalPage from "@/components/layout/LegalPage";
 
 const seo = {
   ro: {
@@ -25,39 +26,28 @@ export async function generateMetadata({ params }) {
   });
 }
 
-const PoliticaCookies = () => {
-  const t = useTranslations("Cookies");
+const PoliticaCookies = async ({ params }) => {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("Cookies");
+  const range = (from, to) =>
+    Array.from({ length: to - from + 1 }, (_, index) => t(String(from + index)));
+
   return (
-    <div className="container mx-auto py-[12rem]">
-      <h1 className="text-4xl tracking-wide mb-32 text-center font-normal text-accent">
-        {t("name")}
-      </h1>
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("1")}
-      </p>
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("2")}
-      </p>
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("3")}
-      </p>
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("4")}
-      </p>
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("5")}
-      </p>
-
-      <p className=" leading-normal mb-2">{t("6")}</p>
-      <p className="mb-6 text-sm">{t("7")}</p>
-
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("8")}
-      </p>
-      <p className="my-4 text-sm">
-        <span className="text-accent">-</span> {t("9")}
-      </p>
-    </div>
+    <LegalPage
+      title={t("name")}
+      intro={t("intro")}
+      sections={[
+        { id: "what", title: t("sections.what"), paragraphs: range(1, 2) },
+        { id: "control", title: t("sections.control"), paragraphs: range(3, 4) },
+        { id: "usage", title: t("sections.usage"), paragraphs: range(5, 6) },
+        {
+          id: "security",
+          title: t("sections.security"),
+          paragraphs: range(7, 9),
+        },
+      ]}
+    />
   );
 };
 

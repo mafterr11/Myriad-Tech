@@ -1,10 +1,13 @@
+import { setRequestLocale } from "next-intl/server";
 import { constructMetadata } from "@/lib/utils";
 import { getPublishedProjects, localizeProject } from "@/lib/projects/queries";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import ProjectsJsonLd from "@/components/seo/ProjectsJsonLd";
 import ProjectsPage from "./ProjectsPage";
 
-export const dynamic = "force-dynamic";
+// See the note in app/[locale]/page.jsx: cached, with the admin panel pushing
+// a revalidation whenever the project list changes.
+export const revalidate = 3600;
 
 const seo = {
   ro: {
@@ -32,6 +35,7 @@ export async function generateMetadata({ params }) {
 
 const Projects = async ({ params }) => {
   const { locale } = await params;
+  setRequestLocale(locale);
   const result = await getPublishedProjects();
   const projects = result.projects.map((project) =>
     localizeProject(project, locale),

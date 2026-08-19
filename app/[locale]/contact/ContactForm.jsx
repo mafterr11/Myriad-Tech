@@ -1,12 +1,14 @@
 "use client";
 
 import * as z from "zod";
+import { useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
   User,
   MailIcon,
   ArrowRightIcon,
+  Loader2,
   MessageSquare,
   PhoneIcon,
 } from "lucide-react";
@@ -25,28 +27,33 @@ import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "next-intl";
 import { useRecaptchaV3 } from "@/app/GoogleCaptchaWrapper";
 
-const formSchema = z.object({
-  nume: z.string().min(3, { message: "Enter your full name" }),
-  email: z.string().email(),
-  telefon: z.union([
-    z.literal(""),
-    z.string().trim().min(10, {
-      message: "Enter a valid phone number",
+const MESSAGE_MAX = 200;
+
+// The schema is built from the active locale's messages so a Romanian visitor
+// is not told "Enter your full name" and an English one is not told
+// "Te rog scrie numele complet".
+const buildFormSchema = (t) =>
+  z.object({
+    nume: z.string().min(3, { message: t("form.validation.name") }),
+    email: z.string().email({ message: t("form.validation.email") }),
+    telefon: z.union([
+      z.literal(""),
+      z.string().trim().min(10, { message: t("form.validation.phone") }),
+    ]),
+    mesaj: z
+      .string()
+      .min(10, { message: t("form.validation.messageMin") })
+      .max(MESSAGE_MAX, { message: t("form.validation.messageMax") }),
+    acceptTerms: z.boolean().refine((val) => val === true, {
+      message: t("form.validation.gdpr"),
     }),
-  ]),
-  mesaj: z
-    .string()
-    .min(10, { message: "Min 10 characters" })
-    .max(200, { message: "Max 200 characters." }),
-  acceptTerms: z.boolean().refine((val) => val === true, {
-    message: "You must agree to the GDPR",
-  }),
-});
+  });
 
 export default function SolicitatiOfertaForm() {
   const { toast } = useToast();
   const t = useTranslations("Contact");
   const { ready, getToken } = useRecaptchaV3();
+  const formSchema = useMemo(() => buildFormSchema(t), [t]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -58,6 +65,7 @@ export default function SolicitatiOfertaForm() {
       acceptTerms: false,
     },
   });
+  const isSubmitting = form.formState.isSubmitting;
 
   const onSubmit = async (formData) => {
     try {
@@ -77,14 +85,17 @@ export default function SolicitatiOfertaForm() {
       }
 
       toast({
-        title: "Mulțumim pentru interesul acordat!",
-        description: "Vă vom contacta cât mai curând!",
+        title: t("form.success.title"),
+        description: t("form.success.description"),
       });
       form.reset();
-    } catch (error) {
+    } catch {
+      // The raw error is deliberately not surfaced: it is either an internal
+      // status string or a reCAPTCHA failure, neither of which helps a visitor.
       toast({
-        title: "Ceva nu a mers bine!",
-        description: error?.message || "Vă rugăm să încercați mai târziu!",
+        variant: "destructive",
+        title: t("form.error.title"),
+        description: t("form.error.description"),
       });
     }
   };
@@ -175,13 +186,27 @@ export default function SolicitatiOfertaForm() {
                   <Textarea
                     placeholder={t("form.msg.input")}
                     id="mesaj"
+                    maxLength={MESSAGE_MAX}
+                    aria-describedby="mesaj-counter"
                     className="contact-input min-h-[10rem] pr-12"
                     {...field}
                   />
                 </FormControl>
                 <MessageSquare className="pointer-events-none absolute top-4 right-4 text-black/40" size={18} aria-hidden="true" />
               </div>
-              <FormMessage className="ml-0 mt-1 text-xs text-red-600" />
+              <div className="mt-1 flex items-start justify-between gap-4">
+                <FormMessage className="ml-0 text-xs text-red-600" />
+                <span
+                  id="mesaj-counter"
+                  aria-live="polite"
+                  className="ml-auto shrink-0 text-xs text-black/45"
+                >
+                  {t("form.counter", {
+                    count: field.value?.length ?? 0,
+                    max: MESSAGE_MAX,
+                  })}
+                </span>
+              </div>
             </FormItem>
           )}
         />
@@ -217,11 +242,16 @@ export default function SolicitatiOfertaForm() {
           <Button
             type="submit"
             className="flex w-full items-center gap-x-2 sm:w-auto"
-            disabled={!ready || form.formState.isSubmitting}
+            disabled={!ready || isSubmitting}
+            aria-busy={isSubmitting}
             title={!ready ? "reCAPTCHA loading…" : undefined}
           >
-            {t("form.btn")}
-            <ArrowRightIcon size={18} aria-hidden="true" />
+            {isSubmitting ? t("form.sending") : t("form.btn")}
+            {isSubmitting ? (
+              <Loader2 size={18} aria-hidden="true" className="animate-spin" />
+            ) : (
+              <ArrowRightIcon size={18} aria-hidden="true" />
+            )}
           </Button>
 
           <p className="max-w-md text-xs leading-5 text-black/55">

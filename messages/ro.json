@@ -1,19 +1,18 @@
 {
   "Hero": {
-    "title": "Design curat. Cod eficient. Performanță garantată",
-    "subtitle": "Dezvoltator Full Stack din ",
-    "subtitle2": "București, România",
-    "subtitle3": ", creând soluții inteligente și practice pentru tine. Îți stau la dispoziție pentru orice întrebare!",
-    "contact-button": "Contactați-mă",
-    "contact-link": "/ro/contact",
-    "download-button": "Descărcați CV"
+    "title": "Construiesc site-uri rapide care îți aduc clienți",
+    "status": "Disponibil pentru proiecte noi",
+    "description": "Web design, dezvoltare web și SEO — de la prima schiță până la site-ul publicat. Sunt dezvoltator independent în București și lucrez cu afaceri din toată România și din afara ei.",
+    "caption": "Dezvoltator & designer web",
+    "contact-button": "Contactează-mă",
+    "download-button": "Descarcă CV"
   },
   "About": {
     "title": "Despre mine",
     "tab1": {
       "trigger": "Informații personale",
-      "title": "Excelență de top în servicii",
-      "description": "Excelez în dezvoltarea de site-uri web prietenoase cu utilizatorul, folosind tehnologie avansată, oferind interacțiuni dinamice și captivante. Ofer servicii de web design București și soluții de design web personalizat."
+      "title": "Un singur om, de la cap la coadă",
+      "description": "Lucrez la un număr mic de proiecte în același timp. Omul care îți proiectează site-ul e același care scrie codul, îl publică și răspunde la telefon după lansare — fără account manageri, fără predări între echipe, fără să alergi după nimeni."
     },
     "tab2": {
       "trigger": "Calificări",
@@ -29,29 +28,27 @@
   "Services": {
     "title": "Serviciile mele",
     "first": {
-      "description": "Prin intermediul Figma, realizăm site-uri web vizual impresionante și intuitive, prioritizând experiența utilizatorului. Echipa noastră se concentrează pe web design personalizat pentru a îndeplini cerințele fiecărui client."
+      "description": "Desenez întâi în Figma, ca să vezi site-ul înainte să fie construit. Fiecare layout e gândit pentru telefon la fel de atent ca pentru desktop, pentru că de acolo vin majoritatea vizitatorilor tăi."
     },
     "second": {
-      "description": "Construim soluții web robuste și scalabile cu ultimele tehnologii, livrând site-uri web de înaltă performanță, personalizate pentru nevoile afacerii dvs. Serviciile includ crearea de site-uri web și dezvoltare de aplicații web."
+      "description": "Îți construiesc site-ul cu Next.js sau WordPress — rapid, sigur și ușor de actualizat chiar de tine. Cod curat, fără page buildere greoaie, și rămâne la fel de rapid și peste un an."
     },
     "third": {
-      "description": "Îmbunătățim vizibilitatea site-ului dvs. online prin strategii SEO care includ optimizarea imaginilor, gestionarea metadatelor și plasarea cuvintelor cheie. Optimizăm structura site-ului web pentru a maximiza traficul organic și conversiile."
-    },
-    "fourth": {
-      "description": "Maximizarea vizibilității dvs. online și direcționarea traficului țintit către site-ul dvs. cu strategii personalizate Google Ads.",
-      "soon": "ÎN CURÂND"
+      "description": "Mă ocup serios de partea tehnică: viteza paginilor, structura site-ului, metadatele și datele structurate. Asta îi permite Google să îți citească site-ul și clienților să te găsească."
     }
   },
   "Work": {
     "empty": "Momentan nu exista proiecte selectate.",
     "error": "Proiectele selectate nu sunt disponibile momentan.",
     "title": "Ultimele proiecte",
-    "subtitle": "Evidențiind ultimele mele realizări și inițiative creative.",
-    "projects-button": "Toate Proiectele",
-    "projects-link": "/ro/projects"
+    "subtitle": "Câteva dintre site-urile pe care le-am proiectat și construit recent.",
+    "projects-button": "Toate Proiectele"
   },
   "Reviews": {
     "title": "Ce spun clienții",
+    "visit": "Vezi site-ul {name}",
+    "pause": "Oprește testimonialele",
+    "play": "Pornește testimonialele",
     "madiny": "Am colaborat cu Alexandru pentru crearea site-ului meu și pot spune că experiența a fost fantastică. Site-ul este animat și minimalist, ceea ce îmi pune în valoare lucrările de artă într-un mod foarte profesionist.",
     "tng": "Am comunicat foarte eficient pe parcursul întregului proces, iar acest lucru s-a reflectat în calitatea finală a site-ului. Nu am întâmpinat probleme tehnice, ceea ce este esențial pentru o prezență online fără griji. Mulțumesc pentru dedicare și profesionalism!",
     "monte-bianco": "Colaborarea cu Alexandru pentru crearea site-ului Montebianco.ro a fost o alegere excelentă, deoarece toate cerințele noastre au fost întâmpinate cu soluții creative și eficiente. Recomand cu căldură serviciile sale tuturor celor care își doresc un site funcțional și atractiv.",
@@ -59,15 +56,16 @@
     "dianazu": "Ca designer grafic, am nevoie de un site care să-mi pună în valoare lucrările, și exact asta ai realizat. Designul este curat și modern, iar portofoliul meu arată fantastic pe orice dispozitiv. "
   },
   "Cta": {
-    "title": "Pregătit să îți transformi visele în realitate?",
-    "title2": "Contactează Myriad Tech pentru servicii profesionale de web design și development",
-    "contact-button": "Contactați-mă"
+    "title": "Ai un proiect în minte?",
+    "title2": "Spune-mi de ce ai nevoie și îți zic sincer dacă sunt omul potrivit să îl construiesc.",
+    "contact-button": "Contactează-mă"
   },
   "Proiecte": {
     "page": {
       "empty": "Momentan nu exista proiecte publicate.",
       "error": "Proiectele nu sunt disponibile momentan.",
       "title": "Proiectele mele",
+      "subtitle": "Fiecare site de aici este publicat și folosit zi de zi. Alege o categorie sau deschide orice proiect ca să îl vezi live.",
       "tab": "Toate proiectele",
       "demo": "Vezi demonstrația live",
       "readMore": "Mai mult",
@@ -178,6 +176,7 @@
     }
   },
   "Nav": {
+    "skip": "Sari la conținut",
     "home": {
       "name": "Acasă",
       "link": "/ro"
@@ -199,8 +198,8 @@
     }
   },
   "Contact": {
-    "title": "Haideți să colaborăm",
-    "subtitle": "Sunt nerăbdător să începem călătoria noastră și să colaborăm pentru a crea ceva cu adevărat remarcabil. Ia legătura astăzi și haideți să va transform ideile în realitate!",
+    "title": "Haide să lucrăm împreună",
+    "subtitle": "Spune-mi despre proiect — pentru ce e, pentru cine e și cam când ai nevoie de el. Citesc personal fiecare mesaj și răspund în maximum o zi lucrătoare.",
     "subtitle2": "Salutare!",
     "or": "SAU",
     "whatsapp": "Trimiteți un mesaj pe WhatsApp!",
@@ -224,6 +223,24 @@
       },
       "gdpr": "Sunt de acord cu prelucrarea datelor personale(GDPR).",
       "btn": "Trimite",
+      "sending": "Se trimite...",
+      "counter": "{count} din {max} caractere",
+      "success": {
+        "title": "Mesaj trimis",
+        "description": "Mulțumesc pentru mesaj. Îți răspund în maximum o zi lucrătoare."
+      },
+      "error": {
+        "title": "Mesajul nu a putut fi trimis",
+        "description": "Încearcă din nou sau scrie-mi direct pe telefon ori pe WhatsApp."
+      },
+      "validation": {
+        "name": "Te rog scrie numele complet.",
+        "email": "Te rog scrie o adresă de email validă.",
+        "phone": "Te rog scrie un număr de telefon valid.",
+        "messageMin": "Te rog scrie cel puțin 10 caractere.",
+        "messageMax": "Te rog păstrează mesajul sub 200 de caractere.",
+        "gdpr": "Te rog acceptă prelucrarea datelor tale."
+      },
       "reCaptcha": {
         "1": "Site protejat de reCAPTCHA și se aplică",
         "2": "Politica de confidențialitate",
@@ -266,7 +283,15 @@
     "20": "8. Dreptul de retragere a consimțământului: Puteți retrage consimțământul pentru prelucrarea bazată pe acesta, oricând.",
     "21": "9. Drepturi legate de deciziile automate: În cazul prelucrării automate a datelor, puteți cere revizuirea umană, puteți exprima un punct de vedere sau puteți contesta decizia.",
     "22": "Myriad Tech poate actualiza periodic politicile de confidențialitate, conform schimbărilor în legislația privind protecția datelor. Orice modificări vor fi publicate pe site-ul nostru, unde veți găsi informații actualizate",
-    "titlu": "Politica de confidențialitate"
+    "titlu": "Politica de confidențialitate",
+    "intro": "Această politică explică ce date personale colectează acest site, de ce le colectează și ce poți face în legătură cu ele.",
+    "sections": {
+      "scope": "Domeniu de aplicare și angajamente",
+      "purpose": "De ce sunt prelucrate datele tale",
+      "data": "Ce se colectează, cu cine se împarte și cât se păstrează",
+      "rights": "Drepturile tale",
+      "updates": "Modificări ale acestei politici"
+    }
   },
   "Cookies": {
     "1": "Cookie-ul este un fisier de mici dimensiuni, continand fragmente de text special, deseori codificat, expediat de un server unui navigator web si apoi trimis inapoi (nemodificat) de catre navigator, de fiecare data cand acceseaza acel server. Cookie-ul este instalat prin solicitarea emisa de catre un web-server unui browser (ex: Internet Explorer, Chrome, Mozilla) si este complet “pasiv” (nu contine programe software, virusi sau spyware si nu poate accesa informatiile de pe hard driver-ul utilizatorului). Cookie-urile sunt folosite atat pentru autentificare, cat si pentru a colecta informatii precum tipul de browser si sistemul de operare, pagina sursa, denumirea domeniului din care vizitatorul s-a conectat la site, scopul fiind de a face posibila recunoasterea terminalului utilizatorului, a intelege cum folosesc vizitatorii pagina de web si a prezenta continutul site-lui intr-un mod relevant, adaptat preferintelor utilizatorului.",
@@ -278,8 +303,14 @@
     "7": "Cookie-urile NU sunt virusi si folosesc formate tip plain text; nu sunt alcatuite din portiuni de cod, astfel ca nu pot fi executate si nici nu pot auto-rula. In consecinta, nu se pot duplica sau replica pe alte retele pentru a se rula sau replica din nou. Deoarece nu pot indeplini aceste functii, nu pot fi considerate ca fiind virusi. Intrucat cookie-urile pot fi folosite pentru scopuri negative deoarece stocheaza informatii despre preferintele si istoricul de navigare al utilizatorilor, pe un anume site sau pe mai multe, fiind folosite ca o forma de Spyware (spionaj privind activitatea consumatorului), multe produse anti-spyware marcheaza cookie-urile in mod constant pentru a fi sterse in cadrul procedurilor de stergere/scanare anti-virus/anti-spyware. In general, browser-ele au integrate setari de confidentialitate care furnizeaza diferite nivele de acceptare a cookie-urilor, perioada de valabilitate si stergere automata dupa ce utilizatorul a vizitat un anumit site. Deoarece protectia identitatii este foarte valoroasa si reprezinta dreptul fiecarui utilizator de internet, este indicat sa se stie ce eventuale probleme pot crea cookie-urile. Pentru ca prin intermediul lor se transmit in mod constant in ambele sensuri informatii intre browser si website, daca un atacator sau persoana autorizata intervine in parcursul de transmitere a datelor, informatiile continute de cookie pot fi interceptate. Desi foarte rar, acest lucru se poate intampla daca browser-ul se conecteaza la server folosind o retea necriptata (ex: o retea WiFi nesecurizata). Alte atacuri bazate pe cookie implica setari gresite ale cookie-urilor pe servere. Este foarte important ca utilizatorul sa aleaga metoda cea mai potrivita de protectie a informatiilor personale si sa:",
     "8": "particularizeze setarile browser-ului in ceea ce priveste cookie-urile pentru a reflecta un nivel confortabil al securitatii utilizarii cookie-urilor, seteze termene lungi de expirare pentru stocarea istoricului de navigare si al datelor personale de acces, ia in considerare setarea browser-ului pentru a sterge datele individuale de navigare de fiecare data cand este inchis browser-ul; aceasta este o varianta de a accesa site-urile care plaseaza cookie-uri si de a sterge orice informatie de vizitare la inchiderea sesiunii de navigare, instaleze si sa actualizeze constant aplicatii anti-spyware.",
     "9": "Multe dintre aplicatiile de detectare si prevenire a spyware-ului includ detectarea atacurilor pe site-uri. Astfel, impiedica browser-ul de la a accesa website-uri care ar putea sa exploateze vulnerabilitatile browser-ului sau sa descarce software periculos. Se recomanda actualizarea programelor de navigare in mod constant, pentru ca multe dintre atacurile bazate pe cookie-uri se realizeaza exploatand punctele slabe ale versiunilor vechi ale browserelor. Toate browser-ele moderne ofera posibilitatea de a schimba setarile cookie-urilor. Aceste setari se gasesc de regula in “optiuni” sau in meniul de “preferinte” al browser-ului. Este posibil ca politica de cookie-uri sa fie actualizata periodic. De aceea, este necesar ca utilizatorul sa consulte aceasta sectiune pentru a fi la curent cu orice modificare. Pentru raspunsuri la intrebari sau nelamuriri cu privire la prelucrarea si stocarea datelor putem fi contactati la adresa de e-mail. ",
-    "path": "/ro/politica-cookies",
     "name": "Politica cookies",
+    "intro": "Această pagină explică ce sunt cookie-urile, pe care le folosește acest site și cum le poți controla.",
+    "sections": {
+      "what": "Ce este un cookie",
+      "control": "Cum le poți controla",
+      "usage": "Pentru ce le folosește acest site",
+      "security": "Cookie-urile și securitatea ta"
+    },
     "text1": "Folosim sistemul cookies pentru a asigura buna functionare a website-ului. Daca doresti sa utilizezi site-ul in continuare inseamna ca esti de acord cu",
     "text2": "si o accepti.",
     "buttons": {
@@ -287,18 +318,23 @@
       "no": "Refuz"
     }
   },
+  "NotFound": {
+    "code": "Eroare 404",
+    "title": "Pagina aceasta nu există",
+    "description": "Probabil linkul e vechi sau adresa are o greșeală de scriere. Iată drumul înapoi.",
+    "home": "Înapoi la pagina principală",
+    "projects": "Vezi proiectele mele",
+    "contact": "Ia legătura cu mine"
+  },
   "Footer": {
-    "gdpr": "/ro/politica-de-confidentialitate",
-    "cookies": "/ro/politica-cookies",
     "name": "Politica de confidențialitate",
     "name2": "Politica cookies",
     "rights": "Toate drepturile rezervate",
-    "kicker": "Studio web independent",
-    "consumer": "Protecția consumatorului",
+    "kicker": "Dezvoltator web independent",
     "connect": "Hai să ne conectăm",
     "explore": "Navigare",
     "legal": "Informații legale",
-    "description": "Studio web independent din București, specializat în design, development și experiențe digitale clare, rapide și atent construite.",
+    "description": "Dezvoltator web independent din București. Proiectez și construiesc site-uri, magazine online și aplicații web — și rămân disponibil mult după lansare.",
     "directContact": "Contact direct",
     "email": "Email",
     "phone": "Telefon",

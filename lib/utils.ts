@@ -24,11 +24,11 @@ export const localizedRoutes = {
   },
   privacy: {
     ro: "/ro/politica-de-confidentialitate",
-    en: "/en/politica-de-confidentialitate",
+    en: "/en/privacy-policy",
   },
   cookies: {
     ro: "/ro/politica-cookies",
-    en: "/en/politica-cookies",
+    en: "/en/cookie-policy",
   },
 } as const;
 

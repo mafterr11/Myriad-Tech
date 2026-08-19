@@ -53,6 +53,17 @@ const nextConfig = {
         destination: "/ro/proiecte",
         permanent: true,
       },
+      // The English legal pages used to be served under the Romanian slugs.
+      {
+        source: "/en/politica-de-confidentialitate",
+        destination: "/en/privacy-policy",
+        permanent: true,
+      },
+      {
+        source: "/en/politica-cookies",
+        destination: "/en/cookie-policy",
+        permanent: true,
+      },
     ];
   },
   images: {

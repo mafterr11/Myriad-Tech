@@ -1,8 +1,6 @@
 "use client";
 
 import { InfiniteMovingCards } from "../ui/infinite-cards";
-import { Star } from "lucide-react";
-import HalfStar from "../ui/half-star";
 import { Dot } from "../Dot";
 import { useTranslations } from "next-intl";
 import { MotionDiv, MotionH2 } from "@/lib/motion-client";
@@ -10,36 +8,33 @@ import { fadeIn } from "@/variants";
 
 const Reviews = () => {
   const t = useTranslations("Reviews");
+  // Keep these ratings in sync with components/seo/OrganizationJsonLd.jsx,
+  // which publishes the same numbers as structured data.
   const testimonials = [
     {
       quote: t("madiny"),
       name: "Madiny",
-      title: "https://madinytattoo.ro",
-      star: <Star size={16} strokeWidth={1.2} fill="currentColor" aria-hidden="true" />,
+      url: "https://madinytattoo.ro",
+      rating: 5,
     },
-    {
-      quote: t("tng"),
-      name: "Mihai",
-      title: "https://tngag.ro",
-      star: <Star size={16} strokeWidth={1.2} fill="currentColor" aria-hidden="true" />,
-    },
+    { quote: t("tng"), name: "Mihai", url: "https://tngag.ro", rating: 5 },
     {
       quote: t("monte-bianco"),
       name: "Monte Bianco",
-      title: "https://montebianco.ro",
-      star: <HalfStar />,
+      url: "https://montebianco.ro",
+      rating: 4.5,
     },
     {
       quote: t("mbody"),
       name: "Mihaela",
-      title: "https://mbody.vercel.app",
-      star: <Star size={16} strokeWidth={1.2} fill="currentColor" aria-hidden="true" />,
+      url: "https://mbody.vercel.app",
+      rating: 5,
     },
     {
       quote: t("dianazu"),
       name: "Diana",
-      title: "https://dianazu.vercel.app",
-      star: <HalfStar />,
+      url: "https://dianazu.vercel.app",
+      rating: 4.5,
     },
   ];
 

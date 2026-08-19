@@ -1,19 +1,18 @@
 {
   "Hero": {
-    "title": "Clean design. Efficient code. Guaranteed performance",
-    "subtitle": "Full Stack Developer based in ",
-    "subtitle2": "Bucharest, Romania",
-    "subtitle3": ", crafting smart, practical solutions for the web and software. Let's connect and build something great!",
+    "title": "I build fast websites that bring you clients",
+    "status": "Available for new projects",
+    "description": "Web design, development and SEO — from the first sketch to the live site. I am an independent developer in Bucharest and I work with businesses across Romania and beyond.",
+    "caption": "Web developer & designer",
     "contact-button": "Contact Me",
-    "contact-link": "/en/contact",
     "download-button": "Download CV"
   },
   "About": {
     "title": "About Me",
     "tab1": {
       "trigger": "Personal Info",
-      "title": "Top-Tier Service Excellence",
-      "description": "I excel in developing user-friendly websites using advanced technology, offering dynamic and engaging interactions. I provide web design services in Bucharest and customized web design solutions."
+      "title": "One person, start to finish",
+      "description": "I take on a small number of projects at a time. The person who designs your site is the same one who writes the code, launches it, and picks up the phone afterwards — no account managers, no handovers, no one to chase."
     },
     "tab2": {
       "trigger": "Qualifications",
@@ -29,29 +28,27 @@
   "Services": {
     "title": "My Services",
     "first": {
-      "description": "Through Figma, we create visually impressive and intuitive websites, prioritizing user experience. Our team focuses on custom web design to meet each client's requirements."
+      "description": "I design in Figma first, so you see the site before it gets built. Every layout is drawn for the phone as carefully as for the desktop, because that is where most of your visitors will arrive from."
     },
     "second": {
-      "description": "We build robust and scalable web solutions with the latest technologies, delivering high-performance websites customized for your business needs. Services include website creation and web application development."
+      "description": "I build your site with Next.js or WordPress — fast, secure and easy for you to update yourself. Clean code, no heavy page builders, and it is still quick a year later."
     },
     "third": {
-      "description": "We enhance your website's online visibility through SEO strategies that include image optimization, metadata management, and keyword placement. We optimize the website structure to maximize organic traffic and conversions."
-    },
-    "fourth": {
-      "description": "Maximizing your online visibility and driving targeted traffic to your site with customized Google Ads strategies.",
-      "soon": "COMING SOON"
+      "description": "I handle the technical side properly: page speed, site structure, metadata and structured data. That is what lets Google read your site and lets your customers find it."
     }
   },
   "Work": {
     "empty": "No featured projects are available right now.",
     "error": "Featured projects are temporarily unavailable.",
     "title": "Latest Projects",
-    "subtitle": "My latest achievements and creative ventures.",
-    "projects-button": "All Projects",
-    "projects-link": "/en/projects"
+    "subtitle": "A few of the sites I have designed and built recently.",
+    "projects-button": "All Projects"
   },
   "Reviews": {
     "title": "Client Testimonials",
+    "visit": "Visit the {name} website",
+    "pause": "Pause the testimonials",
+    "play": "Play the testimonials",
     "madiny": "I collaborated with Alexandru for the creation of my website, and I can say that the experience was fantastic. The website is animated and minimalist, which showcases my artworks in a very professional manner.",
     "tng": "We communicated very effectively throughout the entire process, and this was reflected in the final quality of the website. I did not encounter any technical issues, which is essential for a hassle-free online presence. Thank you for your dedication and professionalism!",
     "monte-bianco": "Collaborating with Alexandru for the creation of the Montebianco.ro website was an excellent choice, as all our requirements were met with creative and efficient solutions. I highly recommend his services to anyone who wants a functional and attractive website.",
@@ -59,8 +56,8 @@
     "dianazu": "As a graphic designer, I need a website that showcases my work, and that's exactly what you achieved. The design is clean and modern, and my portfolio looks fantastic on any device."
   },
   "Cta": {
-    "title": "Prepared to turn your dreams into reality?",
-    "title2": "Contact Myriad Tech for professional web design and development services",
+    "title": "Have a project in mind?",
+    "title2": "Tell me what you need and I will tell you honestly whether I am the right person to build it.",
     "contact-button": "Contact Me"
   },
   "Proiecte": {
@@ -68,6 +65,7 @@
       "empty": "No published projects are available right now.",
       "error": "Projects are temporarily unavailable.",
       "title": "My Projects",
+      "subtitle": "Every site here is live and in use. Pick a category, or open any project to see the real thing.",
       "tab": "All Projects",
       "demo": "See the live demo",
       "readMore": "More",
@@ -178,6 +176,7 @@
     }
   },
   "Nav": {
+    "skip": "Skip to content",
     "home": {
       "name": "Home",
       "link": "/"
@@ -200,7 +199,7 @@
   },
   "Contact": {
     "title": "Let's Work Together",
-    "subtitle": "I am eager to start our journey - let's collaborate to create something truly remarkable. Reach out today and let's turn your ideas into reality!",
+    "subtitle": "Tell me about the project — what it is for, who it is for, and roughly when you need it. I read every message myself and reply within one working day.",
     "subtitle2": "Say Hello",
     "or": "OR",
     "whatsapp": "Message me on WhatsApp!",
@@ -224,6 +223,24 @@
       },
       "gdpr": "I agree to data processing (GDPR)",
       "btn": "Submit",
+      "sending": "Sending...",
+      "counter": "{count} of {max} characters",
+      "success": {
+        "title": "Message sent",
+        "description": "Thank you for getting in touch. I will reply within one working day."
+      },
+      "error": {
+        "title": "The message could not be sent",
+        "description": "Please try again, or reach me directly by phone or WhatsApp."
+      },
+      "validation": {
+        "name": "Please enter your full name.",
+        "email": "Please enter a valid email address.",
+        "phone": "Please enter a valid phone number.",
+        "messageMin": "Please write at least 10 characters.",
+        "messageMax": "Please keep the message under 200 characters.",
+        "gdpr": "Please agree to the processing of your data."
+      },
       "reCaptcha": {
         "1": "This site is protected by reCAPTCHA and the Google",
         "2": "Privacy Policy",
@@ -266,7 +283,15 @@
     "20": "8. The right to withdraw consent: You can withdraw your consent for processing based on it at any time.",
     "21": "9. Rights related to automated decisions: In the case of automated data processing, you can request human review, express a point of view, or contest the decision.",
     "22": "Myriad Tech may periodically update its privacy policies, according to changes in data protection legislation. Any changes will be published on our website, where you will find updated information.",
-    "titlu": "Privacy Policy"
+    "titlu": "Privacy Policy",
+    "intro": "This policy explains what personal data this website collects, why it is collected, and what you can do about it.",
+    "sections": {
+      "scope": "Scope and commitments",
+      "purpose": "Why your data is processed",
+      "data": "What is collected, shared and kept",
+      "rights": "Your rights",
+      "updates": "Changes to this policy"
+    }
   },
   "Cookies": {
     "1": "A cookie is a small file containing special, often encoded text fragments sent by a server to a web browser and then sent back (unchanged) by the browser each time it accesses that server. The cookie is installed by a request issued by a web server to a browser (e.g., Internet Explorer, Chrome, Mozilla) and is completely 'passive' (it does not contain software programs, viruses, or spyware and cannot access the user's hard drive information). Cookies are used for authentication as well as to collect information such as the browser type and operating system, the source page, the domain name from which the visitor connected to the site, with the purpose of making it possible to recognize the user's device, understand how visitors use the web page, and present the site's content in a relevant manner, adapted to the user's preferences.",
@@ -278,28 +303,38 @@
     "7": "Cookies are NOT viruses and use plain text formats; they are not composed of code fragments, so they cannot be executed or self-run. Consequently, they cannot duplicate or replicate on other networks to run or replicate again. Since they cannot perform these functions, they cannot be considered viruses. However, cookies can be used for negative purposes because they store information about the users' preferences and browsing history on a specific site or across multiple sites, being used as a form of spyware (spying on consumer activity). Many anti-spyware products constantly mark cookies for deletion during anti-virus/anti-spyware scanning procedures. Generally, browsers have integrated privacy settings that provide different levels of cookie acceptance, validity period, and automatic deletion after the user has visited a specific site. Since identity protection is highly valuable and is the right of every internet user, it is advisable to know what potential issues cookies might create. Because they constantly transmit information between the browser and the website in both directions, if an attacker or unauthorized person intervenes in the data transmission path, the information contained in the cookie can be intercepted. Although very rare, this can happen if the browser connects to the server using an unencrypted network (e.g., an unsecured WiFi network). Other cookie-based attacks involve incorrect cookie settings on servers. It is very important that the user chooses the most suitable method to protect personal information and:",
     "8": "customize the browser's settings regarding cookies to reflect a comfortable level of security for the use of cookies, set long expiration terms for storing browsing history and personal access data, consider setting the browser to delete individual browsing data each time the browser is closed; this is a way to access sites that place cookies and delete any visit information when the browsing session is closed, install and constantly update anti-spyware applications.",
     "9": "Many spyware detection and prevention applications include detecting attacks on websites. Thus, they prevent the browser from accessing websites that could exploit the browser's vulnerabilities or download dangerous software. It is recommended to constantly update browsing programs because many cookie-based attacks are carried out by exploiting the weaknesses of old browser versions. All modern browsers offer the possibility to change cookie settings. These settings are usually found in the 'options' or 'preferences' menu of the browser. The cookie policy may be updated periodically. Therefore, the user needs to check this section to stay informed of any changes. For answers to questions or concerns regarding data processing and storage, we can be contacted at the email address.",
-    "path": "/en/cookie-policy",
     "name": "Cookie Policy",
+    "intro": "This page explains what cookies are, which ones this website uses, and how you can control them.",
+    "sections": {
+      "what": "What a cookie is",
+      "control": "How you can control them",
+      "usage": "What this website uses them for",
+      "security": "Cookies and your security"
+    },
     "text1": "We use the cookie system to ensure the proper functioning of the website. If you wish to continue using the site, it means that you agree with the",
     "text2": "and accept it.",
     "buttons": {
       "yes": "Accept",
       "no": "Decline"
-    },
-    "title": "Cookie Policy"
+    }
+  },
+  "NotFound": {
+    "code": "Error 404",
+    "title": "This page does not exist",
+    "description": "The link may be out of date, or the address may have a typo. Here is the way back.",
+    "home": "Back to the homepage",
+    "projects": "See my projects",
+    "contact": "Get in touch"
   },
   "Footer": {
-    "gdpr": "/en/politica-de-confidentialitate",
-    "cookies": "/en/politica-cookies",
     "name": "Privacy Policy",
     "name2": "Cookie Policy",
     "rights": "All rights reserved",
-    "kicker": "Independent web studio",
-    "consumer": "Consumer protection",
+    "kicker": "Independent web developer",
     "connect": "Let's connect",
     "explore": "Explore",
     "legal": "Legal information",
-    "description": "An independent Bucharest web studio focused on thoughtful design, solid development and fast, carefully crafted digital experiences.",
+    "description": "Independent web developer in Bucharest. I design and build websites, online stores and web applications — and I stay reachable long after launch.",
     "directContact": "Direct contact",
     "email": "Email",
     "phone": "Phone",
