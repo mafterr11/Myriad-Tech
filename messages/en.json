@@ -318,6 +318,13 @@
       "no": "Decline"
     }
   },
+  "ErrorPage": {
+    "code": "Something went wrong",
+    "title": "This page could not be loaded",
+    "description": "An unexpected error occurred. Try again — if it keeps happening, get in touch and I will look into it.",
+    "retry": "Try again",
+    "home": "Back to the homepage"
+  },
   "NotFound": {
     "code": "Error 404",
     "title": "This page does not exist",

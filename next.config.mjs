@@ -1,10 +1,58 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
+// Every origin the site actually talks to. Adding a third-party script, embed
+// or API means adding it here too, or the browser will block it.
+//   - Google Tag Manager / Analytics: components/google-analytics.js
+//   - reCAPTCHA v3: app/[locale]/contact/page.jsx (google.com + gstatic.com,
+//     and it injects an iframe, hence frame-src)
+//   - Supabase: project and site images served from storage
+//   - Vercel: @vercel/analytics beacon
+// 'unsafe-inline' and 'unsafe-eval' stay in script-src because Next.js inlines
+// its bootstrap and hydration payload; removing them needs per-request nonces,
+// which is a bigger change than this. style-src needs 'unsafe-inline' for the
+// inline styles Next and Framer Motion emit.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://va.vercel-scripts.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com data:",
+  "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com",
+  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://va.vercel-scripts.com",
+  "frame-src https://www.google.com https://recaptcha.google.com",
+  "manifest-src 'self'",
+  "upgrade-insecure-requests",
+].join("; ");
+
+const securityHeaders = [
+  { key: "Content-Security-Policy", value: contentSecurityPolicy },
+  // Vercel serves the site over HTTPS only; two years with preload is the
+  // value the preload list requires.
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+  },
+  { key: "X-DNS-Prefetch-Control", value: "on" },
+];
+
 const nextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: "4.5mb",
     },
+  },
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
   },
   async redirects() {
     return [

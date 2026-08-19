@@ -59,6 +59,29 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   not yet isolated; the data caching above is what actually mattered, so this
   is cosmetic. Don't burn time on it again without a new lead.
 
+## Security
+
+- Security headers live in `headers()` in `next.config.mjs`. **Adding any
+  third-party script, embed, font or API means adding its origin to the CSP
+  there**, or the browser silently blocks it. Currently allowed: Google
+  Tag Manager/Analytics, reCAPTCHA (`google.com` + `gstatic.com`, plus
+  `frame-src` for its iframe), Supabase storage, and the Vercel beacon.
+  `script-src` keeps `'unsafe-inline'`/`'unsafe-eval'` because Next inlines
+  its bootstrap; removing them needs per-request nonces.
+- After changing the CSP, load a page and check the console — a wrong policy
+  fails silently and takes reCAPTCHA down with it, which kills the contact
+  form.
+- **Supabase advisors flag the six admin RPCs as "callable by signed-in
+  users". That lint is a false positive here.** It does not read function
+  bodies, and all six (`create/update/delete_project_with_ordering`,
+  `toggle_project_published`, `reorder_project`, `upsert_site_image`) open
+  with the same guard:
+  `if coalesce((select auth.jwt() -> 'app_metadata' ->> 'role'), '') <> 'admin' then raise exception`.
+  That matches `isAdminClaims` in `lib/admin/auth.js`. The base tables also
+  revoke insert/update/delete from `anon` and `authenticated`, so the RPCs
+  are the only write path. Signup, anonymous sign-ins and manual linking are
+  all disabled in the dashboard. Don't "fix" this lint.
+
 ## Animation
 
 - **Nothing above the fold animates in.** `variants.jsx` `fadeIn` starts at

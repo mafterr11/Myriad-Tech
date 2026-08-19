@@ -318,6 +318,13 @@
       "no": "Refuz"
     }
   },
+  "ErrorPage": {
+    "code": "Ceva nu a funcționat",
+    "title": "Pagina nu a putut fi încărcată",
+    "description": "A apărut o eroare neașteptată. Încearcă din nou — dacă se repetă, scrie-mi și mă uit peste ea.",
+    "retry": "Încearcă din nou",
+    "home": "Înapoi la pagina principală"
+  },
   "NotFound": {
     "code": "Eroare 404",
     "title": "Pagina aceasta nu există",
