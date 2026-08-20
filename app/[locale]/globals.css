@@ -789,6 +789,10 @@
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
+    /* A horizontal scroll container computes overflow-y to auto as well, which
+       let a finger drag the card up and down inside the band. Nothing here
+       overflows vertically, so shut that axis off. */
+    overflow-y: hidden;
     scroll-padding-inline-start: var(--container-pad);
     margin-inline: calc(-1 * var(--container-pad));
     padding-inline: var(--container-pad);
@@ -805,6 +809,14 @@
     flex: 0 0 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  /* Framer's per-card entry animation is neutralised in the carousel: a card
+     that only starts fading in from above once you have swiped to it reads as
+     one that failed to load. Sections still animate in as a whole. */
+  .services-track > * {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   /* Every card looks the same: singling out the centred one made the card

@@ -167,7 +167,7 @@ const Services = () => {
                     0{index + 1}
                   </span>
                 </CardHeader>
-                <CardContent className="flex h-full flex-col p-0 pt-8 xl:pt-12">
+                <CardContent className="flex flex-col p-0 pt-8 xl:pt-12">
                   <CardTitle className="mb-4 font-recursive text-2xl">
                     {item.title}
                   </CardTitle>
