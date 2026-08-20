@@ -45,12 +45,12 @@ export default function CookieBanner() {
       role="dialog"
       aria-modal="false"
       aria-label={t("name")}
-      className="fixed right-0 bottom-10 left-0 z-30 mx-auto mt-10 max-w-fit"
+      className="fixed right-0 bottom-3 left-0 z-30 mx-auto max-w-fit md:bottom-10"
     >
       <div className="relative">
-        <div className="m-3 flex items-center gap-2 rounded-xl border-2 border-solid border-accent bg-body p-5 shadow-[0_10px_30px_rgba(103,72,57,0.14)] max-md:flex-col max-md:items-start">
+        <div className="m-2 flex items-center gap-3 rounded-lg border-2 border-solid border-accent bg-body p-3 shadow-[0_10px_30px_rgba(103,72,57,0.14)] md:m-3 md:gap-4 md:rounded-xl md:p-5 max-md:flex-col max-md:items-stretch">
           <div className="text-left">
-            <p className="mr-3 max-w-xl">
+            <p className="max-w-xl text-[0.8rem] leading-snug md:mr-3 md:text-base md:leading-normal">
               {t("text1")}{" "}
               <Link
                 className="focus-ring font-semibold underline underline-offset-4"
@@ -61,18 +61,18 @@ export default function CookieBanner() {
               {t("text2")}
             </p>
           </div>
-          <div className="flex flex-col gap-2 max-md:flex-row">
+          <div className="flex shrink-0 flex-col gap-2 max-md:flex-row max-md:justify-end">
             <button
               ref={acceptRef}
               type="button"
-              className="focus-ring group cursor-pointer rounded-xs bg-accent px-4 py-2 text-white"
+              className="focus-ring group cursor-pointer rounded-xs bg-accent px-4 py-1.5 text-sm text-white md:py-2 md:text-base"
               onClick={() => setCookieConsent(true)}
             >
               {t("buttons.yes")}
             </button>
             <button
               type="button"
-              className="focus-ring cursor-pointer rounded-xs border border-black/50 bg-red px-4 py-2 text-white"
+              className="focus-ring cursor-pointer rounded-xs border border-black/50 bg-red px-4 py-1.5 text-sm text-white md:py-2 md:text-base"
               onClick={() => setCookieConsent(false)}
             >
               {t("buttons.no")}
