@@ -21,6 +21,7 @@ const Services = () => {
   const cardRefs = useRef([]);
   const trackRef = useRef(null);
   const [activeService, setActiveService] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const servicesData = [
     {
       icon: <Blocks size={34} strokeWidth={1.2} />,
@@ -51,6 +52,7 @@ const Services = () => {
 
     const observeCards = () => {
       observer?.disconnect();
+      setIsMobile(mobileQuery.matches);
 
       if (!mobileQuery.matches || !trackRef.current) {
         setActiveService(null);
@@ -139,6 +141,9 @@ const Services = () => {
           </div>
         </div>
 
+        {/* In the carousel the cards sit side by side, so a scroll-triggered
+            fade caught them mid-swipe and the next card arrived half
+            transparent. On mobile they settle as soon as they mount. */}
         <div ref={trackRef} className="services-track">
           {servicesData.map((item, index) => (
             <MotionDiv
@@ -147,9 +152,10 @@ const Services = () => {
                 cardRefs.current[index] = node;
               }}
               data-service-index={index}
-              variants={fadeIn("down", item.speed)}
+              variants={fadeIn("down", isMobile ? 0 : item.speed)}
               initial="hidden"
-              whileInView="show"
+              animate={isMobile ? "show" : undefined}
+              whileInView={isMobile ? undefined : "show"}
               viewport={{ once: true, amount: 0.2 }}
             >
               <Card
