@@ -158,7 +158,7 @@ const Services = () => {
               whileInView={isMobile ? undefined : "show"}
               viewport={{ once: true, amount: 0.2 }}
             >
-              <Card className="service-card h-full w-full p-6 sm:p-8">
+              <Card className="service-card h-full w-full p-6 sm:p-7 xl:p-8">
                 <CardHeader className="flex flex-row items-start justify-between p-0">
                   <div className="service-icon" aria-hidden="true">
                     {item.icon}
@@ -167,7 +167,7 @@ const Services = () => {
                     0{index + 1}
                   </span>
                 </CardHeader>
-                <CardContent className="flex h-full flex-col p-0 pt-12">
+                <CardContent className="flex h-full flex-col p-0 pt-8 xl:pt-12">
                   <CardTitle className="mb-4 font-recursive text-2xl">
                     {item.title}
                   </CardTitle>

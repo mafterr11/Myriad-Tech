@@ -26,6 +26,13 @@
   --font-recursive: var(--font-recursive, sans-serif);
 }
 
+:root {
+  /* The gutter .container reserves on both sides. The services carousel
+     breaks out by exactly this much, so its cards still line up with every
+     other section while the peeking card runs off the screen edge. */
+  --container-pad: clamp(1.25rem, 4vw, 4.75rem);
+}
+
 @layer utilities {
   .h-screen-vh {
     height: calc(var(--vh, 1vh) * 100);
@@ -67,7 +74,7 @@
     width: 100%;
     max-width: 1440px;
     margin-inline: auto;
-    padding-inline: clamp(1.25rem, 4vw, 4.75rem);
+    padding-inline: var(--container-pad);
   }
 
   .site-section {
@@ -301,9 +308,27 @@
     gap: 1.25rem;
   }
 
+  /* Three columns only once they are wide enough to read. Between the phone
+     carousel and that point, two columns with the last card across the row —
+     at 768px three columns left each card 222px wide and 524px tall. */
   @media (min-width: 768px) {
     .services-track {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .services-track > *:last-child {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .services-track {
+      gap: 1.5rem;
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .services-track > *:last-child {
+      grid-column: auto;
     }
   }
 
@@ -333,7 +358,6 @@
 
   .service-card {
     position: relative;
-    min-height: 23rem;
     border: 1px solid var(--color-line);
     border-radius: 0;
     background: rgba(255, 253, 248, 0.48);
@@ -345,6 +369,12 @@
     background: rgba(255, 253, 248, 0.88);
     box-shadow: 0.65rem 0.65rem 0 rgba(103, 72, 57, 0.11);
     transform: translateY(-0.35rem);
+  }
+
+  @media (min-width: 1200px) {
+    .service-card {
+      min-height: 23rem;
+    }
   }
 
   .service-icon {
@@ -747,19 +777,22 @@
     padding-top: 7.4rem;
   }
 
-  /* Three full-width cards stacked vertically made this section a very long
-     scroll on a phone. On mobile it becomes one swipeable card per screen. */
+  /* One card per screen, swiped sideways. The track breaks out of the
+     container so the next card runs off the edge of the screen instead of
+     being clipped inside the gutter, and the trailing gutter is sized so the
+     last card can snap to the same left edge as the first. */
   .services-track {
     display: flex;
-    gap: 1rem;
+    /* At least as wide as the gutter, so the card you just swiped past clears
+       the screen edge instead of leaving a sliver down the side. */
+    gap: 1.5rem;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    /* Trailing gutter so the last card can snap to the same left edge as the
-       others; without it, it had to be wider than its neighbours to reach the
-       end of the scroll range. */
-    padding-right: 12%;
-    padding-bottom: 0.5rem;
+    scroll-padding-inline-start: var(--container-pad);
+    margin-inline: calc(-1 * var(--container-pad));
+    padding-inline: var(--container-pad) calc(var(--container-pad) + 12%);
+    padding-block-end: 0.25rem;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -774,14 +807,14 @@
     scroll-snap-stop: always;
   }
 
-  /* Every card in the carousel looks the same. Singling out the centred one
-     made the neighbour peeking at the edge read as a different, duller
-     component, and the lift left it sitting higher than the others. */
+  /* Every card looks the same: singling out the centred one made the card
+     peeking at the edge read as a different component. The offset shadow goes
+     too — beside a neighbour it printed a grey strip down the gap. */
   .service-card,
   .service-card:hover {
-    min-height: 21rem;
-    background: rgba(255, 253, 248, 0.88);
-    box-shadow: 0.5rem 0.5rem 0 rgba(103, 72, 57, 0.1);
+    min-height: 0;
+    background: var(--color-white);
+    box-shadow: none;
     transform: none;
   }
 
@@ -790,7 +823,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 1.25rem;
+    margin-top: 1.5rem;
   }
 
   .hero-title {
