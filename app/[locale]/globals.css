@@ -777,21 +777,21 @@
     padding-top: 7.4rem;
   }
 
-  /* One card per screen, swiped sideways. The track breaks out of the
-     container so the next card runs off the edge of the screen instead of
-     being clipped inside the gutter, and the trailing gutter is sized so the
-     last card can snap to the same left edge as the first. */
+  /* One card per screen, swiped sideways. Each card fills the container from
+     gutter to gutter — lined up with the section heading and with every other
+     section — so the neighbours sit entirely off screen between snaps. The
+     track breaks out of the container and pads itself back in, so a card
+     sliding past leaves at the edge of the screen rather than being cut at
+     the gutter. */
   .services-track {
     display: flex;
-    /* At least as wide as the gutter, so the card you just swiped past clears
-       the screen edge instead of leaving a sliver down the side. */
     gap: 1.5rem;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-padding-inline-start: var(--container-pad);
     margin-inline: calc(-1 * var(--container-pad));
-    padding-inline: var(--container-pad) calc(var(--container-pad) + 12%);
+    padding-inline: var(--container-pad);
     padding-block-end: 0.25rem;
     scrollbar-width: none;
     -ms-overflow-style: none;
