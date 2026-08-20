@@ -341,8 +341,7 @@
     transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
   }
 
-  .service-card:hover,
-  .service-card[data-active="true"] {
+  .service-card:hover {
     background: rgba(255, 253, 248, 0.88);
     box-shadow: 0.65rem 0.65rem 0 rgba(103, 72, 57, 0.11);
     transform: translateY(-0.35rem);
@@ -756,6 +755,10 @@
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
+    /* Trailing gutter so the last card can snap to the same left edge as the
+       others; without it, it had to be wider than its neighbours to reach the
+       end of the scroll range. */
+    padding-right: 12%;
     padding-bottom: 0.5rem;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -766,17 +769,20 @@
   }
 
   .services-track > * {
-    flex: 0 0 88%;
+    flex: 0 0 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
 
-  .services-track > *:last-child {
-    flex-basis: 100%;
-  }
-
-  .service-card {
+  /* Every card in the carousel looks the same. Singling out the centred one
+     made the neighbour peeking at the edge read as a different, duller
+     component, and the lift left it sitting higher than the others. */
+  .service-card,
+  .service-card:hover {
     min-height: 21rem;
+    background: rgba(255, 253, 248, 0.88);
+    box-shadow: 0.5rem 0.5rem 0 rgba(103, 72, 57, 0.1);
+    transform: none;
   }
 
   .services-dots {
@@ -834,7 +840,6 @@
   }
 
   .service-card:hover,
-  .service-card[data-active="true"],
   .project-card:hover,
   .project-card:hover .project-card-media img,
   .footer-badge:hover {
@@ -858,11 +863,3 @@
   }
 }
 
-
-@media (max-width: 767px) and (hover: none) and (pointer: coarse) {
-  .service-card:hover:not([data-active="true"]) {
-    background: rgba(255, 253, 248, 0.48);
-    box-shadow: none;
-    transform: none;
-  }
-}

@@ -158,15 +158,7 @@ const Services = () => {
               whileInView={isMobile ? undefined : "show"}
               viewport={{ once: true, amount: 0.2 }}
             >
-              <Card
-                data-active={activeService === index}
-                onClick={() => {
-                  if (window.matchMedia(MOBILE_QUERY).matches) {
-                    setActiveService(index);
-                  }
-                }}
-                className="service-card h-full w-full p-6 sm:p-8"
-              >
+              <Card className="service-card h-full w-full p-6 sm:p-8">
                 <CardHeader className="flex flex-row items-start justify-between p-0">
                   <div className="service-icon" aria-hidden="true">
                     {item.icon}
