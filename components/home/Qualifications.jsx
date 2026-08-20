@@ -23,16 +23,6 @@ const qualifications = [
     description: "CSS Framework",
   },
   {
-    title: "Framer Motion",
-    icon: "/qualifications/framer.svg",
-    description: "Animation Library for React",
-  },
-  {
-    title: "Prisma",
-    icon: "/qualifications/prisma.svg",
-    description: "ORM for Node.js & Typescript",
-  },
-  {
     title: "Postgresql",
     icon: "/qualifications/postgresql.svg",
     description: "Relational Database",
@@ -51,16 +41,6 @@ const qualifications = [
     title: "WooCommerce",
     icon: "/qualifications/woo.svg",
     description: "Ecommerce Plugin",
-  },
-  {
-    title: "CSS",
-    icon: "/qualifications/css.svg",
-    description: "Styling language",
-  },
-  {
-    title: "Javascript",
-    icon: "/qualifications/javascript.svg",
-    description: "Programming Language",
   },
 ];
 
