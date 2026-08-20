@@ -296,6 +296,41 @@
     text-transform: uppercase;
   }
 
+  .services-track {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .services-track {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .services-dots {
+    display: none;
+  }
+
+  .services-dot-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem;
+  }
+
+  .services-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: rgba(103, 72, 57, 0.24);
+    transition: background-color 200ms ease, width 200ms ease;
+  }
+
+  .services-dot[data-active="true"] {
+    width: 1.6rem;
+    background: var(--color-accent);
+  }
+
   .service-card {
     position: relative;
     min-height: 23rem;
@@ -713,9 +748,51 @@
     padding-top: 7.4rem;
   }
 
+  /* Three full-width cards stacked vertically made this section a very long
+     scroll on a phone. On mobile it becomes one swipeable card per screen. */
+  .services-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .services-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .services-track > * {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .services-track > *:last-child {
+    flex-basis: 100%;
+  }
+
+  .service-card {
+    min-height: 21rem;
+  }
+
+  .services-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
   .hero-title {
-    max-width: 10ch;
-    font-size: clamp(3.15rem, 16vw, 5rem);
+    max-width: 13ch;
+    margin-block: 1.15rem 1.6rem;
+    font-size: clamp(2.6rem, 12.4vw, 4.1rem);
+    letter-spacing: -0.05em;
+    line-height: 1;
   }
 
   .hero-visual {

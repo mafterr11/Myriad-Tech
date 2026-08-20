@@ -19,6 +19,7 @@ const MOBILE_QUERY = "(max-width: 767px)";
 const Services = () => {
   const t = useTranslations("Services");
   const cardRefs = useRef([]);
+  const trackRef = useRef(null);
   const [activeService, setActiveService] = useState(null);
   const servicesData = [
     {
@@ -41,17 +42,24 @@ const Services = () => {
     },
   ];
 
+  // On mobile the three cards live in a horizontal snap carousel, so "active"
+  // means the card sitting closest to the centre of the track, not of the
+  // viewport. On desktop nothing is auto-activated — hover does the work.
   useEffect(() => {
     const mobileQuery = window.matchMedia(MOBILE_QUERY);
     let observer;
 
     const observeCards = () => {
       observer?.disconnect();
-      setActiveService(null);
 
-      if (!mobileQuery.matches) return;
+      if (!mobileQuery.matches || !trackRef.current) {
+        setActiveService(null);
+        return;
+      }
 
+      const track = trackRef.current;
       const visibleCards = new Map();
+
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -59,27 +67,29 @@ const Services = () => {
             visibleCards.set(index, entry);
           });
 
-          const viewportCenter = window.innerHeight / 2;
+          const trackRect = track.getBoundingClientRect();
+          const trackCenter = trackRect.left + trackRect.width / 2;
           const centeredCards = [...visibleCards.entries()]
             .filter(([, entry]) => entry.isIntersecting)
             .sort(([, first], [, second]) => {
               const firstCenter =
-                first.boundingClientRect.top +
-                first.boundingClientRect.height / 2;
+                first.boundingClientRect.left +
+                first.boundingClientRect.width / 2;
               const secondCenter =
-                second.boundingClientRect.top +
-                second.boundingClientRect.height / 2;
+                second.boundingClientRect.left +
+                second.boundingClientRect.width / 2;
 
               return (
-                Math.abs(firstCenter - viewportCenter) -
-                Math.abs(secondCenter - viewportCenter)
+                Math.abs(firstCenter - trackCenter) -
+                Math.abs(secondCenter - trackCenter)
               );
             });
 
-          setActiveService(centeredCards[0]?.[0] ?? null);
+          setActiveService(centeredCards[0]?.[0] ?? 0);
         },
         {
-          rootMargin: "-42% 0px -42% 0px",
+          root: track,
+          rootMargin: "0px -35% 0px -35%",
           threshold: 0,
         },
       );
@@ -97,6 +107,18 @@ const Services = () => {
       mobileQuery.removeEventListener("change", observeCards);
     };
   }, []);
+
+  const scrollToService = (index) => {
+    const track = trackRef.current;
+    const card = cardRefs.current[index];
+
+    if (!track || !card) return;
+
+    track.scrollTo({
+      left: card.offsetLeft - track.offsetLeft,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section id="services" className="site-section bg-grainy">
@@ -117,7 +139,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
+        <div ref={trackRef} className="services-track">
           {servicesData.map((item, index) => (
             <MotionDiv
               key={item.title}
@@ -157,6 +179,25 @@ const Services = () => {
                 </CardContent>
               </Card>
             </MotionDiv>
+          ))}
+        </div>
+
+        <div className="services-dots" aria-hidden="true">
+          {servicesData.map((item, index) => (
+            <button
+              key={item.title}
+              type="button"
+              tabIndex={-1}
+              aria-label={item.title}
+              onClick={() => scrollToService(index)}
+              className="services-dot-button focus-ring"
+            >
+              <span
+                className="services-dot"
+                data-active={activeService === index}
+                aria-hidden="true"
+              />
+            </button>
           ))}
         </div>
       </div>

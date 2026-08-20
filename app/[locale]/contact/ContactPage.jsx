@@ -35,7 +35,7 @@ const ContactPage = () => {
               variants={fadeIn("up", 0.2)}
               initial="hidden"
               animate="show"
-              className="section-copy mt-6 max-w-2xl"
+              className="section-copy mt-6 max-w-2xl max-md:hidden"
             >
               {t("subtitle")}
             </MotionP>
@@ -44,7 +44,7 @@ const ContactPage = () => {
             variants={fadeIn("left", 0.2)}
             initial="hidden"
             animate="show"
-            className="bg-contact min-h-[16rem] w-full bg-contain bg-center bg-no-repeat sm:min-h-[22rem]"
+            className="bg-contact hidden w-full bg-contain bg-center bg-no-repeat md:block md:min-h-[22rem]"
             aria-hidden="true"
           />
         </div>

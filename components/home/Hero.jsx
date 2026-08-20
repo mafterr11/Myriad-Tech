@@ -34,7 +34,12 @@ const Hero = ({ image = fallbackImage }) => {
               <span>{t("status")}</span>
             </div>
 
-            <p className="hero-description mt-5">{t("description")}</p>
+            {/* The paragraph repeats what the title, the status pill and the
+                proof row already say, and on a phone it pushed the buttons
+                below the fold. Desktop keeps it. */}
+            <p className="hero-description mt-5 max-md:hidden">
+              {t("description")}
+            </p>
 
             <div className="hero-actions">
               <Button asChild className="group w-full sm:w-auto">

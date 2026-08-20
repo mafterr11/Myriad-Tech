@@ -17,6 +17,17 @@ const hideClone = (clone) => {
     .forEach((node) => node.setAttribute("tabindex", "-1"));
 };
 
+// A phone shows one card at a time, so the same duration reads much slower
+// there — every testimonial has to travel a full screen width. Mobile gets a
+// noticeably shorter cycle.
+const DURATIONS = {
+  fast: { desktop: "20s", mobile: "12s" },
+  normal: { desktop: "40s", mobile: "22s" },
+  slow: { desktop: "60s", mobile: "30s" },
+};
+
+const MOBILE_QUERY = "(max-width: 767px)";
+
 const displayHost = (url) => {
   try {
     return new URL(url).hostname.replace(/^www\./, "");
@@ -83,13 +94,26 @@ export const InfiniteMovingCards = ({
       "--animation-direction",
       direction === "left" ? "forwards" : "reverse",
     );
-    containerRef.current.style.setProperty(
-      "--animation-duration",
-      speed === "fast" ? "20s" : speed === "normal" ? "40s" : "60s",
-    );
     hasCloned.current = true;
     setStart(true);
   }, [direction, prefersReducedMotion, speed]);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia(MOBILE_QUERY);
+    const durations = DURATIONS[speed] ?? DURATIONS.normal;
+
+    const applyDuration = () => {
+      containerRef.current?.style.setProperty(
+        "--animation-duration",
+        mobileQuery.matches ? durations.mobile : durations.desktop,
+      );
+    };
+
+    applyDuration();
+    mobileQuery.addEventListener("change", applyDuration);
+
+    return () => mobileQuery.removeEventListener("change", applyDuration);
+  }, [speed]);
 
   return (
     <div className="relative">
