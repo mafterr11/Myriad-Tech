@@ -188,7 +188,7 @@ const About = ({ image = fallbackImage }) => {
                         {getData(qualificationData, t("edu")).data.map((item) => (
                           <div className="group flex gap-x-5" key={item.university}>
                             <div className="relative ml-1 h-20 w-px bg-line">
-                              <div className="absolute -left-[4px] top-0 h-2 w-2 rounded-full bg-accent transition-transform duration-500 group-hover:translate-y-16 motion-reduce:transition-none" />
+                              <div className="absolute -left-[3.6px] top-0 h-2 w-2 rounded-full bg-accent transition-transform duration-500 group-hover:translate-y-16 motion-reduce:transition-none" />
                             </div>
                             <div>
                               <div className="mb-1 font-recursive text-lg font-bold">{item.university}</div>
@@ -209,7 +209,7 @@ const About = ({ image = fallbackImage }) => {
                         {getData(qualificationData, t("exp")).data.map((item) => (
                           <div className="group flex gap-x-5" key={item.company}>
                             <div className="relative ml-1 h-20 w-px bg-line">
-                              <div className="absolute -left-[4px] top-0 h-2 w-2 rounded-full bg-accent transition-transform duration-500 group-hover:translate-y-16 motion-reduce:transition-none" />
+                              <div className="absolute -left-[3.6px] top-0 h-2 w-2 rounded-full bg-accent transition-transform duration-500 group-hover:translate-y-16 motion-reduce:transition-none" />
                             </div>
                             <div>
                               <div className="mb-1 font-recursive text-lg font-bold">{item.company}</div>
