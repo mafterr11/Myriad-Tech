@@ -32,8 +32,8 @@ export default async function Home({ params }) {
       <OrganizationJsonLd locale={locale} />
       <Hero image={localizeSiteImage(siteImages.images.hero, locale)} />
       <About image={localizeSiteImage(siteImages.images.about, locale)} />
-      <Services />
       <Work projects={projects} error={result.error} />
+      <Services />
       <Reviews />
       <Cta />
     </>
