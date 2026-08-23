@@ -58,11 +58,7 @@ const ProjectCard = ({
           className={`project-card-media bg-work ${compactMobile ? "max-md:!h-full max-md:!w-full max-md:!border-r-0 max-md:!border-b max-md:!border-line" : ""}`}
         >
           <Image
-            className={
-              compactMobile
-                ? "object-contain object-center group-hover:!scale-100 max-md:object-bottom"
-                : "object-cover object-top"
-            }
+            className="object-cover object-top"
             src={image}
             fill
             sizes={
