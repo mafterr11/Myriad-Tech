@@ -83,7 +83,11 @@ const ProjectsPage = ({ projects = [], error }) => {
             ) : (
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {filteredProjects.map((project) => (
-                  <ProjectCard project={project} key={project.id || project.slug} />
+                  <ProjectCard
+                    project={project}
+                    key={project.id || project.slug}
+                    compactMobile
+                  />
                 ))}
               </div>
             )}
