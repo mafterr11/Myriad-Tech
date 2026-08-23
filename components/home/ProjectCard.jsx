@@ -60,7 +60,7 @@ const ProjectCard = ({
           <Image
             className={
               compactMobile
-                ? "object-contain object-center group-hover:!scale-100"
+                ? "object-contain object-center group-hover:!scale-100 max-md:object-bottom"
                 : "object-cover object-top"
             }
             src={image}
