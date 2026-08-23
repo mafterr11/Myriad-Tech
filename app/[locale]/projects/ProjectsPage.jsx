@@ -27,7 +27,7 @@ const ProjectsPage = ({ projects = [], error }) => {
       : projectData.filter((project) => project.category === category);
 
   return (
-    <div className="min-h-screen pb-24 pt-36 sm:pt-44">
+    <div className="min-h-screen pb-24 pt-20 sm:pt-44">
       <div className="container">
         <div className="mb-12 flex flex-col justify-between gap-6 xl:mb-16 xl:flex-row xl:items-end">
           <div>

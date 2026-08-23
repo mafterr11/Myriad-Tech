@@ -28,7 +28,10 @@ const ProjectCard = ({
   const image = project.image || "/project-bg-light.png";
   const link = project.link || "#";
   const description = project.description || "";
-  const hasMoreDescription = description.length > readMoreThreshold;
+  const hasMoreDescription =
+    Boolean(description.trim()) &&
+    (compactMobile || description.length > readMoreThreshold);
+  const imageAlt = t("page.imageAlt", { name: project.name, category });
 
   return (
     <Card
@@ -55,11 +58,19 @@ const ProjectCard = ({
           className={`project-card-media bg-work ${compactMobile ? "max-md:!h-full max-md:!w-full max-md:!border-r max-md:!border-b-0 max-md:!border-line" : ""}`}
         >
           <Image
-            className="object-cover object-top"
+            className={
+              compactMobile
+                ? "object-contain object-center group-hover:!scale-100"
+                : "object-cover object-top"
+            }
             src={image}
             fill
-            sizes="(max-width: 699px) 90vw, (max-width: 1399px) 46vw, 31vw"
-            alt={t("page.imageAlt", { name: project.name, category })}
+            sizes={
+              compactMobile
+                ? "(max-width: 767px) 40vw, (max-width: 1399px) 46vw, 31vw"
+                : "(max-width: 699px) 90vw, (max-width: 1399px) 46vw, 31vw"
+            }
+            alt={imageAlt}
             loading="lazy"
           />
           <div
@@ -118,7 +129,7 @@ const ProjectCard = ({
                 <ArrowRight size={14} aria-hidden="true" />
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[85vh] overflow-y-auto rounded-none border-line bg-body px-6 py-8 sm:px-10 sm:py-10">
+            <DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-none border-line bg-body px-5 py-7 sm:px-10 sm:py-10">
               <DialogHeader className="pr-8">
                 <span className="text-xs font-bold tracking-[0.12em] text-black/55 uppercase">
                   {category}
@@ -127,6 +138,16 @@ const ProjectCard = ({
                   {project.name}
                 </DialogTitle>
               </DialogHeader>
+              <div className="relative aspect-[16/10] w-full overflow-hidden border border-line bg-work sm:aspect-video">
+                <Image
+                  className="object-contain object-center"
+                  src={image}
+                  fill
+                  sizes="(max-width: 640px) calc(100vw - 4rem), 44rem"
+                  alt={imageAlt}
+                  loading="lazy"
+                />
+              </div>
               <DialogDescription className="!text-black/80 text-base leading-7 sm:text-lg sm:leading-8">
                 {description}
               </DialogDescription>

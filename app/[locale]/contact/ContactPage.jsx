@@ -11,7 +11,7 @@ const ContactPage = () => {
   const t = useTranslations("Contact");
 
   return (
-    <div className="min-h-screen pb-24 pt-32 sm:pt-40">
+    <div className="min-h-screen pb-24 pt-20 sm:pt-40">
       <div className="container">
         <div className="grid items-center gap-10 border-b border-line pb-14 xl:grid-cols-[minmax(0,1fr)_minmax(22rem,0.78fr)] xl:gap-20 xl:pb-20">
           <div>
