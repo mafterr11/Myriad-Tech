@@ -841,9 +841,16 @@
   .hero-title {
     max-width: 13ch;
     margin-block: 1.15rem 1.6rem;
+    margin-inline: auto;
     font-size: clamp(2.6rem, 12.4vw, 4.1rem);
     letter-spacing: -0.05em;
     line-height: 1;
+    text-align: center;
+  }
+
+  .hero-status {
+    display: flex;
+    margin-inline: auto;
   }
 
   .hero-visual {
