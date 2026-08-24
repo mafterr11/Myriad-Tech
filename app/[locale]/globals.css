@@ -775,7 +775,7 @@
 
 @media (max-width: 767px) {
   .hero-section {
-    padding-top: 7.4rem;
+    padding-top: 6.2rem;
   }
 
   /* One card per screen, swiped sideways. Each card fills the container from
@@ -839,12 +839,16 @@
     margin-top: 1.5rem;
   }
 
+  .hero-grid {
+    gap: 2rem;
+  }
+
   .hero-title {
     max-width: 13ch;
     margin-block: 1.15rem 1.6rem;
-    font-size: clamp(2.6rem, 12.4vw, 4.1rem);
+    font-size: clamp(2.4rem, 11.5vw, 3.8rem);
     letter-spacing: -0.05em;
-    line-height: 1;
+    line-height: 0.95;
   }
 
   .hero-visual {
@@ -854,7 +858,7 @@
 
   .hero-proof {
     gap: 0.65rem 1rem;
-    margin-top: 2rem;
+    margin-top: 1.25rem;
   }
 
   .hero-actions > * {
@@ -868,6 +872,15 @@
 
   .section-title {
     font-size: clamp(2.2rem, 11vw, 3.3rem);
+  }
+}
+
+/* Narrow phones only: the service tag row is the first thing to feel
+   cramped once the viewport drops under ~380px. */
+@media (max-width: 379px) {
+  .hero-proof {
+    gap: 0.5rem 0.75rem;
+    font-size: 0.7rem;
   }
 }
 
