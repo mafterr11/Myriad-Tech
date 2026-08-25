@@ -183,12 +183,17 @@
     max-width: 48rem;
   }
 
+  /* The 15ch measure forced a four-line wrap with two orphan lines once the
+     hyphen in "site-uri" stopped being a break opportunity. Letting the line
+     run to the column and capping the size at 4.6rem settles it at three
+     lines from 1200px to 1920px — measured, not guessed. `balance` stays: the
+     greedy wrap flips to an orphaned last word at exactly 1440px. */
   .hero-title {
-    max-width: 15ch;
+    max-width: none;
     margin-block: 1.4rem 1.5rem;
     color: var(--color-ink);
     font-family: var(--font-recursive);
-    font-size: clamp(3.35rem, 6vw, 6rem);
+    font-size: clamp(3.35rem, 5vw, 4.6rem);
     font-weight: 700;
     letter-spacing: -0.085em;
     line-height: 0.89;
@@ -913,12 +918,18 @@
     width: 1.5rem;
   }
 
+  /* `balance` minimises the widest line, which here means breaking after
+     "Construiesc" and leaving "site-uri" alone on a line of its own. `pretty`
+     fills each line instead and lands the same three-line wrap at every width
+     from 280px to 430px. 9.5vw is the largest size where the first line still
+     clears a 280px screen. */
   .hero-title {
-    max-width: 13ch;
+    max-width: none;
     margin-block: 1rem 1.35rem;
-    font-size: clamp(2.4rem, 11.5vw, 3.8rem);
+    font-size: clamp(1.5rem, 9.5vw, 3.8rem);
     letter-spacing: -0.05em;
     line-height: 0.95;
+    text-wrap: pretty;
   }
 
   /* Two lines at most, so the buttons stay above the fold. */
