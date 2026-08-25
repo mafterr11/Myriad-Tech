@@ -195,19 +195,21 @@
     text-wrap: balance;
   }
 
+  /* Squared off to 2px like the buttons and the tab triggers. A full pill was
+     the only rounded shape on the page and read as a borrowed component. */
   .hero-status {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.6rem;
     width: fit-content;
-    padding: 0.55rem 0.75rem;
+    padding: 0.5rem 0.85rem;
     border: 1px solid rgba(92, 133, 135, 0.48);
-    border-radius: 999px;
+    border-radius: 2px;
     background: rgba(92, 133, 135, 0.09);
     color: #3f696b;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
   }
 
   .hero-status-dot {
@@ -393,11 +395,13 @@
     border-radius: 0;
     background: rgba(255, 253, 248, 0.82);
     box-shadow: 0.5rem 0.5rem 0 rgba(103, 72, 57, 0.08);
-    transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+    transition: background-color 220ms ease, border-color 220ms ease,
+      box-shadow 220ms ease, transform 220ms ease;
   }
 
   .project-card:hover {
     background: var(--color-white);
+    border-color: rgba(103, 72, 57, 0.45);
     box-shadow: 0.85rem 0.85rem 0 rgba(92, 133, 135, 0.16);
     transform: translateY(-0.35rem);
   }
@@ -410,12 +414,55 @@
     background: #e7ded1;
   }
 
+  /* The category badge and the link chip sit on whatever the screenshot
+     happens to show at that corner. A short wash off the top edge keeps them
+     readable on a pale site header without dimming the shot itself. */
+  .project-card-media::after {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 45%;
+    background: linear-gradient(
+      to bottom,
+      rgba(14, 13, 12, 0.42),
+      rgba(14, 13, 12, 0)
+    );
+    content: "";
+    pointer-events: none;
+  }
+
   .project-card-media img {
     transition: transform 500ms ease;
   }
 
   .project-card:hover .project-card-media img {
     transform: scale(1.04);
+  }
+
+  /* The eyebrow row reads as a caption on the shot above it rather than as
+     the first line of the body copy. */
+  .project-card-eyebrow {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .project-card-title {
+    transition: color 200ms ease;
+  }
+
+  .project-card:hover .project-card-title {
+    color: var(--color-accent);
+  }
+
+  .project-card-foot {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .project-card-foot svg {
+    transition: transform 220ms ease;
+  }
+
+  .project-card:hover .project-card-foot svg {
+    transform: translateX(0.25rem);
   }
 
   .testimonial-card {
@@ -689,13 +736,23 @@
   }
 }
 
-.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
-.swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
-  background-color: var(--color-accent);
+/* Same dot language as the services carousel: a faint 8px dot per slide and
+   an accent bar for the current one. Swiper sizes its bullets from its own
+   single-class rules, so these need the extra `.swiper` to win. */
+.swiper .swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.25rem !important;
+  border-radius: 999px;
+  background: rgba(103, 72, 57, 0.24);
+  opacity: 1;
+  transition: background-color 200ms ease, width 200ms ease;
 }
 
-.swiper-pagination-bullet-active {
-  transform: scale(1.25);
+.swiper .swiper-pagination-bullet-active {
+  width: 1.6rem;
+  background: var(--color-accent);
+  transform: none;
 }
 
 .swiper-button-next::after,
@@ -843,12 +900,31 @@
     gap: 2rem;
   }
 
+  /* At the desktop size this row broke into four lines on a 390px screen.
+     Tighter tracking, a shorter rule and no wrapping keep it to one. */
+  .hero-kicker {
+    gap: 0.5rem;
+    font-size: 0.63rem;
+    letter-spacing: 0.13em;
+    white-space: nowrap;
+  }
+
+  .hero-kicker::before {
+    width: 1.5rem;
+  }
+
   .hero-title {
     max-width: 13ch;
-    margin-block: 1.15rem 1.6rem;
+    margin-block: 1rem 1.35rem;
     font-size: clamp(2.4rem, 11.5vw, 3.8rem);
     letter-spacing: -0.05em;
     line-height: 0.95;
+  }
+
+  /* Two lines at most, so the buttons stay above the fold. */
+  .hero-description-short {
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   .hero-visual {
@@ -859,6 +935,12 @@
   .hero-proof {
     gap: 0.65rem 1rem;
     margin-top: 1.25rem;
+  }
+
+  /* The short paragraph is back above these, so the stack has to give the
+     height back somewhere or the buttons drop below the fold again. */
+  .hero-actions {
+    margin-top: 1.4rem;
   }
 
   .hero-actions > * {
@@ -881,6 +963,15 @@
   .hero-proof {
     gap: 0.5rem 0.75rem;
     font-size: 0.7rem;
+  }
+
+  .hero-kicker {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-kicker::before {
+    width: 1.1rem;
   }
 }
 

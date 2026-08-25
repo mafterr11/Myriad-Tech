@@ -28,6 +28,16 @@ const ProjectCard = ({
   const image = project.image || "/project-bg-light.png";
   const link = project.link || "#";
   const description = project.description || "";
+  // The eyebrow used to read "Project" on every card. The host of the demo
+  // link says something the badge and the title do not — and falls back to
+  // the generic label for a project with no live URL.
+  const linkHost = (() => {
+    try {
+      return new URL(link).hostname.replace(/^www\./, "");
+    } catch {
+      return null;
+    }
+  })();
   const hasMoreDescription =
     Boolean(description.trim()) &&
     (compactMobile || description.length > readMoreThreshold);
@@ -94,9 +104,9 @@ const ProjectCard = ({
         className={`relative z-20 flex min-h-0 flex-1 flex-col px-5 py-5 pointer-events-none ${compactMobile ? "max-md:min-w-0 max-md:overflow-hidden max-md:px-4 max-md:py-3" : ""}`}
       >
         <div
-          className={`mb-3 flex items-center justify-between gap-3 text-xs font-bold tracking-[0.12em] text-black/45 uppercase ${compactMobile ? "max-md:mb-1 max-md:gap-2 max-md:text-[10px] max-md:tracking-[0.1em]" : ""}`}
+          className={`project-card-eyebrow mb-3 flex items-center justify-between gap-3 text-xs font-bold tracking-[0.12em] text-black/45 uppercase ${compactMobile ? "max-md:mb-1 max-md:gap-2 max-md:pb-1.5 max-md:text-[10px] max-md:tracking-[0.1em]" : ""}`}
         >
-          <span>Project</span>
+          <span className="min-w-0 truncate normal-case">{linkHost ?? "Project"}</span>
           <ArrowUpRight
             size={16}
             className={compactMobile ? "max-md:h-3 max-md:w-3" : undefined}
@@ -104,7 +114,7 @@ const ProjectCard = ({
           />
         </div>
         <h3
-          className={`mb-4 font-recursive text-2xl ${compactMobile ? "max-md:mb-1.5 max-md:line-clamp-2 max-md:text-xl max-md:leading-tight" : ""}`}
+          className={`project-card-title mt-3 mb-4 font-recursive text-2xl ${compactMobile ? "max-md:mt-1.5 max-md:mb-1.5 max-md:line-clamp-2 max-md:text-xl max-md:leading-tight" : ""}`}
         >
           {project.name}
         </h3>
@@ -119,7 +129,7 @@ const ProjectCard = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className={`focus-ring relative z-30 mt-2 h-auto min-w-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
+                className={`focus-ring relative z-30 mt-2 mb-2 h-auto min-w-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
               >
                 {t("page.readMore")}
                 <ArrowRight size={14} aria-hidden="true" />
@@ -155,7 +165,7 @@ const ProjectCard = ({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${t("page.demo")}: ${project.name}`}
-          className={`focus-ring relative z-30 mt-auto inline-flex w-fit max-w-full shrink-0 items-center gap-2 pt-5 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline ${compactMobile ? "max-md:gap-1.5 max-md:pt-2 max-md:text-sm" : ""}`}
+          className={`project-card-foot focus-ring relative z-30 mt-auto flex w-full shrink-0 items-center justify-between gap-2 pt-4 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline ${compactMobile ? "max-md:gap-1.5 max-md:pt-2 max-md:text-sm" : ""}`}
         >
           <span className={compactMobile ? "max-md:min-w-0 max-md:truncate" : undefined}>
             {t("page.demo")}

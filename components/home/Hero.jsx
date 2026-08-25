@@ -22,8 +22,12 @@ const Hero = ({ image = fallbackImage }) => {
       <div className="container">
         <div className="hero-grid">
           <div className="hero-copy">
-            <div className="section-kicker">
-              Alexandru Maftei{" "}
+            {/* One line on every width. The two halves are their own spans so
+                the rule, the name and the brand can never be broken apart by
+                a wrap — on a 390px phone the default kicker size split this
+                into four lines. */}
+            <div className="section-kicker hero-kicker">
+              <span>Alexandru Maftei</span>
               <span className="text-black/40">/ Myriad Tech</span>
             </div>
 
@@ -34,11 +38,15 @@ const Hero = ({ image = fallbackImage }) => {
               <span>{t("status")}</span>
             </div>
 
-            {/* The paragraph repeats what the title, the status pill and the
-                proof row already say, and on a phone it pushed the buttons
-                below the fold. Desktop keeps it. */}
+            {/* The full paragraph pushed the buttons below the fold on a
+                phone, but dropping it entirely left the title sitting on the
+                status pill with nothing to explain it. Mobile gets a single
+                short line instead; desktop keeps the long one. */}
             <p className="hero-description mt-5 max-md:hidden">
               {t("description")}
+            </p>
+            <p className="hero-description hero-description-short mt-4 md:hidden">
+              {t("description-short")}
             </p>
 
             <div className="hero-actions">
