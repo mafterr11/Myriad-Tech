@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import Link from "@/components/layout/TransitionLink";
 import { Button } from "../ui/button";
 import { Download, ArrowUpRight, Send } from "lucide-react";
 import Image from "next/image";

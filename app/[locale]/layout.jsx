@@ -13,6 +13,8 @@ import GoogleAnalytics from "@/components/google-analytics";
 import CookieBanner from "@/components/cookie-banner";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import LenisScroll from "./LenisScroll";
+import IntroOverlay from "../../components/layout/IntroOverlay";
+import CurtainProvider from "../../components/layout/CurtainProvider";
 import { routing } from "@/i18n/routing";
 
 const roboto = Roboto({
@@ -56,25 +58,31 @@ export default async function RootLayout({ children, params }) {
 
   const messages = await getMessages(locale);
 
+  // `suppressHydrationWarning` on <html>: the intro boot script sets
+  // `intro-active` on it before React hydrates, and Lenis adds its own class
+  // straight after.
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${roboto.variable} ${recursive.variable} overflow-x-hidden max-md:min-h-svh`}
       >
+        <IntroOverlay />
         <Suspense fallback={null}>
           <GoogleAnalytics GA_MEASUREMENT_ID="G-EB4XXB3ES6" />
         </Suspense>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <SkipLink />
-          <Header />
-          <main id="main-content" tabIndex={-1}>
-            <LenisScroll />
-            {children}
-          </main>
-          <Footer />
-          <CookieBanner />
-          <Analytics />
-          <Toaster />
+          <CurtainProvider>
+            <SkipLink />
+            <Header />
+            <main id="main-content" tabIndex={-1}>
+              <LenisScroll />
+              {children}
+            </main>
+            <Footer />
+            <CookieBanner />
+            <Analytics />
+            <Toaster />
+          </CurtainProvider>
         </NextIntlClientProvider>
       </body>
     </html>

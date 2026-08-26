@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "@/lib/storage-helper";
-import { Link } from "@/i18n/navigation";
+import Link from "@/components/layout/TransitionLink";
 import { useTranslations } from "next-intl";
 
 // Asks for analytics consent and forwards the answer to Google Consent Mode,

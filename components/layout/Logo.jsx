@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "@/components/layout/TransitionLink";
+import { usePathname } from "@/i18n/navigation";
 
 const Logo = ({ source, size, priority = true }) => {
   const pathname = usePathname();

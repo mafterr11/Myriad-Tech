@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin 'tailwindcss-animate';
+@plugin "tailwindcss-animate";
 
 @theme {
   --breakpoint-xs: 400px;
@@ -58,7 +58,11 @@
   .bg-grainy {
     background-color: var(--color-body);
     background-image:
-      linear-gradient(135deg, rgba(255, 253, 248, 0.74), rgba(235, 228, 216, 0.44)),
+      linear-gradient(
+        135deg,
+        rgba(255, 253, 248, 0.74),
+        rgba(235, 228, 216, 0.44)
+      ),
       url("/grainy-bg.webp");
     background-size: auto, 420px;
   }
@@ -66,7 +70,11 @@
   .bg-softPaper {
     background-color: #ebe4d8;
     background-image:
-      linear-gradient(135deg, rgba(246, 241, 232, 0.4), rgba(214, 205, 192, 0.18)),
+      linear-gradient(
+        135deg,
+        rgba(246, 241, 232, 0.4),
+        rgba(214, 205, 192, 0.18)
+      ),
       url("/testimonials-bg.webp");
   }
 
@@ -356,7 +364,9 @@
     height: 0.5rem;
     border-radius: 999px;
     background: rgba(103, 72, 57, 0.24);
-    transition: background-color 200ms ease, width 200ms ease;
+    transition:
+      background-color 200ms ease,
+      width 200ms ease;
   }
 
   .services-dot[data-active="true"] {
@@ -370,7 +380,10 @@
     border-radius: 0;
     background: rgba(255, 253, 248, 0.48);
     box-shadow: none;
-    transition: background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+    transition:
+      background-color 220ms ease,
+      box-shadow 220ms ease,
+      transform 220ms ease;
   }
 
   .service-card:hover {
@@ -400,8 +413,11 @@
     border-radius: 0;
     background: rgba(255, 253, 248, 0.82);
     box-shadow: 0.5rem 0.5rem 0 rgba(103, 72, 57, 0.08);
-    transition: background-color 220ms ease, border-color 220ms ease,
-      box-shadow 220ms ease, transform 220ms ease;
+    transition:
+      background-color 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      transform 220ms ease;
   }
 
   .project-card:hover {
@@ -484,7 +500,10 @@
     background: rgba(255, 253, 248, 0.72);
     color: var(--color-ink);
     outline: none;
-    transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      background-color 180ms ease;
   }
 
   .contact-input:focus {
@@ -496,8 +515,16 @@
   .footer-plate {
     background-color: #ece5d9;
     background-image:
-      linear-gradient(180deg, rgba(103, 72, 57, 0.1), rgba(103, 72, 57, 0) 9rem),
-      linear-gradient(135deg, rgba(255, 253, 248, 0.55), rgba(214, 205, 192, 0.25)),
+      linear-gradient(
+        180deg,
+        rgba(103, 72, 57, 0.1),
+        rgba(103, 72, 57, 0) 9rem
+      ),
+      linear-gradient(
+        135deg,
+        rgba(255, 253, 248, 0.55),
+        rgba(214, 205, 192, 0.25)
+      ),
       url("/grainy-bg.webp");
     background-size: auto, auto, 420px;
   }
@@ -555,7 +582,9 @@
     text-decoration-color: rgba(92, 133, 135, 0.5);
     text-decoration-thickness: 1px;
     text-underline-offset: 0.35rem;
-    transition: color 180ms ease, text-decoration-color 180ms ease;
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease;
   }
 
   .footer-contact-link:hover {
@@ -572,7 +601,9 @@
     border: 1px solid var(--color-line);
     background: rgba(255, 253, 248, 0.7);
     color: var(--color-accent);
-    transition: border-color 200ms ease, background-color 200ms ease,
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease,
       box-shadow 200ms ease;
   }
 
@@ -590,7 +621,9 @@
     border: 1px solid var(--color-line);
     background: var(--color-white);
     box-shadow: 4px 4px 0 rgba(103, 72, 57, 0.1);
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
   }
 
   .footer-badge:hover {
@@ -666,9 +699,10 @@
 
   body {
     min-width: 320px;
-    @apply overflow-x-hidden font-roboto text-black/95;
+    @apply font-roboto overflow-x-hidden text-black/95;
     background-color: var(--color-body);
-    background-image: linear-gradient(rgba(246, 241, 232, 0.7), rgba(246, 241, 232, 0.7)),
+    background-image:
+      linear-gradient(rgba(246, 241, 232, 0.7), rgba(246, 241, 232, 0.7)),
       url("/grainy-bg.webp");
     background-size: auto, 420px;
   }
@@ -718,7 +752,10 @@
 
   a {
     cursor: pointer;
-    transition: color 180ms ease, opacity 180ms ease, transform 180ms ease;
+    transition:
+      color 180ms ease,
+      opacity 180ms ease,
+      transform 180ms ease;
   }
 
   a:hover {
@@ -751,7 +788,9 @@
   border-radius: 999px;
   background: rgba(103, 72, 57, 0.24);
   opacity: 1;
-  transition: background-color 200ms ease, width 200ms ease;
+  transition:
+    background-color 200ms ease,
+    width 200ms ease;
 }
 
 .swiper .swiper-pagination-bullet-active {
@@ -1008,7 +1047,6 @@
   }
 }
 
-
 @media (max-width: 1199px) {
   .mobile-static-header,
   .mobile-static-header *,
@@ -1024,3 +1062,287 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Intro panel and route curtain
+   Both draw the four-blade brand mark out of four squares with one rounded
+   diagonal each, the same construction components/brand-mark.jsx uses for the
+   metadata images. The petals bloom from the centre of the mark, so each one
+   is anchored at its inner corner.
+   --------------------------------------------------------------------------- */
+
+/* --- intro ---------------------------------------------------------------- */
+
+html.intro-active,
+html.intro-active body {
+  overflow: hidden;
+}
+
+/* The panel is in the markup on every load; only the class the boot script
+   sets decides whether it is ever displayed. Nothing adds or removes nodes. */
+.intro-overlay {
+  display: none;
+}
+
+html.intro-active .intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  background-image: radial-gradient(
+    circle at 50% 42%,
+    rgba(255, 253, 248, 0.14),
+    transparent 62%
+  );
+  animation: intro-lift 0.68s cubic-bezier(0.76, 0, 0.24, 1) 1.05s forwards;
+  will-change: transform;
+}
+
+html.intro-active .intro-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.4rem, 3.5vw, 2.1rem);
+  animation: intro-inner-out 0.42s cubic-bezier(0.7, 0, 0.84, 0) 0.98s forwards;
+}
+
+html.intro-active .intro-mark {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: clamp(4.25rem, 11vw, 5.75rem);
+  height: clamp(4.25rem, 11vw, 5.75rem);
+}
+
+html.intro-active .intro-petal {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-paper);
+  opacity: 0;
+  animation: intro-petal-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+html.intro-active .intro-mark > .intro-petal:nth-child(1) {
+  border-radius: 0 100% 0 100%;
+  transform-origin: 100% 100%;
+}
+
+html.intro-active .intro-mark > .intro-petal:nth-child(2) {
+  border-radius: 100% 0 100% 0;
+  transform-origin: 0 100%;
+  animation-delay: 0.07s;
+}
+
+html.intro-active .intro-mark > .intro-petal:nth-child(3) {
+  border-radius: 100% 0 100% 0;
+  transform-origin: 100% 0;
+  animation-delay: 0.14s;
+}
+
+html.intro-active .intro-mark > .intro-petal:nth-child(4) {
+  border-radius: 0 100% 0 100%;
+  transform-origin: 0 0;
+  animation-delay: 0.21s;
+}
+
+html.intro-active .intro-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26%;
+  height: 26%;
+  border-radius: 999px;
+  background: var(--color-accent);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: intro-dot-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.34s forwards;
+}
+
+html.intro-active .intro-word {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  text-align: center;
+}
+
+html.intro-active .intro-word-line {
+  color: var(--color-paper);
+  font-family: var(--font-recursive);
+  font-size: clamp(1.05rem, 3vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  line-height: 1;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: intro-word-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.34s forwards;
+}
+
+html.intro-active .intro-rule {
+  width: min(14rem, 46vw);
+  height: 1px;
+  background: rgba(246, 241, 232, 0.45);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  animation: intro-rule-in 0.6s cubic-bezier(0.76, 0, 0.24, 1) 0.5s forwards;
+}
+
+html.intro-active .intro-tagline {
+  color: rgba(246, 241, 232, 0.62);
+  font-family: var(--font-recursive);
+  font-size: clamp(0.62rem, 1.8vw, 0.72rem);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: intro-word-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.62s forwards;
+}
+
+@keyframes intro-petal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.18) rotate(-40deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-dot-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes intro-word-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.55em;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes intro-rule-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes intro-inner-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-26px);
+  }
+}
+
+@keyframes intro-lift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+/* --- route curtain -------------------------------------------------------- */
+
+/* Never takes pointer events, even mid-sweep. A curtain that swallowed
+   clicks would take the whole site down if an animation ever stalled -- and it
+   does stall, because rAF stops in a backgrounded tab. */
+.curtain-root {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  pointer-events: none;
+}
+
+.curtain-root.is-idle {
+  visibility: hidden;
+}
+
+.curtain-panel {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* A lighter panel runs a beat ahead of the accent one so the wipe reads as two
+   sheets of paper rather than one flat block of colour. */
+.curtain-panel-back {
+  background: #8a6250;
+}
+
+.curtain-panel-front {
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 253, 248, 0.12),
+    transparent 60%
+  );
+}
+
+.curtain-mark {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: clamp(3rem, 7vw, 3.75rem);
+  height: clamp(3rem, 7vw, 3.75rem);
+}
+
+.curtain-petal {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-paper);
+}
+
+.curtain-mark > .curtain-petal-corner:nth-child(1) {
+  border-radius: 0 100% 0 100%;
+}
+
+.curtain-mark > .curtain-petal-centre:nth-child(2) {
+  border-radius: 100% 0 100% 0;
+}
+
+.curtain-mark > .curtain-petal-centre:nth-child(3) {
+  border-radius: 100% 0 100% 0;
+}
+
+.curtain-mark > .curtain-petal-corner:nth-child(4) {
+  border-radius: 0 100% 0 100%;
+}
+
+.curtain-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26%;
+  height: 26%;
+  border-radius: 999px;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+}

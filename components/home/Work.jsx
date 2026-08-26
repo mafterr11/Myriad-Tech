@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import Link from "@/components/layout/TransitionLink";
 import { Button } from "@/components/ui/button";
 import WorkSwiper from "./WorkSwiper";
 import { useTranslations } from "next-intl";

@@ -1,5 +1,6 @@
 "use client";
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "@/components/layout/TransitionLink";
+import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import LocalSwitcher from "../ui/LocalSwitcher";
 import HireMe from "./HireMe";

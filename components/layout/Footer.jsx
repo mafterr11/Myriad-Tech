@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Link as LocaleLink } from "@/i18n/navigation";
+import LocaleLink from "@/components/layout/TransitionLink";
 import Socials from "../Socials";
 import Logo from "./Logo";
 

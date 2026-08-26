@@ -3,15 +3,25 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { useTransition } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "./label";
+import { useCurtain } from "@/components/layout/CurtainProvider";
 
 export default function LocalSwitcher() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const localeActive = useLocale();
   const pathname = usePathname();
+  const { enabled, navigate } = useCurtain();
 
   const toggleLocale = () => {
     const nextLocale = localeActive === "en" ? "ro" : "en";
+
+    // The locale swap replaces every string on the page, so it gets the same
+    // curtain a route change gets rather than repainting in place.
+    if (enabled && navigate) {
+      navigate(pathname || "/", nextLocale, { replace: true });
+      return;
+    }
+
     startTransition(() => {
       router.replace(pathname || "/", { locale: nextLocale });
     });

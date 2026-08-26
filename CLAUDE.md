@@ -94,6 +94,43 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   every variant to the settled state. Lenis opts out of smooth scroll the
   same way.
 
+### Intro panel (first visit) and route curtain
+
+- `components/layout/IntroOverlay.jsx` renders the accent panel into the SSR
+  HTML and animates it with **plain CSS keyframes**, not framer. Framer could
+  only start after hydration, which on a cold load is long after first paint,
+  so the hero would flash and then get covered.
+- **The boot script must never add or remove a node.** Everything under
+  `<body>` is React's. The first version deleted the panel before hydration
+  and that broke it outright: hydration mismatch, then
+  `insertBefore`/`removeChild` NotFoundErrors on the next route change, and
+  Next fell back to a full page load for every navigation. The script only
+  sets `intro-active` on `<html>`; CSS decides whether the panel is
+  displayed. `<html>` carries `suppressHydrationWarning` for that class (and
+  for the one Lenis adds).
+- Shown once per tab via `sessionStorage` key `mt-intro-seen`; skipped for
+  `prefers-reduced-motion` and for `/admin`. `IntroCleanup` drops the class
+  after 1800ms measured from `window.__mtIntroStart`, not from hydration.
+- The hero is still untouched, so it paints behind the panel and remains the
+  LCP candidate. Do not start animating it.
+- Route changes go through `CurtainProvider`. Framer alone cannot do a
+  leave-then-enter transition in the App Router -- by the time `children`
+  changes the old tree is gone -- so `TransitionLink` (a drop-in for the
+  next-intl `Link`, imported in place of it everywhere) hands the click to the
+  provider, which pushes the route while the curtain is on its way in.
+  `LocalSwitcher` calls the same `navigate` with `{ replace: true }`.
+- `.curtain-root` is `pointer-events: none` **always**, and every phase has a
+  watchdog deadline. A backgrounded tab stops rAF, which freezes framer
+  mid-sweep and means `onAnimationComplete` may never fire; without both of
+  those the curtain would sit over the page swallowing every click.
+- Back/forward buttons get no curtain (nothing to intercept) -- the swap is
+  instant. That is deliberate, not a bug.
+- **Animations cannot be verified in a headless browser pane.** The tab there
+  reports `visibilityState: "hidden"`, which freezes the document timeline
+  for CSS and framer alike -- transforms sit at their t=0 value forever.
+  Check the state machine and the DOM instead, and eyeball the motion in a
+  real window.
+
 ## Routing
 
 - `proxy.js` (not `middleware.js`) holds the next-intl middleware; its matcher
