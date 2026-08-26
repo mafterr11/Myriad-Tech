@@ -3,8 +3,11 @@ import createNextIntlPlugin from "next-intl/plugin";
 // Every origin the site actually talks to. Adding a third-party script, embed
 // or API means adding it here too, or the browser will block it.
 //   - Google Tag Manager / Analytics: components/google-analytics.js
-//   - reCAPTCHA v3: app/[locale]/contact/page.jsx (google.com + gstatic.com,
-//     and it injects an iframe, hence frame-src)
+//   - reCAPTCHA v3: app/[locale]/contact/page.jsx. It needs google.com +
+//     gstatic.com in script-src, an iframe in frame-src, *and* google.com in
+//     connect-src: once it has a token the widget XHRs to
+//     https://www.google.com/recaptcha/api2/clr. That last one was missing and
+//     the console filled with "Refused to connect" on every contact visit.
 //   - Supabase: project and site images served from storage
 //   - Vercel: @vercel/analytics beacon
 // 'unsafe-inline' and 'unsafe-eval' stay in script-src because Next.js inlines
@@ -21,7 +24,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com",
-  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://va.vercel-scripts.com",
+  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://va.vercel-scripts.com https://www.google.com https://recaptcha.google.com",
   "frame-src https://www.google.com https://recaptcha.google.com",
   "manifest-src 'self'",
   "upgrade-insecure-requests",

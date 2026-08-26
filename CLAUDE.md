@@ -68,6 +68,13 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   `frame-src` for its iframe), Supabase storage, and the Vercel beacon.
   `script-src` keeps `'unsafe-inline'`/`'unsafe-eval'` because Next inlines
   its bootstrap; removing them needs per-request nonces.
+- **reCAPTCHA needs `https://www.google.com` in `connect-src`, not just
+  `script-src` and `frame-src`.** Once the widget has a token it XHRs to
+  `https://www.google.com/recaptcha/api2/clr`. That origin was missing, so
+  every contact-page visit logged a run of "Refused to connect ... violates
+  the following Content Security Policy directive: connect-src" (fixed
+  2026-08-26). The form still worked -- the call is telemetry, not the token
+  exchange -- which is exactly why it went unnoticed.
 - After changing the CSP, load a page and check the console — a wrong policy
   fails silently and takes reCAPTCHA down with it, which kills the contact
   form.
