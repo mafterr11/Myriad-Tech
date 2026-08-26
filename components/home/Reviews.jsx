@@ -12,12 +12,12 @@ const Reviews = () => {
   // which publishes the same numbers as structured data.
   const testimonials = [
     {
-      quote: t("madiny"),
+      quote: t("madiny"), 
       name: "Madiny",
       url: "https://madinytattoo.ro",
       rating: 5,
     },
-    { quote: t("tng"), name: "Mihai", url: "https://tngag.ro", rating: 5 },
+    { quote: t("tng"), name: "Mihai", url: "https://tngag-grup.vercel.app", rating: 5 },
     {
       quote: t("monte-bianco"),
       name: "Monte Bianco",
