@@ -109,8 +109,21 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   displayed. `<html>` carries `suppressHydrationWarning` for that class (and
   for the one Lenis adds).
 - Shown once per tab via `sessionStorage` key `mt-intro-seen`; skipped for
-  `prefers-reduced-motion` and for `/admin`. `IntroCleanup` drops the class
-  after 1800ms measured from `window.__mtIntroStart`, not from hydration.
+  `prefers-reduced-motion` and for `/admin`. Note that a tab opened from an
+  existing one (middle click, duplicate) inherits `sessionStorage`, so it
+  counts as the same session and gets no intro. That is intended.
+- **`IntroCleanup` ends the intro on `animationend`, never on a timer.** A
+  clock broke it two ways, both of them showing up when several tabs were
+  opened at once: a hidden tab has its document timeline frozen, so the
+  keyframes sit at frame 0 while the timeout counts down and pulls the class
+  out from under them; and three tabs loading at once starve the CPU, so
+  hydration can land after the intro's nominal end, which made the remaining
+  time compute to zero and cut the panel the moment React mounted. The 9s
+  fallback timer refuses to fire while `visibilityState` is hidden -- a frozen
+  animation is not a stuck one.
+- Timings: intro runs 2.95s end to end, curtain about 1.6s. Both are tuned by
+  hand; the intro lives in the `html.intro-active` keyframes in globals.css,
+  the curtain in the `COVER`/`LIFT`/`HOLD_MS` constants in CurtainProvider.
 - The hero is still untouched, so it paints behind the panel and remains the
   LCP candidate. Do not start animating it.
 - Route changes go through `CurtainProvider`. Framer alone cannot do a

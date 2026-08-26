@@ -24,7 +24,6 @@ const BOOT_SCRIPT = `(function(){
   } catch (e) {
     return;
   }
-  window.__mtIntroStart = Date.now();
   document.documentElement.classList.add('intro-active');
 })();`;
 

@@ -24,12 +24,14 @@ const IDLE_FALLBACK = { enabled: false, navigate: null };
 
 export const useCurtain = () => useContext(CurtainContext) ?? IDLE_FALLBACK;
 
-const COVER = 0.42;
-const LIFT = 0.55;
+// Roughly 1.6s door to door: 0.64s to close, a beat on the mark, 0.75s to
+// lift. Slower than this and every click starts to feel like it hung.
+const COVER = 0.55;
+const LIFT = 0.66;
 const EASE = [0.76, 0, 0.24, 1];
 // How long the mark stays on screen once the curtain is closed and the new
 // route has committed.
-const HOLD_MS = 170;
+const HOLD_MS = 220;
 // A slow network must not leave the curtain up forever.
 const ARRIVAL_TIMEOUT_MS = 2200;
 
@@ -40,7 +42,7 @@ const panel = (delay) => ({
 });
 
 const backPanel = panel(0);
-const frontPanel = panel(0.07);
+const frontPanel = panel(0.09);
 
 const markVariants = {
   hidden: { opacity: 0, scale: 0.7, rotate: -35, transition: { duration: 0 } },
@@ -48,13 +50,13 @@ const markVariants = {
     opacity: 1,
     scale: 1,
     rotate: 0,
-    transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1], delay: 0.16 },
+    transition: { duration: 0.46, ease: [0.22, 1, 0.36, 1], delay: 0.18 },
   },
   lift: {
     opacity: 0,
     scale: 1.25,
     rotate: 20,
-    transition: { duration: 0.28, ease: "easeIn" },
+    transition: { duration: 0.32, ease: "easeIn" },
   },
 };
 
