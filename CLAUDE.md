@@ -121,7 +121,7 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   time compute to zero and cut the panel the moment React mounted. The 9s
   fallback timer refuses to fire while `visibilityState` is hidden -- a frozen
   animation is not a stuck one.
-- Timings: intro runs 2.95s end to end, in the `html.intro-active` keyframes
+- Timings: intro runs 2.4s end to end, in the `html.intro-active` keyframes
   in globals.css. The curtain is in the `TIMING` table in CurtainProvider:
   `full` (~1.6s) for the first route change of a session, `trim` (~1.2s) for
   every one after, tracked with `sessionStorage` key `mt-curtain-seen`.

@@ -1095,7 +1095,7 @@ html.intro-active .intro-overlay {
     rgba(255, 253, 248, 0.14),
     transparent 62%
   );
-  animation: intro-lift 0.8s cubic-bezier(0.76, 0, 0.24, 1) 2.15s forwards;
+  animation: intro-lift 0.65s cubic-bezier(0.76, 0, 0.24, 1) 1.75s forwards;
   will-change: transform;
 }
 
@@ -1104,7 +1104,7 @@ html.intro-active .intro-inner {
   flex-direction: column;
   align-items: center;
   gap: clamp(1.4rem, 3.5vw, 2.1rem);
-  animation: intro-inner-out 0.5s cubic-bezier(0.7, 0, 0.84, 0) 2.05s forwards;
+  animation: intro-inner-out 0.42s cubic-bezier(0.7, 0, 0.84, 0) 1.65s forwards;
 }
 
 html.intro-active .intro-mark {
