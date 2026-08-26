@@ -121,9 +121,19 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   time compute to zero and cut the panel the moment React mounted. The 9s
   fallback timer refuses to fire while `visibilityState` is hidden -- a frozen
   animation is not a stuck one.
-- Timings: intro runs 2.95s end to end, curtain about 1.6s. Both are tuned by
-  hand; the intro lives in the `html.intro-active` keyframes in globals.css,
-  the curtain in the `COVER`/`LIFT`/`HOLD_MS` constants in CurtainProvider.
+- Timings: intro runs 2.95s end to end, in the `html.intro-active` keyframes
+  in globals.css. The curtain is in the `TIMING` table in CurtainProvider:
+  `full` (~1.6s) for the first route change of a session, `trim` (~1.2s) for
+  every one after, tracked with `sessionStorage` key `mt-curtain-seen`.
+- **The curtain always runs -- only its length changes.** It is not just
+  decoration: it covers the RSC fetch so a slow route reads as intentional
+  rather than frozen, and it hides the jump back to the top of the page. Gate
+  it off after the first navigation and clicks behave two different ways in
+  one session, which reads as a bug rather than as restraint.
+- In each `TIMING` entry the mark must finish no later than the panel
+  (`markDelay + markIn <= panelDelay + cover`). Framer holds the parent's
+  `onAnimationComplete` until its children settle, so a slow mark stretches
+  the whole cover phase.
 - The hero is still untouched, so it paints behind the panel and remains the
   LCP candidate. Do not start animating it.
 - Route changes go through `CurtainProvider`. Framer alone cannot do a
