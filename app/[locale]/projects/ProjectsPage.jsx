@@ -4,8 +4,6 @@ import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import ProjectCard from "@/components/home/ProjectCard";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { MotionH1 } from "@/lib/motion-client";
-import { fadeIn } from "@/variants";
 
 const ProjectsPage = ({ projects = [], error }) => {
   const t = useTranslations("Proiecte");
@@ -27,19 +25,17 @@ const ProjectsPage = ({ projects = [], error }) => {
       : projectData.filter((project) => project.category === category);
 
   return (
-    <div className="min-h-screen pb-24 pt-20 sm:pt-44">
+    <div className="min-h-screen pt-20 pb-24 sm:pt-44">
       <div className="container">
         <div className="mb-12 flex flex-col justify-between gap-6 xl:mb-16 xl:flex-row xl:items-end">
           <div>
             <span className="section-kicker">Portfolio / Archive</span>
-            <MotionH1
-              variants={fadeIn("down", 0.2)}
-              initial="hidden"
-              animate="show"
-              className="mt-4 max-w-3xl"
-            >
-              {t("page.title")}
-            </MotionH1>
+            {/* Plain, like the hero. A mount-triggered fade fires the moment
+                the route commits -- which is while the curtain is still over
+                the page -- so it played to nobody and left the h1, an LCP
+                candidate, sitting at opacity 0. The curtain lift is the
+                reveal. Everything further down still animates on scroll. */}
+            <h1 className="mt-4 max-w-3xl">{t("page.title")}</h1>
           </div>
           <p className="section-copy xl:max-w-md xl:text-right">
             {t("page.subtitle")}
@@ -53,7 +49,7 @@ const ProjectsPage = ({ projects = [], error }) => {
               className="col-span-2 min-w-0 flex-none justify-between gap-3 whitespace-normal sm:col-span-1 sm:min-w-[8.5rem]"
             >
               <span className="min-w-0 leading-tight">{allProjects}</span>
-              <span className="shrink-0 rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
+              <span className="border-line bg-body-light text-accent shrink-0 rounded-[1px] border px-2 py-1 text-[0.65rem] leading-none tracking-normal">
                 {projectData.length}
               </span>
             </TabsTrigger>
@@ -63,8 +59,10 @@ const ProjectsPage = ({ projects = [], error }) => {
                 key={item}
                 className="min-w-0 flex-none justify-between gap-3 whitespace-normal sm:min-w-[8.5rem]"
               >
-                <span className="min-w-0 leading-tight">{categoryLabel(item)}</span>
-                <span className="shrink-0 rounded-[1px] border border-line bg-body-light px-2 py-1 text-[0.65rem] leading-none tracking-normal text-accent">
+                <span className="min-w-0 leading-tight">
+                  {categoryLabel(item)}
+                </span>
+                <span className="border-line bg-body-light text-accent shrink-0 rounded-[1px] border px-2 py-1 text-[0.65rem] leading-none tracking-normal">
                   {projectCountByCategory[item]}
                 </span>
               </TabsTrigger>
@@ -73,11 +71,11 @@ const ProjectsPage = ({ projects = [], error }) => {
 
           <TabsContent value={category}>
             {error && projectData.length === 0 ? (
-              <div className="border border-line bg-white/50 px-6 py-12 text-center text-black/60">
+              <div className="border-line border bg-white/50 px-6 py-12 text-center text-black/60">
                 {t("page.error")}
               </div>
             ) : filteredProjects.length === 0 ? (
-              <div className="border border-line bg-white/50 px-6 py-12 text-center text-black/60">
+              <div className="border-line border bg-white/50 px-6 py-12 text-center text-black/60">
                 {t("page.empty")}
               </div>
             ) : (

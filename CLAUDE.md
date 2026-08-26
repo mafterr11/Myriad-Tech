@@ -146,6 +146,17 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   watchdog deadline. A backgrounded tab stops rAF, which freezes framer
   mid-sweep and means `onAnimationComplete` may never fire; without both of
   those the curtain would sit over the page swallowing every click.
+- **Nothing in a page's first screen may use `animate="show"`.** A
+  mount-triggered variant fires the moment the route commits, which is while
+  the curtain is still covering the page, so it plays to nobody and leaves an
+  LCP candidate parked at `opacity: 0`. Same rule as the hero, same reason.
+  The projects h1 and the whole contact header were stripped on 2026-08-26.
+- `whileInView` is fine and was left alone. Near the fold on a big monitor it
+  simply settles behind the curtain, which is the no-animation outcome we
+  wanted anyway; further down, and on phones, it still animates on scroll.
+  Gating it on the curtain would mean plumbing curtain state through
+  `lib/motion-client.js` into every animated component on the site, and would
+  push content settling out to ~2.5s after a click. Not worth it.
 - Back/forward buttons get no curtain (nothing to intercept) -- the swap is
   instant. That is deliberate, not a bug.
 - **Animations cannot be verified in a headless browser pane.** The tab there
