@@ -172,6 +172,24 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   Check the state machine and the DOM instead, and eyeball the motion in a
   real window.
 
+## Toasts
+
+- `components/ui/toast.jsx` is no longer stock shadcn. The original shipped a
+  `dark:` palette, and Tailwind resolves `dark:` through
+  `prefers-color-scheme` regardless of the `colorScheme: "light"` in the
+  layout viewport -- so on a machine set to dark mode the toast turned
+  near-black while every other surface stayed paper. **Do not reintroduce
+  `dark:` variants anywhere; the site has no dark theme.**
+- Three variants: `default` (accent), `success` (teal), `destructive` (red).
+  Each sets a left rail, a glyph and the progress bar from the same colour.
+  `ContactForm` passes `success` and `destructive`.
+- The progress bar animation in globals.css is 5s and `ToastProvider` pins
+  `duration={5000}`. **Change one and change the other**, or the bar and the
+  dismiss stop agreeing. Radix pauses its timer on hover, which is why the bar
+  pauses on `.group:hover`.
+- `ToastClose` is always visible. Stock kept it at `opacity: 0` until hover,
+  which leaves no way to dismiss a toast on a touch screen.
+
 ## Routing
 
 - `proxy.js` (not `middleware.js`) holds the next-intl middleware; its matcher

@@ -38,7 +38,10 @@ const buildFormSchema = (t) =>
     email: z.string().email({ message: t("form.validation.email") }),
     telefon: z.union([
       z.literal(""),
-      z.string().trim().min(10, { message: t("form.validation.phone") }),
+      z
+        .string()
+        .trim()
+        .min(10, { message: t("form.validation.phone") }),
     ]),
     mesaj: z
       .string()
@@ -85,6 +88,7 @@ export default function SolicitatiOfertaForm() {
       }
 
       toast({
+        variant: "success",
         title: t("form.success.title"),
         description: t("form.success.description"),
       });
@@ -120,9 +124,13 @@ export default function SolicitatiOfertaForm() {
                     {...field}
                   />
                 </FormControl>
-                <User className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-black/40" size={18} aria-hidden="true" />
+                <User
+                  className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-black/40"
+                  size={18}
+                  aria-hidden="true"
+                />
               </div>
-              <FormMessage className="ml-0 mt-1 text-xs text-red-600" />
+              <FormMessage className="mt-1 ml-0 text-xs text-red-600" />
             </FormItem>
           )}
         />
@@ -144,9 +152,13 @@ export default function SolicitatiOfertaForm() {
                     {...field}
                   />
                 </FormControl>
-                <MailIcon className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-black/40" size={18} aria-hidden="true" />
+                <MailIcon
+                  className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-black/40"
+                  size={18}
+                  aria-hidden="true"
+                />
               </div>
-              <FormMessage className="ml-0 mt-1 text-xs text-red-600" />
+              <FormMessage className="mt-1 ml-0 text-xs text-red-600" />
             </FormItem>
           )}
         />
@@ -168,9 +180,13 @@ export default function SolicitatiOfertaForm() {
                     {...field}
                   />
                 </FormControl>
-                <PhoneIcon className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-black/40" size={18} aria-hidden="true" />
+                <PhoneIcon
+                  className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-black/40"
+                  size={18}
+                  aria-hidden="true"
+                />
               </div>
-              <FormMessage className="ml-0 mt-1 text-xs text-red-600" />
+              <FormMessage className="mt-1 ml-0 text-xs text-red-600" />
             </FormItem>
           )}
         />
@@ -192,7 +208,11 @@ export default function SolicitatiOfertaForm() {
                     {...field}
                   />
                 </FormControl>
-                <MessageSquare className="pointer-events-none absolute top-4 right-4 text-black/40" size={18} aria-hidden="true" />
+                <MessageSquare
+                  className="pointer-events-none absolute top-4 right-4 text-black/40"
+                  size={18}
+                  aria-hidden="true"
+                />
               </div>
               <div className="mt-1 flex items-start justify-between gap-4">
                 <FormMessage className="ml-0 text-xs text-red-600" />
@@ -226,19 +246,22 @@ export default function SolicitatiOfertaForm() {
                     onBlur={field.onBlur}
                     name={field.name}
                     ref={field.ref}
-                    className="mt-1 h-4 w-4 shrink-0 rounded-none border-line accent-accent"
+                    className="border-line accent-accent mt-1 h-4 w-4 shrink-0 rounded-none"
                   />
                 </FormControl>
-                <Label htmlFor="acceptTerms" className="mb-0 text-sm font-normal leading-6 tracking-normal">
+                <Label
+                  htmlFor="acceptTerms"
+                  className="mb-0 text-sm leading-6 font-normal tracking-normal"
+                >
                   {t("form.gdpr")}
                 </Label>
               </div>
-              <FormMessage className="ml-0 mt-1 text-xs text-red-600" />
+              <FormMessage className="mt-1 ml-0 text-xs text-red-600" />
             </FormItem>
           )}
         />
 
-        <div className="recaptcha-branding flex flex-col gap-4 border-t border-line pt-5 sm:flex-row sm:items-start">
+        <div className="recaptcha-branding border-line flex flex-col gap-4 border-t pt-5 sm:flex-row sm:items-start">
           <Button
             type="submit"
             className="flex w-full items-center gap-x-2 sm:w-auto"
@@ -255,12 +278,18 @@ export default function SolicitatiOfertaForm() {
           </Button>
 
           <p className="max-w-md text-xs leading-5 text-black/55">
-            {t("form.reCaptcha.1")} {" "}
-            <a href="https://policies.google.com/privacy" className="text-accent underline underline-offset-2">
+            {t("form.reCaptcha.1")}{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              className="text-accent underline underline-offset-2"
+            >
               {t("form.reCaptcha.2")}
             </a>{" "}
-            {t("form.reCaptcha.3")} {" "}
-            <a href="https://policies.google.com/terms" className="text-accent underline underline-offset-2">
+            {t("form.reCaptcha.3")}{" "}
+            <a
+              href="https://policies.google.com/terms"
+              className="text-accent underline underline-offset-2"
+            >
               {t("form.reCaptcha.4")}
             </a>{" "}
             {t("form.reCaptcha.5")}

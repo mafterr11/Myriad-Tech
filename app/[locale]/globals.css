@@ -1346,3 +1346,32 @@ html.intro-active .intro-tagline {
   background: var(--color-accent);
   transform: translate(-50%, -50%);
 }
+
+/* Toast progress bar. Radix pauses its dismiss timer while a toast is hovered
+   or focused, so the bar pauses with it and the two stay honest. */
+.toast-progress {
+  animation: toast-progress 5s linear forwards;
+}
+
+.group:hover .toast-progress,
+.group:focus-within .toast-progress {
+  animation-play-state: paused;
+}
+
+@keyframes toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* The global reduced-motion rule collapses every animation to 0.01ms, which
+   would leave this sitting at scaleX(0) rather than not running. Nothing is
+   lost by dropping it entirely. */
+@media (prefers-reduced-motion: reduce) {
+  .toast-progress {
+    display: none;
+  }
+}
