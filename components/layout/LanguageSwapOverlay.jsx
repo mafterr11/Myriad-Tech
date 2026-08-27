@@ -32,9 +32,9 @@ const NAMES = { ro: "Română", en: "English" };
 const CODES = ["ro", "en"];
 
 // Must match the durations in the `language swap` block of globals.css.
-const COVER_MS = 550;
-const SWAP_MS = 520;
-const LIFT_MS = 610;
+const COVER_MS = 480;
+const SWAP_MS = 380;
+const LIFT_MS = 500;
 
 // A route that never arrives must not leave the panel parked over the page.
 // Generous on purpose: it is the last resort, not a second clock racing the

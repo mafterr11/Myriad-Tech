@@ -235,7 +235,13 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   more visible version of the bug this was meant to fix.
 - Change a duration in the `language swap` block of globals.css and change the
   matching `COVER_MS` / `SWAP_MS` / `LIFT_MS` in the overlay, which the
-  watchdogs are sized from. End to end it is about 1.85s.
+  watchdogs are sized from. End to end it is about 1.45s: roughly 480ms of
+  sweep in, however long the payload takes (usually under 100ms, because of
+  the prefetch above), 380ms for the codes to trade places, 500ms out. That
+  sits between the route curtain's trimmed 1.2s and its full 1.6s, which is
+  where a swap that is rarer than a route change but has something to read
+  belongs. An earlier cut ran 1.85s and was simply slow -- with the fetch
+  covered by the prefetch, almost all of that was animation for its own sake.
 - The overlay puts the scroll position back behind the panel and asks Next not
   to scroll: this is the same page in another language, so the visitor keeps
   their place rather than being sent to the top.

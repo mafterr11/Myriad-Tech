@@ -1423,7 +1423,7 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-panel-front {
-  --lang-swap-delay: 70ms;
+  --lang-swap-delay: 60ms;
   display: grid;
   place-items: center;
   background: var(--color-accent);
@@ -1440,12 +1440,12 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="cover"][data-to="en"] .lang-swap-panel {
-  animation: lang-panel-sweep-right 480ms var(--lang-swap-sweep) both;
+  animation: lang-panel-sweep-right 420ms var(--lang-swap-sweep) both;
   animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
 }
 
 .lang-swap-root[data-phase="cover"][data-to="ro"] .lang-swap-panel {
-  animation: lang-panel-sweep-left 480ms var(--lang-swap-sweep) both;
+  animation: lang-panel-sweep-left 420ms var(--lang-swap-sweep) both;
   animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
 }
 
@@ -1453,16 +1453,16 @@ html.intro-active .intro-tagline {
    page comes back, and starts while the panel's contents are still fading --
    otherwise it is a third of a second of blank panel before anything moves. */
 .lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-panel {
-  animation: lang-panel-exit-right 440ms var(--lang-swap-sweep) both;
+  animation: lang-panel-exit-right 360ms var(--lang-swap-sweep) both;
   animation-delay: calc(
-    100ms + var(--lang-swap-delay) - var(--lang-swap-offset)
+    80ms + var(--lang-swap-delay) - var(--lang-swap-offset)
   );
 }
 
 .lang-swap-root[data-phase="lift"][data-to="ro"] .lang-swap-panel {
-  animation: lang-panel-exit-left 440ms var(--lang-swap-sweep) both;
+  animation: lang-panel-exit-left 360ms var(--lang-swap-sweep) both;
   animation-delay: calc(
-    100ms + var(--lang-swap-delay) - var(--lang-swap-offset)
+    80ms + var(--lang-swap-delay) - var(--lang-swap-offset)
   );
 }
 
@@ -1474,13 +1474,13 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="cover"] .lang-swap-inner {
-  animation: lang-inner-in 360ms var(--lang-swap-in) both;
-  animation-delay: calc(170ms - var(--lang-swap-offset));
+  animation: lang-inner-in 300ms var(--lang-swap-in) both;
+  animation-delay: calc(130ms - var(--lang-swap-offset));
 }
 
 .lang-swap-root[data-phase="lift"] .lang-swap-inner {
-  animation: lang-inner-out 280ms var(--lang-swap-out) both;
-  animation-delay: calc(60ms - var(--lang-swap-offset));
+  animation: lang-inner-out 240ms var(--lang-swap-out) both;
+  animation-delay: calc(40ms - var(--lang-swap-offset));
 }
 
 .lang-swap-eyebrow {
@@ -1531,11 +1531,11 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="swap"][data-to="en"] .lang-swap-thumb {
-  animation: lang-thumb-to-right 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
+  animation: lang-thumb-to-right 380ms cubic-bezier(0.5, 0, 0.2, 1) both;
 }
 
 .lang-swap-root[data-phase="swap"][data-to="ro"] .lang-swap-thumb {
-  animation: lang-thumb-to-left 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
+  animation: lang-thumb-to-left 380ms cubic-bezier(0.5, 0, 0.2, 1) both;
 }
 
 .lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-thumb {
@@ -1585,11 +1585,11 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="swap"][data-to="en"] .lang-swap-codes-on {
-  animation: lang-codes-to-right 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
+  animation: lang-codes-to-right 380ms cubic-bezier(0.5, 0, 0.2, 1) both;
 }
 
 .lang-swap-root[data-phase="swap"][data-to="ro"] .lang-swap-codes-on {
-  animation: lang-codes-to-left 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
+  animation: lang-codes-to-left 380ms cubic-bezier(0.5, 0, 0.2, 1) both;
 }
 
 .lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-codes-on {
