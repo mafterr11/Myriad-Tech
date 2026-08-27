@@ -1357,15 +1357,33 @@ html.intro-active .intro-tagline {
    All of it is keyframes off one `data-phase` attribute rather than framer,
    because switching locale changes a dynamic route segment and Next rebuilds
    the entire subtree: a recreated node has to be able to read the current
-   phase straight out of the markup. `--lang-swap-offset` is the elapsed time
-   of the sweep at the moment the node appeared, subtracted from every delay,
-   so an interrupted sweep resumes instead of starting over. The state machine
-   is in lib/language-swap.js; change a duration here and change it there. */
+   phase straight out of the markup. The state machine is in
+   lib/language-swap.js; change a duration here and change it there.
+
+   Two rules keep this smooth, both learned by measuring it frame by frame:
+
+   * A timing function applies to every keyframe *segment*, not to the
+     animation as a whole. The thumb's travel used to be four stops under one
+     ease-in-out, which is three chained ease-in-outs -- it visibly stalled
+     twice on the way across. Anything that has to read as one continuous
+     movement is two keyframes and nothing in between.
+   * `--lang-swap-offset` is the elapsed time of a sweep at the moment the node
+     appeared, subtracted from its delay, so a sweep caught by a rebuild
+     resumes instead of starting over. The navigation is deferred until the
+     panel is down precisely so this should never be needed. */
 
 .lang-swap-root {
   --lang-swap-offset: 0ms;
   --lang-swap-delay: 0ms;
   --lang-swap-inset: 0.4rem;
+  /* The panels use the route curtain's own sweep ease. An ease-out was worse
+     on both counts: it peaks at about five times its average speed in the
+     first frames, which reads as a slam, and then spends the back half of its
+     duration crawling the last two percent -- off the edge of the screen,
+     where nobody can see it -- while the phase waits on `animationend`. */
+  --lang-swap-sweep: cubic-bezier(0.76, 0, 0.24, 1);
+  --lang-swap-in: cubic-bezier(0.22, 1, 0.36, 1);
+  --lang-swap-out: cubic-bezier(0.7, 0, 0.84, 0);
 
   position: fixed;
   inset: 0;
@@ -1379,23 +1397,33 @@ html.intro-active .intro-tagline {
   visibility: hidden;
 }
 
+/* Promoted only while something is actually moving, rather than parking two
+   full-screen layers on the compositor for the whole visit. */
+.lang-swap-root:not([data-phase="idle"]) .lang-swap-panel,
+.lang-swap-root:not([data-phase="idle"]) .lang-swap-thumb {
+  will-change: transform;
+}
+
+.lang-swap-root:not([data-phase="idle"]) .lang-swap-codes-on {
+  will-change: clip-path;
+}
+
 .lang-swap-panel {
   position: absolute;
   inset: 0;
-  will-change: transform;
 }
 
 /* A lighter sheet runs a beat ahead of the accent one, as on the curtain. The
    sweeps fill `both`, not `forwards`: through the front sheet's delay the base
    transform is the covered position, so without a backwards fill the accent
-   flashed over the whole screen for 80ms before the sweep began. */
+   flashed over the whole screen before the sweep began. */
 .lang-swap-panel-back {
   --lang-swap-delay: 0ms;
   background: #8a6250;
 }
 
 .lang-swap-panel-front {
-  --lang-swap-delay: 80ms;
+  --lang-swap-delay: 70ms;
   display: grid;
   place-items: center;
   background: var(--color-accent);
@@ -1412,29 +1440,33 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="cover"][data-to="en"] .lang-swap-panel {
-  animation: lang-panel-sweep-right 500ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation: lang-panel-sweep-right 480ms var(--lang-swap-sweep) both;
   animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
 }
 
 .lang-swap-root[data-phase="cover"][data-to="ro"] .lang-swap-panel {
-  animation: lang-panel-sweep-left 500ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation: lang-panel-sweep-left 480ms var(--lang-swap-sweep) both;
   animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
 }
 
-/* The lift waits a beat after the thumb lands, so the swap is read before the
-   page comes back. */
+/* The exit waits a beat after the thumb lands, so the swap is read before the
+   page comes back, and starts while the panel's contents are still fading --
+   otherwise it is a third of a second of blank panel before anything moves. */
 .lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-panel {
-  animation: lang-panel-exit-right 460ms cubic-bezier(0.76, 0, 0.24, 1) both;
-  animation-delay: calc(120ms + var(--lang-swap-delay));
+  animation: lang-panel-exit-right 440ms var(--lang-swap-sweep) both;
+  animation-delay: calc(
+    100ms + var(--lang-swap-delay) - var(--lang-swap-offset)
+  );
 }
 
 .lang-swap-root[data-phase="lift"][data-to="ro"] .lang-swap-panel {
-  animation: lang-panel-exit-left 460ms cubic-bezier(0.76, 0, 0.24, 1) both;
-  animation-delay: calc(120ms + var(--lang-swap-delay));
+  animation: lang-panel-exit-left 440ms var(--lang-swap-sweep) both;
+  animation-delay: calc(
+    100ms + var(--lang-swap-delay) - var(--lang-swap-offset)
+  );
 }
 
 .lang-swap-inner {
-  --lang-swap-delay: 180ms;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1442,13 +1474,13 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="cover"] .lang-swap-inner {
-  opacity: 0;
-  animation: lang-inner-in 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
+  animation: lang-inner-in 360ms var(--lang-swap-in) both;
+  animation-delay: calc(170ms - var(--lang-swap-offset));
 }
 
 .lang-swap-root[data-phase="lift"] .lang-swap-inner {
-  animation: lang-inner-out 300ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  animation: lang-inner-out 280ms var(--lang-swap-out) both;
+  animation-delay: calc(60ms - var(--lang-swap-offset));
 }
 
 .lang-swap-eyebrow {
@@ -1473,8 +1505,13 @@ html.intro-active .intro-tagline {
   border-radius: 6px;
 }
 
+/* Nothing but the travel is written to this element's transform. A squash
+   used to ride on an inner element; it was dropped once the travel itself was
+   made continuous, because it also stretched the paper past the clip below and
+   left a few pixels of the glyph at each edge washed out. */
 .lang-swap-thumb {
   position: absolute;
+  z-index: 1;
   top: var(--lang-swap-inset);
   bottom: var(--lang-swap-inset);
   left: var(--lang-swap-inset);
@@ -1494,11 +1531,11 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-root[data-phase="swap"][data-to="en"] .lang-swap-thumb {
-  animation: lang-thumb-right 520ms cubic-bezier(0.66, 0, 0.24, 1) forwards;
+  animation: lang-thumb-to-right 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
 }
 
 .lang-swap-root[data-phase="swap"][data-to="ro"] .lang-swap-thumb {
-  animation: lang-thumb-left 520ms cubic-bezier(0.66, 0, 0.24, 1) forwards;
+  animation: lang-thumb-to-left 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
 }
 
 .lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-thumb {
@@ -1509,10 +1546,27 @@ html.intro-active .intro-tagline {
   transform: translateX(0);
 }
 
-.lang-swap-code {
-  position: relative;
-  z-index: 1;
+/* Two identical rows: the dim one sits under the thumb, the accent one over
+   it, clipped to the thumb's own rectangle. So the glyphs never have to be
+   timed against the thumb -- every pixel is simply drawn against whatever is
+   actually behind it. The clip below shares the travel's duration and easing,
+   which is what keeps the two locked together. */
+.lang-swap-codes {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
   color: rgba(246, 241, 232, 0.42);
+}
+
+.lang-swap-codes-on {
+  z-index: 2;
+  color: var(--color-accent);
+}
+
+.lang-swap-code {
   font-family: var(--font-recursive);
   font-size: clamp(1.45rem, 5.5vw, 2.05rem);
   font-weight: 800;
@@ -1520,13 +1574,30 @@ html.intro-active .intro-tagline {
   line-height: 1;
   text-align: center;
   text-indent: 0.14em;
-  /* Held back so the colour turns over as the thumb arrives under it, not
-     before it has set off. */
-  transition: color 240ms ease 210ms;
 }
 
-.lang-swap-code[data-state="on"] {
-  color: var(--color-accent);
+.lang-swap-root[data-to="en"] .lang-swap-codes-on {
+  clip-path: inset(0 50% 0 var(--lang-swap-inset));
+}
+
+.lang-swap-root[data-to="ro"] .lang-swap-codes-on {
+  clip-path: inset(0 var(--lang-swap-inset) 0 50%);
+}
+
+.lang-swap-root[data-phase="swap"][data-to="en"] .lang-swap-codes-on {
+  animation: lang-codes-to-right 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
+}
+
+.lang-swap-root[data-phase="swap"][data-to="ro"] .lang-swap-codes-on {
+  animation: lang-codes-to-left 520ms cubic-bezier(0.5, 0, 0.2, 1) both;
+}
+
+.lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-codes-on {
+  clip-path: inset(0 var(--lang-swap-inset) 0 50%);
+}
+
+.lang-swap-root[data-phase="lift"][data-to="ro"] .lang-swap-codes-on {
+  clip-path: inset(0 50% 0 var(--lang-swap-inset));
 }
 
 .lang-swap-names {
@@ -1536,7 +1607,7 @@ html.intro-active .intro-tagline {
 }
 
 .lang-swap-name {
-  color: rgba(246, 241, 232, 0.38);
+  color: rgba(246, 241, 232, 0.34);
   font-family: var(--font-recursive);
   font-size: clamp(0.6rem, 1.8vw, 0.72rem);
   font-weight: 500;
@@ -1544,11 +1615,12 @@ html.intro-active .intro-tagline {
   text-align: center;
   text-indent: 0.18em;
   text-transform: uppercase;
-  transition: color 240ms ease 210ms;
+  transition: color 200ms ease 120ms;
 }
 
 .lang-swap-name[data-state="on"] {
   color: var(--color-paper);
+  transition: color 220ms ease 260ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1619,47 +1691,44 @@ html.intro-active .intro-tagline {
   }
 }
 
-/* The stretch is what makes it read as a thing being thrown across rather than
-   a box being repositioned. */
-@keyframes lang-thumb-right {
-  0% {
-    transform: translateX(0) scaleX(1);
+/* Two stops, so the easing shapes the whole crossing rather than three
+   separate thirds of it. */
+@keyframes lang-thumb-to-right {
+  from {
+    transform: translateX(0);
   }
-  32% {
-    transform: translateX(22%) scaleX(1.12);
-  }
-  72% {
-    transform: translateX(86%) scaleX(1.07);
-  }
-  100% {
-    transform: translateX(100%) scaleX(1);
+  to {
+    transform: translateX(100%);
   }
 }
 
-@keyframes lang-thumb-left {
-  0% {
-    transform: translateX(100%) scaleX(1);
+@keyframes lang-thumb-to-left {
+  from {
+    transform: translateX(100%);
   }
-  32% {
-    transform: translateX(78%) scaleX(1.12);
-  }
-  72% {
-    transform: translateX(14%) scaleX(1.07);
-  }
-  100% {
-    transform: translateX(0) scaleX(1);
+  to {
+    transform: translateX(0);
   }
 }
 
-/* Toast progress bar. Radix pauses its dismiss timer while a toast is hovered
-   or focused, so the bar pauses with it and the two stay honest. */
-.toast-progress {
-  animation: toast-progress 5s linear forwards;
+/* Same duration and easing as the travel above, so the accent glyphs and the
+   thumb they belong to move as one thing. */
+@keyframes lang-codes-to-right {
+  from {
+    clip-path: inset(0 50% 0 var(--lang-swap-inset));
+  }
+  to {
+    clip-path: inset(0 var(--lang-swap-inset) 0 50%);
+  }
 }
 
-.group:hover .toast-progress,
-.group:focus-within .toast-progress {
-  animation-play-state: paused;
+@keyframes lang-codes-to-left {
+  from {
+    clip-path: inset(0 var(--lang-swap-inset) 0 50%);
+  }
+  to {
+    clip-path: inset(0 50% 0 var(--lang-swap-inset));
+  }
 }
 
 @keyframes toast-progress {

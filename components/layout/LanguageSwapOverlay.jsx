@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import {
   advanceLanguageSwap,
   elapsedSince,
@@ -18,23 +19,28 @@ import {
 //
 // It is CSS from top to bottom rather than framer, and its state lives in
 // lib/language-swap.js rather than in this component, because a locale change
-// unmounts this component -- see the note there. The only phase that can be
-// caught mid-flight is the sweep in, and that one resumes from where it was:
-// `--lang-swap-offset` is subtracted from every delay, so a panel recreated
-// 300ms into a 500ms sweep starts 300ms in rather than starting over.
-
-// Must match the durations in the `language swap` block of globals.css.
-const COVER_MS = 580;
-const SWAP_MS = 520;
-const LIFT_MS = 660;
-
-// A slow route must not leave the panel parked over the page. Long enough that
-// it is a genuine backstop rather than a second clock racing the real one.
-const ARRIVAL_TIMEOUT_MS = 2400;
-const WATCHDOG_SLACK_MS = 900;
-
+// unmounts this component -- see the note there.
+//
+// This component owns the navigation, and fires it only once the panel is
+// down. Starting the sweep and the route change together meant the rebuild --
+// which is the whole page tree, so tens of milliseconds of blocked main thread
+// -- landed in the middle of the sweep and destroyed the node it was running
+// on. The panel picked itself back up about 100ms behind where it should have
+// been, which is exactly the stutter this arrangement avoids: every phase that
+// moves now runs either side of the rebuild, never across it.
 const NAMES = { ro: "Română", en: "English" };
 const CODES = ["ro", "en"];
+
+// Must match the durations in the `language swap` block of globals.css.
+const COVER_MS = 550;
+const SWAP_MS = 520;
+const LIFT_MS = 610;
+
+// A route that never arrives must not leave the panel parked over the page.
+// Generous on purpose: it is the last resort, not a second clock racing the
+// real one, and lifting on a page that failed to change is the worse outcome.
+const ARRIVAL_TIMEOUT_MS = 3500;
+const WATCHDOG_SLACK_MS = 900;
 
 // The intro taught this the hard way: a `setTimeout` keeps counting in a
 // backgrounded tab while the document timeline -- and with it every keyframe --
@@ -73,18 +79,22 @@ const onceAnimationEnd = (node, prefix, run) => {
 const LanguageSwapOverlay = () => {
   const swap = useLanguageSwap();
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const panelRef = useRef(null);
   const thumbRef = useRef(null);
 
-  // Captured once per swap, at the first render of whichever instance is alive.
-  // `animation-delay` is measured from the moment the animation is applied to
-  // the node, so it has to be worked out when the node appears and left alone
-  // afterwards -- recomputing it later would shunt a running sweep forwards.
-  const offsetRef = useRef({ startedAt: 0, offset: 0 });
-  if (swap.phase !== "idle" && offsetRef.current.startedAt !== swap.startedAt) {
+  // Captured once per phase, at the first render of whichever instance is
+  // alive. `animation-delay` is measured from the moment the animation is
+  // applied to the node, so it has to be worked out when the node appears and
+  // left alone afterwards -- recomputing it later would shunt a running sweep
+  // forwards. With the navigation deferred nothing should normally interrupt a
+  // sweep at all; this is what keeps a late arrival from replaying one.
+  const offsetRef = useRef({ key: 0, offset: 0 });
+  if (swap.phase !== "idle" && offsetRef.current.key !== swap.phaseStartedAt) {
     offsetRef.current = {
-      startedAt: swap.startedAt,
-      offset: elapsedSince(swap.startedAt),
+      key: swap.phaseStartedAt,
+      offset: elapsedSince(swap.phaseStartedAt),
     };
   }
 
@@ -99,10 +109,9 @@ const LanguageSwapOverlay = () => {
   }, [locale, swap.arrived, swap.phase, swap.to]);
 
   // Behind the panel, put the page back where it was being read. Next is asked
-  // not to scroll (`scroll: false` in LocalSwitcher) because this is the same
-  // page in another language, not a new one; this only corrects the position if
-  // the rebuild lost it, and only once, so it never fights a visitor who has
-  // started scrolling again.
+  // not to scroll because this is the same page in another language, not a new
+  // one; this only corrects the position if the rebuild lost it, and only once,
+  // so it never fights a visitor who has started scrolling again.
   const restoredRef = useRef(0);
   useEffect(() => {
     if (!swap.arrived || swap.phase === "idle") return;
@@ -113,36 +122,41 @@ const LanguageSwapOverlay = () => {
     window.scrollTo(0, swap.scrollY);
   }, [swap.arrived, swap.phase, swap.scrollY, swap.startedAt]);
 
-  // cover -> hold, once the panel is down.
+  // cover -> hold. The phase is advanced before the route change so the panel
+  // is already on its static covered rule when the rebuild arrives.
+  const navigatedRef = useRef(0);
+  const leaveCover = useCallback(() => {
+    advanceLanguageSwap("hold");
+
+    if (navigatedRef.current === swap.startedAt) return;
+    navigatedRef.current = swap.startedAt;
+    router.replace(pathname || "/", { locale: swap.to, scroll: false });
+  }, [pathname, router, swap.startedAt, swap.to]);
+
   useEffect(() => {
     if (swap.phase !== "cover") return undefined;
 
-    const toHold = () => advanceLanguageSwap("hold");
-
-    // A remount can land after the sweep would already have finished: there is
-    // no `animationend` left to wait for, and `hold` paints the panel in the
-    // exact position the sweep ends in, so there is nothing to see either.
-    if (elapsedSince(swap.startedAt) >= COVER_MS) {
-      toHold();
+    // Nothing left to wait for: `hold` paints the panel in the exact position
+    // the sweep ends in, so there is nothing to see either.
+    if (elapsedSince(swap.phaseStartedAt) >= COVER_MS) {
+      leaveCover();
       return undefined;
     }
 
     const stopListening = onceAnimationEnd(
       panelRef.current,
       "lang-panel-sweep",
-      toHold,
+      leaveCover,
     );
-    const disarm = armFallback(COVER_MS + WATCHDOG_SLACK_MS, toHold);
+    const disarm = armFallback(COVER_MS + WATCHDOG_SLACK_MS, leaveCover);
 
     return () => {
       stopListening();
       disarm();
     };
-  }, [swap.phase, swap.startedAt]);
+  }, [leaveCover, swap.phase, swap.phaseStartedAt]);
 
-  // hold -> swap, once the page underneath really has changed language. If it
-  // never does, go anyway: a panel that stays up is worse than one that lifts
-  // on a page that failed to change.
+  // hold -> swap, once the page underneath really has changed language.
   useEffect(() => {
     if (swap.phase !== "hold") return undefined;
     if (swap.arrived) {
@@ -161,7 +175,7 @@ const LanguageSwapOverlay = () => {
     const toLift = () => advanceLanguageSwap("lift");
     const stopListening = onceAnimationEnd(
       thumbRef.current,
-      "lang-thumb",
+      "lang-thumb-to",
       toLift,
     );
     const disarm = armFallback(SWAP_MS + WATCHDOG_SLACK_MS, toLift);
@@ -176,6 +190,11 @@ const LanguageSwapOverlay = () => {
   useEffect(() => {
     if (swap.phase !== "lift") return undefined;
 
+    if (elapsedSince(swap.phaseStartedAt) >= LIFT_MS) {
+      endLanguageSwap();
+      return undefined;
+    }
+
     const stopListening = onceAnimationEnd(
       panelRef.current,
       "lang-panel-exit",
@@ -187,10 +206,11 @@ const LanguageSwapOverlay = () => {
       stopListening();
       disarm();
     };
-  }, [swap.phase]);
+  }, [swap.phase, swap.phaseStartedAt]);
 
   const { phase, from, to } = swap;
   const active = phase === "cover" || phase === "hold" ? from : to;
+  const sweeping = phase === "cover" || phase === "lift";
 
   return (
     <div
@@ -198,7 +218,7 @@ const LanguageSwapOverlay = () => {
       data-phase={phase}
       data-to={to || undefined}
       style={
-        phase === "cover"
+        sweeping
           ? { "--lang-swap-offset": `${offsetRef.current.offset}ms` }
           : undefined
       }
@@ -208,17 +228,30 @@ const LanguageSwapOverlay = () => {
       <div className="lang-swap-panel lang-swap-panel-front" ref={panelRef}>
         <div className="lang-swap-inner">
           <span className="lang-swap-eyebrow">Limbă &middot; Language</span>
+          {/* The codes are drawn twice: once dim, underneath the thumb, and
+              once in accent on top of it, clipped to exactly the thumb's
+              rectangle. Whatever the thumb covers reads dark-on-paper and
+              whatever it does not reads paper-on-accent, at every instant and
+              with no timing to keep in step -- the clip runs on the same
+              duration and easing as the travel. Fading the colours instead
+              left the code the thumb was arriving under washed out,
+              paper-on-paper, for about a sixth of a second. */}
           <div className="lang-swap-pill">
+            <span className="lang-swap-codes">
+              {CODES.map((code) => (
+                <span key={code} className="lang-swap-code">
+                  {code.toUpperCase()}
+                </span>
+              ))}
+            </span>
             <span className="lang-swap-thumb" ref={thumbRef} />
-            {CODES.map((code) => (
-              <span
-                key={code}
-                className="lang-swap-code"
-                data-state={code === active ? "on" : "off"}
-              >
-                {code.toUpperCase()}
-              </span>
-            ))}
+            <span className="lang-swap-codes lang-swap-codes-on">
+              {CODES.map((code) => (
+                <span key={code} className="lang-swap-code">
+                  {code.toUpperCase()}
+                </span>
+              ))}
+            </span>
           </div>
           <div className="lang-swap-names">
             {CODES.map((code) => (

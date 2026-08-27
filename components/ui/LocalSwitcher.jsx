@@ -25,22 +25,31 @@ export default function LocalSwitcher() {
     !path.startsWith("/admin") &&
     !path.startsWith("/admin-login");
 
+  const nextLocale = localeActive === "en" ? "ro" : "en";
+
+  // The overlay holds the panel down until the payload lands, and it only
+  // starts fetching once the panel is fully covering -- so warming the other
+  // locale on the way to the click is what keeps that wait short. Done here
+  // rather than on mount so an ordinary visit does not pay for a route nobody
+  // asked for.
+  const warm = () => {
+    if (!animated) return;
+    router.prefetch(path, { locale: nextLocale });
+  };
+
   const toggleLocale = () => {
     // One swap at a time. The switch is behind the panel for most of it, but a
     // second click landing mid-sweep would restart the whole sequence.
     if (swap.phase !== "idle") return;
 
-    const nextLocale = localeActive === "en" ? "ro" : "en";
-
     // The locale sits in a route segment, so this is not a repaint in place:
-    // Next rebuilds the entire page. LanguageSwapOverlay covers that and shows
-    // the two codes trading places -- it deliberately does not go through the
-    // route curtain, whose state does not survive the rebuild. `scroll: false`
-    // keeps the visitor where they were reading rather than sending them to
-    // the top of the same page in another language.
+    // Next rebuilds the entire page. LanguageSwapOverlay covers that, shows the
+    // two codes trading places, and owns the route change itself so it can fire
+    // it with the panel already down -- see the note there. It deliberately
+    // does not go through the route curtain, whose state does not survive the
+    // rebuild.
     if (animated) {
       startLanguageSwap(localeActive, nextLocale, window.scrollY);
-      router.replace(path, { locale: nextLocale, scroll: false });
       return;
     }
 
@@ -53,6 +62,9 @@ export default function LocalSwitcher() {
       <Switch
         checked={localeActive === "en"}
         onCheckedChange={toggleLocale}
+        onPointerEnter={warm}
+        onPointerDown={warm}
+        onFocus={warm}
         disabled={isPending}
         id="language-switch"
         aria-label="Language Switch"

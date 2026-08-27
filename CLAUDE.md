@@ -195,26 +195,58 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   `hold` -> `swap` the locale actually changing. So the codes trade places at
   the moment the page underneath really has changed language, and a slow route
   just makes `hold` longer instead of desynchronising anything.
-- `hold` is deliberately static (panel down, nothing animating). The rebuild
-  almost always lands in it, and landing in a static phase costs nothing.
-- The one phase that can be caught mid-flight is `cover`. It resumes rather
-  than restarting: the overlay measures how far in the swap already was at its
-  first render and publishes it as `--lang-swap-offset`, which every cover
-  animation subtracts from its delay. Measure it during render and leave it
-  alone -- recomputing later would shunt a running sweep forwards, because
-  `animation-delay` counts from when the animation was applied to the node.
+- **The overlay owns the route change, and fires it on the way out of `cover`,
+  not on the click.** Starting the sweep and the navigation together put the
+  rebuild -- the whole page tree, so tens of milliseconds of blocked main
+  thread -- in the middle of the sweep, and destroyed the node it was running
+  on: the panel picked itself back up about 100ms behind and the swap read as
+  clunky. Every phase that moves now runs either side of the rebuild, never
+  across it. `hold` is static for the same reason, and is where the rebuild
+  lands.
+- Deferring the fetch that way makes `hold` as long as the payload takes, so
+  `LocalSwitcher` prefetches the other locale on hover/focus/pointerdown. On
+  mount would cost every visit a route most people never ask for.
+- `--lang-swap-offset` is the elapsed time of a sweep when the node appeared,
+  subtracted from its delay, so one caught mid-flight resumes instead of
+  restarting. With the navigation deferred nothing should interrupt a sweep;
+  this is what keeps a late arrival from replaying one. Measure it during
+  render and leave it alone -- recomputing later would shunt a running sweep
+  forwards, because `animation-delay` counts from when the animation was
+  applied to the node.
+- **A timing function applies to each keyframe *segment*, not to the animation
+  as a whole.** The thumb's travel was four stops under one ease-in-out, which
+  is three chained ease-in-outs: it decelerated almost to a stop twice on the
+  way across, which was the other half of the clunkiness. Anything that has to
+  read as one continuous movement gets two keyframes and nothing in between.
+- **The two codes are drawn twice**, dim underneath the thumb and in accent on
+  top of it, the top copy clipped to exactly the thumb's rectangle by a
+  `clip-path` on the travel's own duration and easing. Every pixel is then
+  drawn against whatever is actually behind it, with no timing to keep in step.
+  Crossfading the colours instead left the code the thumb was arriving under
+  washed out, paper-on-paper, for about a sixth of a second.
+- The panels use the route curtain's own sweep ease. An ease-out was worse on
+  both counts: it peaks at roughly five times its average speed in the opening
+  frames, and then spends the back half of its duration crawling the last two
+  percent off the edge of the screen where nobody can see it, while the phase
+  waits on `animationend`.
 - The panel sweeps fill **`both`**, not `forwards`. Through the front sheet's
-  80ms delay the base transform is the covered position, so with `forwards` the
+  delay the base transform is the covered position, so with `forwards` the
   accent flashed over the whole screen before the sweep began -- a second, much
   more visible version of the bug this was meant to fix.
 - Change a duration in the `language swap` block of globals.css and change the
   matching `COVER_MS` / `SWAP_MS` / `LIFT_MS` in the overlay, which the
-  watchdogs are sized from. End to end it is about 1.9s.
-- The switch passes `scroll: false` and the overlay puts the scroll position
-  back behind the panel: this is the same page in another language, so the
-  visitor keeps their place rather than being sent to the top.
-- Reduced motion skips the whole thing in JS (`LocalSwitcher` checks
-  `useReducedMotion`), and the panel is `display: none` in CSS as a backstop.
+  watchdogs are sized from. End to end it is about 1.85s.
+- The overlay puts the scroll position back behind the panel and asks Next not
+  to scroll: this is the same page in another language, so the visitor keeps
+  their place rather than being sent to the top.
+- Reduced motion and `/admin` skip the whole thing in JS (`LocalSwitcher`
+  checks both), and the panel is `display: none` under reduced motion in CSS as
+  a backstop.
+- Motion like this cannot be judged from stills. What found both defects was
+  sampling `getComputedStyle` transforms every frame and looking at the
+  *velocity* between frames: a stutter is not a slow frame -- an ease-in-out is
+  meant to start and end slow -- it is velocity dipping and then picking back
+  up again.
 - **Animations cannot be verified in a headless browser pane.** The tab there
   reports `visibilityState: "hidden"`, which freezes the document timeline
   for CSS and framer alike -- transforms sit at their t=0 value forever.
