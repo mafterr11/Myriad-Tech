@@ -15,6 +15,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import LenisScroll from "./LenisScroll";
 import IntroOverlay from "../../components/layout/IntroOverlay";
 import CurtainProvider from "../../components/layout/CurtainProvider";
+import LanguageSwapOverlay from "../../components/layout/LanguageSwapOverlay";
 import { routing } from "@/i18n/routing";
 
 const roboto = Roboto({
@@ -82,6 +83,7 @@ export default async function RootLayout({ children, params }) {
             <CookieBanner />
             <Analytics />
             <Toaster />
+            <LanguageSwapOverlay />
           </CurtainProvider>
         </NextIntlClientProvider>
       </body>

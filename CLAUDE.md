@@ -166,6 +166,55 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   push content settling out to ~2.5s after a click. Not worth it.
 - Back/forward buttons get no curtain (nothing to intercept) -- the swap is
   instant. That is deliberate, not a bug.
+
+### Language swap (RO/EN)
+
+- **A locale change is not a repaint in place.** The locale is a dynamic route
+  segment, so `router.replace(path, { locale })` changes the `[locale]` cache
+  key and Next unmounts and rebuilds *everything* under
+  `app/[locale]/layout.jsx`. Verified in a browser: the `.curtain-root` and
+  `#main-content` nodes captured before a switch both come back
+  `isConnected === false`.
+- That is why the route curtain could never cover a language switch. It kept
+  `phase` in React state inside the tree being rebuilt, so it reset to `"idle"`
+  mid-sweep: the accent flashed for a few frames and cut out, leaving the swap
+  itself uncovered. `LocalSwitcher` used to call the curtain's `navigate` with
+  a locale; it no longer does, and `TransitionLink` now lets any link carrying
+  a `locale` fall through to the plain next-intl `Link`. **Do not route a
+  locale change back through `CurtainProvider`.**
+- `components/layout/LanguageSwapOverlay.jsx` replaces it: the header switch
+  at full screen, both codes on the panel, the thumb sliding from one to the
+  other. The panel enters from the side the thumb is leaving and exits on the
+  side it lands, so the whole screen travels the way the toggle was flipped.
+- **Its state lives in `lib/language-swap.js`, in module scope, not in React.**
+  A module is not re-evaluated by a client navigation, so it outlives the
+  rebuild; the overlay reads it with `useSyncExternalStore` and a freshly
+  mounted instance renders whatever phase it finds instead of starting over.
+- Phases are `cover` -> `hold` -> `swap` -> `lift`, and each one is gated on a
+  real event, not a clock: `animationend` for the sweeps, and for
+  `hold` -> `swap` the locale actually changing. So the codes trade places at
+  the moment the page underneath really has changed language, and a slow route
+  just makes `hold` longer instead of desynchronising anything.
+- `hold` is deliberately static (panel down, nothing animating). The rebuild
+  almost always lands in it, and landing in a static phase costs nothing.
+- The one phase that can be caught mid-flight is `cover`. It resumes rather
+  than restarting: the overlay measures how far in the swap already was at its
+  first render and publishes it as `--lang-swap-offset`, which every cover
+  animation subtracts from its delay. Measure it during render and leave it
+  alone -- recomputing later would shunt a running sweep forwards, because
+  `animation-delay` counts from when the animation was applied to the node.
+- The panel sweeps fill **`both`**, not `forwards`. Through the front sheet's
+  80ms delay the base transform is the covered position, so with `forwards` the
+  accent flashed over the whole screen before the sweep began -- a second, much
+  more visible version of the bug this was meant to fix.
+- Change a duration in the `language swap` block of globals.css and change the
+  matching `COVER_MS` / `SWAP_MS` / `LIFT_MS` in the overlay, which the
+  watchdogs are sized from. End to end it is about 1.9s.
+- The switch passes `scroll: false` and the overlay puts the scroll position
+  back behind the panel: this is the same page in another language, so the
+  visitor keeps their place rather than being sent to the top.
+- Reduced motion skips the whole thing in JS (`LocalSwitcher` checks
+  `useReducedMotion`), and the panel is `display: none` in CSS as a backstop.
 - **Animations cannot be verified in a headless browser pane.** The tab there
   reports `visibilityState: "hidden"`, which freezes the document timeline
   for CSS and framer alike -- transforms sit at their t=0 value forever.

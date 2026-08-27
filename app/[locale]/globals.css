@@ -1347,6 +1347,310 @@ html.intro-active .intro-tagline {
   transform: translate(-50%, -50%);
 }
 
+/* --- language swap -------------------------------------------------------- */
+
+/* The full-screen echo of the header's language switch: two slots, one sliding
+   thumb, travelling along the same axis the toggle does. The panel sweeps in
+   from the side the thumb is heading away from and leaves on the side it is
+   heading towards, so the whole screen moves the way the switch was flipped.
+
+   All of it is keyframes off one `data-phase` attribute rather than framer,
+   because switching locale changes a dynamic route segment and Next rebuilds
+   the entire subtree: a recreated node has to be able to read the current
+   phase straight out of the markup. `--lang-swap-offset` is the elapsed time
+   of the sweep at the moment the node appeared, subtracted from every delay,
+   so an interrupted sweep resumes instead of starting over. The state machine
+   is in lib/language-swap.js; change a duration here and change it there. */
+
+.lang-swap-root {
+  --lang-swap-offset: 0ms;
+  --lang-swap-delay: 0ms;
+  --lang-swap-inset: 0.4rem;
+
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  /* Never takes pointer events, for the same reason the route curtain never
+     does: a stalled animation must not be able to swallow every click. */
+  pointer-events: none;
+}
+
+.lang-swap-root[data-phase="idle"] {
+  visibility: hidden;
+}
+
+.lang-swap-panel {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* A lighter sheet runs a beat ahead of the accent one, as on the curtain. The
+   sweeps fill `both`, not `forwards`: through the front sheet's delay the base
+   transform is the covered position, so without a backwards fill the accent
+   flashed over the whole screen for 80ms before the sweep began. */
+.lang-swap-panel-back {
+  --lang-swap-delay: 0ms;
+  background: #8a6250;
+}
+
+.lang-swap-panel-front {
+  --lang-swap-delay: 80ms;
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 253, 248, 0.12),
+    transparent 60%
+  );
+}
+
+.lang-swap-root[data-phase="hold"] .lang-swap-panel,
+.lang-swap-root[data-phase="swap"] .lang-swap-panel {
+  transform: none;
+}
+
+.lang-swap-root[data-phase="cover"][data-to="en"] .lang-swap-panel {
+  animation: lang-panel-sweep-right 500ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
+}
+
+.lang-swap-root[data-phase="cover"][data-to="ro"] .lang-swap-panel {
+  animation: lang-panel-sweep-left 500ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
+}
+
+/* The lift waits a beat after the thumb lands, so the swap is read before the
+   page comes back. */
+.lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-panel {
+  animation: lang-panel-exit-right 460ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation-delay: calc(120ms + var(--lang-swap-delay));
+}
+
+.lang-swap-root[data-phase="lift"][data-to="ro"] .lang-swap-panel {
+  animation: lang-panel-exit-left 460ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation-delay: calc(120ms + var(--lang-swap-delay));
+}
+
+.lang-swap-inner {
+  --lang-swap-delay: 180ms;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.95rem, 2.6vw, 1.4rem);
+}
+
+.lang-swap-root[data-phase="cover"] .lang-swap-inner {
+  opacity: 0;
+  animation: lang-inner-in 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--lang-swap-delay) - var(--lang-swap-offset));
+}
+
+.lang-swap-root[data-phase="lift"] .lang-swap-inner {
+  animation: lang-inner-out 300ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+.lang-swap-eyebrow {
+  color: rgba(246, 241, 232, 0.55);
+  font-family: var(--font-recursive);
+  font-size: clamp(0.6rem, 1.7vw, 0.7rem);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  text-transform: uppercase;
+}
+
+/* Same square corners and same two slots as components/ui/switch.jsx. */
+.lang-swap-pill {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  width: clamp(13rem, 46vw, 17.5rem);
+  height: clamp(4rem, 13vw, 5.25rem);
+  border: 1px solid rgba(246, 241, 232, 0.38);
+  border-radius: 6px;
+}
+
+.lang-swap-thumb {
+  position: absolute;
+  top: var(--lang-swap-inset);
+  bottom: var(--lang-swap-inset);
+  left: var(--lang-swap-inset);
+  width: calc(50% - var(--lang-swap-inset));
+  border-radius: 4px;
+  background: var(--color-paper);
+}
+
+/* The thumb starts under the code being left behind, which is the one the
+   switch was not pointing at. */
+.lang-swap-root[data-to="en"] .lang-swap-thumb {
+  transform: translateX(0);
+}
+
+.lang-swap-root[data-to="ro"] .lang-swap-thumb {
+  transform: translateX(100%);
+}
+
+.lang-swap-root[data-phase="swap"][data-to="en"] .lang-swap-thumb {
+  animation: lang-thumb-right 520ms cubic-bezier(0.66, 0, 0.24, 1) forwards;
+}
+
+.lang-swap-root[data-phase="swap"][data-to="ro"] .lang-swap-thumb {
+  animation: lang-thumb-left 520ms cubic-bezier(0.66, 0, 0.24, 1) forwards;
+}
+
+.lang-swap-root[data-phase="lift"][data-to="en"] .lang-swap-thumb {
+  transform: translateX(100%);
+}
+
+.lang-swap-root[data-phase="lift"][data-to="ro"] .lang-swap-thumb {
+  transform: translateX(0);
+}
+
+.lang-swap-code {
+  position: relative;
+  z-index: 1;
+  color: rgba(246, 241, 232, 0.42);
+  font-family: var(--font-recursive);
+  font-size: clamp(1.45rem, 5.5vw, 2.05rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-align: center;
+  text-indent: 0.14em;
+  /* Held back so the colour turns over as the thumb arrives under it, not
+     before it has set off. */
+  transition: color 240ms ease 210ms;
+}
+
+.lang-swap-code[data-state="on"] {
+  color: var(--color-accent);
+}
+
+.lang-swap-names {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: clamp(13rem, 46vw, 17.5rem);
+}
+
+.lang-swap-name {
+  color: rgba(246, 241, 232, 0.38);
+  font-family: var(--font-recursive);
+  font-size: clamp(0.6rem, 1.8vw, 0.72rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-indent: 0.18em;
+  text-transform: uppercase;
+  transition: color 240ms ease 210ms;
+}
+
+.lang-swap-name[data-state="on"] {
+  color: var(--color-paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* JS never starts a swap in this case either -- see LocalSwitcher -- but the
+     panel has no business existing at all if it did. */
+  .lang-swap-root {
+    display: none;
+  }
+}
+
+@keyframes lang-panel-sweep-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes lang-panel-sweep-left {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes lang-panel-exit-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+    visibility: hidden;
+  }
+}
+
+@keyframes lang-panel-exit-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+    visibility: hidden;
+  }
+}
+
+@keyframes lang-inner-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lang-inner-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+/* The stretch is what makes it read as a thing being thrown across rather than
+   a box being repositioned. */
+@keyframes lang-thumb-right {
+  0% {
+    transform: translateX(0) scaleX(1);
+  }
+  32% {
+    transform: translateX(22%) scaleX(1.12);
+  }
+  72% {
+    transform: translateX(86%) scaleX(1.07);
+  }
+  100% {
+    transform: translateX(100%) scaleX(1);
+  }
+}
+
+@keyframes lang-thumb-left {
+  0% {
+    transform: translateX(100%) scaleX(1);
+  }
+  32% {
+    transform: translateX(78%) scaleX(1.12);
+  }
+  72% {
+    transform: translateX(14%) scaleX(1.07);
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
+  }
+}
+
 /* Toast progress bar. Radix pauses its dismiss timer while a toast is hovered
    or focused, so the bar pauses with it and the two stay honest. */
 .toast-progress {

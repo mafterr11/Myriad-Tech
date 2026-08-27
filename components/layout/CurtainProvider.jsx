@@ -18,6 +18,14 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 // by the time `children` changes the old tree is already gone -- so the links
 // hand navigation to this provider instead, which pushes the route while the
 // curtain is on its way in.
+//
+// Language changes do *not* come through here, and must not be routed back
+// through it. The locale is a dynamic route segment, so switching it rebuilds
+// everything under app/[locale]/layout.jsx -- this provider included -- and
+// `phase` was reset to "idle" mid-sweep, which is what made the curtain flash
+// and cut out on every language switch. That job belongs to
+// components/layout/LanguageSwapOverlay.jsx, which keeps its state outside
+// React for exactly that reason.
 const CurtainContext = createContext(null);
 
 const IDLE_FALLBACK = { enabled: false, navigate: null };
@@ -160,13 +168,12 @@ const CurtainProvider = ({ children }) => {
   }, [reveal]);
 
   const navigate = useCallback(
-    (href, locale, { replace = false } = {}) => {
-      const options = locale ? { locale } : undefined;
-      const go = (target, opts) =>
-        replace ? router.replace(target, opts) : router.push(target, opts);
+    (href, { replace = false } = {}) => {
+      const go = (target) =>
+        replace ? router.replace(target) : router.push(target);
 
       if (!enabled) {
-        go(href, options);
+        go(href);
         return;
       }
 
@@ -182,24 +189,16 @@ const CurtainProvider = ({ children }) => {
 
       clearTimers();
       coveredRef.current = false;
-      // A locale switch keeps the same internal pathname, so there is no path
-      // change to wait for -- the cover animation is the only gate.
       arrivedRef.current = false;
-      targetRef.current = locale
-        ? null
-        : href.split("#")[0].split("?")[0] || "/";
+      targetRef.current = href.split("#")[0].split("?")[0] || "/";
 
       setPhase("covering");
-      go(href, options);
+      go(href);
 
       timeoutRef.current = setTimeout(() => {
         arrivedRef.current = true;
         maybeReveal();
       }, ARRIVAL_TIMEOUT_MS);
-
-      if (targetRef.current === null) {
-        arrivedRef.current = true;
-      }
     },
     [clearTimers, enabled, maybeReveal, router],
   );
