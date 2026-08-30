@@ -354,10 +354,34 @@ function ProjectForm({
       onSubmit={(event) => {
         const file =
           event.currentTarget.elements.namedItem("image_file")?.files?.[0];
+        const hasImageFile = Boolean(file?.size);
 
         if (file && file.size > MAX_IMAGE_BYTES) {
           event.preventDefault();
           setClientError(t("imageTooLarge"));
+          return;
+        }
+
+        if (hasImageFile && !acceptedImageTypes.includes(file.type)) {
+          event.preventDefault();
+          setClientError(t("imageTypeInvalid"));
+          return;
+        }
+
+        // A new project can be created before its final image is ready. The
+        // first submit is stopped so cancelling never dispatches the server
+        // action (and therefore cannot reset the form). After confirmation,
+        // render the local placeholder into the controlled URL input and
+        // submit again so FormData contains that explicit value.
+        if (isNew && !hasImageFile && !imageUrl.trim()) {
+          event.preventDefault();
+
+          if (!window.confirm(t("confirmNoImage"))) return;
+
+          const form = event.currentTarget;
+          setClientError(null);
+          setImageUrl(placeholderImage);
+          window.setTimeout(() => form.requestSubmit(), 0);
           return;
         }
 
