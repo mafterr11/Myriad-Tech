@@ -10,7 +10,15 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowDown, ArrowUp, Search } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  Copy,
+  ExternalLink,
+  Languages,
+  RefreshCw,
+  Search,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,6 +35,7 @@ import {
   updateProject,
 } from "@/lib/projects/actions";
 import { resetSiteImage, updateSiteImage } from "@/lib/site-images/actions";
+import AdminOverview from "./AdminOverview";
 
 const emptyProject = {
   slug: "",
@@ -44,9 +53,16 @@ const emptyProject = {
 };
 
 const categories = ["presentation", "progress", "shop", "wordpress", "others"];
-const statusFilters = ["all", "published", "draft", "featured"];
+const statusFilters = ["all", "published", "draft", "featured", "incomplete"];
 const initialActionState = { success: false, error: null, message: null };
 const placeholderImage = "/project-bg-light.png";
+const acceptedImageTypes = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/avif",
+];
+const acceptedImageTypesAttribute = acceptedImageTypes.join(",");
 
 function ActionFeedback({ state, className = "" }) {
   if (!state?.error && !state?.message) {
@@ -78,21 +94,40 @@ function useRefreshOnSuccess(state, onSuccess) {
   }, [onSuccess, router, state]);
 }
 
-function StatCard({ label, value }) {
-  return (
-    <div className="border border-line bg-white/65 px-4 py-3">
-      <div className="text-2xl font-bold tabular-nums">{value}</div>
-      <div className="mt-1 text-[10px] font-bold tracking-[0.12em] text-black/55 uppercase">
-        {label}
-      </div>
-    </div>
+function hasCompleteTranslations(project) {
+  return Boolean(
+    project?.description_ro?.trim() && project?.description_en?.trim(),
   );
+}
+
+function formatAdminDate(value, locale) {
+  const date = new Date(value ?? "");
+  if (Number.isNaN(date.getTime())) return "—";
+
+  return new Intl.DateTimeFormat(locale === "ro" ? "ro-RO" : "en-GB", {
+    dateStyle: "medium",
+  }).format(date);
+}
+
+function createCopySlug(sourceSlug, projects) {
+  const usedSlugs = new Set(projects.map((project) => project.slug));
+  const base = sourceSlug.slice(0, 110).replace(/-+$/, "");
+  let candidate = `${base}-copy`;
+  let copyNumber = 2;
+
+  while (usedSlugs.has(candidate)) {
+    const suffix = `-copy-${copyNumber}`;
+    candidate = `${base.slice(0, 120 - suffix.length)}${suffix}`;
+    copyNumber += 1;
+  }
+
+  return candidate;
 }
 
 function ImagePreview({ src, alt, className = "" }) {
   return (
     <div
-      className={`relative overflow-hidden border border-line bg-work ${className}`}
+      className={`border-line bg-work relative overflow-hidden border ${className}`}
     >
       {/* A plain img keeps blob: previews of a freshly picked file working. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -149,7 +184,15 @@ function ActionForm({
   );
 }
 
-function ReorderControls({ id, scope, label, canMoveUp, canMoveDown, disabled, hint }) {
+function ReorderControls({
+  id,
+  scope,
+  label,
+  canMoveUp,
+  canMoveDown,
+  disabled,
+  hint,
+}) {
   const t = useTranslations("Admin");
 
   return (
@@ -162,7 +205,6 @@ function ReorderControls({ id, scope, label, canMoveUp, canMoveDown, disabled, h
         size="icon"
         disabled={disabled || !canMoveUp}
         title={disabled ? hint : t("moveUp")}
-        showErrors={false}
         fields={
           <>
             <input type="hidden" name="id" value={id} />
@@ -179,7 +221,6 @@ function ReorderControls({ id, scope, label, canMoveUp, canMoveDown, disabled, h
         size="icon"
         disabled={disabled || !canMoveDown}
         title={disabled ? hint : t("moveDown")}
-        showErrors={false}
         fields={
           <>
             <input type="hidden" name="id" value={id} />
@@ -202,6 +243,7 @@ function ProjectForm({
   projectCount,
   featuredCount,
   onCancel,
+  onDirtyChange,
   onSaved,
 }) {
   const t = useTranslations("Admin");
@@ -209,13 +251,53 @@ function ProjectForm({
   const [imageUrl, setImageUrl] = useState(project.image_url || "");
   const [previewUrl, setPreviewUrl] = useState("");
   const [clientError, setClientError] = useState(null);
+  const [isDirty, setIsDirty] = useState(false);
   const action = isNew ? createProject : updateProject;
   const [state, formAction, isPending] = useActionState(
     action,
     initialActionState,
   );
 
-  useRefreshOnSuccess(state, onSaved);
+  const handleSaved = useCallback(() => {
+    setIsDirty(false);
+    onSaved?.();
+  }, [onSaved]);
+
+  useRefreshOnSuccess(state, handleSaved);
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
+  useEffect(() => {
+    if (!isDirty) return undefined;
+
+    const warnBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    const guardClientNavigation = (event) => {
+      const anchor = event.target.closest?.("a[href]");
+      if (
+        !anchor ||
+        anchor.target === "_blank" ||
+        anchor.hasAttribute("download")
+      ) {
+        return;
+      }
+      if (!window.confirm(t("confirmDiscard"))) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    window.addEventListener("beforeunload", warnBeforeUnload);
+    document.addEventListener("click", guardClientNavigation, true);
+    return () => {
+      window.removeEventListener("beforeunload", warnBeforeUnload);
+      document.removeEventListener("click", guardClientNavigation, true);
+    };
+  }, [isDirty, t]);
 
   useEffect(() => {
     if (!previewUrl) {
@@ -241,6 +323,13 @@ function ProjectForm({
       return;
     }
 
+    if (!acceptedImageTypes.includes(file.type)) {
+      event.target.value = "";
+      setPreviewUrl("");
+      setClientError(t("imageTypeInvalid"));
+      return;
+    }
+
     if (file.size > MAX_IMAGE_BYTES) {
       event.target.value = "";
       setPreviewUrl("");
@@ -252,12 +341,19 @@ function ProjectForm({
     setPreviewUrl(URL.createObjectURL(file));
   }
 
+  function requestCancel() {
+    if (!isDirty || window.confirm(t("confirmDiscard"))) {
+      onCancel();
+    }
+  }
+
   return (
     <form
       action={formAction}
+      onChangeCapture={() => setIsDirty(true)}
       onSubmit={(event) => {
-        const file = event.currentTarget.elements.namedItem("image_file")
-          ?.files?.[0];
+        const file =
+          event.currentTarget.elements.namedItem("image_file")?.files?.[0];
 
         if (file && file.size > MAX_IMAGE_BYTES) {
           event.preventDefault();
@@ -267,7 +363,7 @@ function ProjectForm({
 
         setClientError(null);
       }}
-      className="border border-line bg-white/70 p-5 sm:p-7"
+      className="border-line border bg-white/70 p-5 sm:p-7"
     >
       {isNew ? null : <input type="hidden" name="id" value={project.id} />}
       <input type="hidden" name="locale" value={locale} />
@@ -279,12 +375,18 @@ function ProjectForm({
             {isNew ? t("newProject") : t("editProject")}
           </h2>
         </div>
-        <Button type="button" variant="ghost" size="sm" onClick={onCancel}>
+        <Button type="button" variant="ghost" size="sm" onClick={requestCancel}>
           {t("cancel")}
         </Button>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
+        <div className="border-line border-b pb-3 md:col-span-2">
+          <h3 className="text-lg">{t("formSections.basic")}</h3>
+          <p className="mt-1 text-sm text-black/55">
+            {t("formSections.basicHint")}
+          </p>
+        </div>
         <div>
           <Label htmlFor="project-slug">{t("slug")}</Label>
           <Input
@@ -297,7 +399,12 @@ function ProjectForm({
         </div>
         <div>
           <Label htmlFor="project-name">{t("name")}</Label>
-          <Input id="project-name" name="name" defaultValue={project.name} required />
+          <Input
+            id="project-name"
+            name="name"
+            defaultValue={project.name}
+            required
+          />
         </div>
         <div>
           <Label htmlFor="project-category">{t("category")}</Label>
@@ -314,16 +421,11 @@ function ProjectForm({
             ))}
           </select>
         </div>
-        <div>
-          <Label htmlFor="project-url">{t("projectUrl")}</Label>
-          <Input
-            id="project-url"
-            name="project_url"
-            type="url"
-            defaultValue={project.project_url || ""}
-            placeholder="https://example.com"
-            required
-          />
+        <div className="border-line border-b pt-3 pb-3 md:col-span-2">
+          <h3 className="text-lg">{t("formSections.content")}</h3>
+          <p className="mt-1 text-sm text-black/55">
+            {t("formSections.contentHint")}
+          </p>
         </div>
         <div className="md:col-span-2">
           <Label htmlFor="project-description-ro">{t("descriptionRo")}</Label>
@@ -344,6 +446,12 @@ function ProjectForm({
           />
         </div>
 
+        <div className="border-line border-b pt-3 pb-3 md:col-span-2">
+          <h3 className="text-lg">{t("formSections.media")}</h3>
+          <p className="mt-1 text-sm text-black/55">
+            {t("formSections.mediaHint")}
+          </p>
+        </div>
         <div className="grid gap-5 md:col-span-2 md:grid-cols-[10rem_1fr] md:items-start">
           <div>
             <span className="text-sm font-medium">{t("imagePreview")}</span>
@@ -371,14 +479,30 @@ function ProjectForm({
                 id="project-image-file"
                 name="image_file"
                 type="file"
-                accept="image/*"
+                accept={acceptedImageTypesAttribute}
                 onChange={handleFileChange}
               />
             </div>
-            <p className="text-sm text-black/55 sm:col-span-2">{t("imageHint")}</p>
+            <p className="text-sm text-black/55 sm:col-span-2">
+              {t("imageHint")}
+            </p>
           </div>
         </div>
 
+        <div className="border-line border-b pt-3 pb-3 md:col-span-2">
+          <h3 className="text-lg">{t("formSections.links")}</h3>
+        </div>
+        <div>
+          <Label htmlFor="project-url">{t("projectUrl")}</Label>
+          <Input
+            id="project-url"
+            name="project_url"
+            type="url"
+            defaultValue={project.project_url || ""}
+            placeholder="https://example.com"
+            required
+          />
+        </div>
         <div>
           <Label htmlFor="project-github-url">{t("githubUrl")}</Label>
           <Input
@@ -388,7 +512,13 @@ function ProjectForm({
             defaultValue={project.github_url || ""}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="border-line border-b pt-3 pb-3 md:col-span-2">
+          <h3 className="text-lg">{t("formSections.publishing")}</h3>
+          <p className="mt-1 text-sm text-black/55">
+            {t("formSections.publishingHint")}
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4 md:col-span-2 md:max-w-xl">
           <div>
             <Label htmlFor="project-sort-order">{t("sortOrder")}</Label>
             <Input
@@ -416,7 +546,7 @@ function ProjectForm({
         <p className="text-sm text-black/55 md:col-span-2">{t("orderHint")}</p>
       </div>
 
-      <div className="mt-6 flex flex-wrap gap-6 border-t border-line pt-5">
+      <div className="border-line mt-6 flex flex-wrap gap-6 border-t pt-5">
         <label className="flex items-center gap-3 text-sm font-medium">
           <input
             type="checkbox"
@@ -440,10 +570,15 @@ function ProjectForm({
         </label>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-4">
+      <div className="border-line bg-body/95 sticky bottom-4 z-20 mt-6 flex flex-wrap items-center gap-4 border p-3 shadow-[0_12px_32px_rgba(27,26,23,0.14)] backdrop-blur-sm">
         <Button type="submit" disabled={isPending}>
           {isPending ? "..." : isNew ? t("createProject") : t("saveChanges")}
         </Button>
+        {isDirty ? (
+          <span className="text-sm font-medium text-amber-800" role="status">
+            {t("unsavedChanges")}
+          </span>
+        ) : null}
         <ActionFeedback state={clientError ? { error: clientError } : state} />
       </div>
     </form>
@@ -458,12 +593,15 @@ function ProjectRow({
   featuredCount,
   reorderDisabled,
   reorderHint,
+  locale,
   onEdit,
+  onDuplicate,
 }) {
   const t = useTranslations("Admin");
+  const translationsComplete = hasCompleteTranslations(project);
 
   return (
-    <article className="grid gap-5 border border-line bg-white/65 p-4 sm:grid-cols-[7rem_1fr_auto] sm:items-center sm:p-5">
+    <article className="border-line grid gap-5 border bg-white/65 p-4 sm:grid-cols-[7rem_1fr_auto] sm:items-center sm:p-5">
       <ImagePreview
         src={project.image_url}
         alt=""
@@ -472,17 +610,35 @@ function ProjectRow({
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="text-xl">{project.name}</h2>
-          <span className="border border-line px-2 py-1 text-[10px] font-bold tracking-[0.12em] uppercase">
+          <span className="border-line border px-2 py-1 text-[10px] font-bold tracking-[0.12em] uppercase">
             {project.is_published ? t("statusPublished") : t("statusDraft")}
           </span>
           {project.is_featured ? (
-            <span className="border border-accent px-2 py-1 text-[10px] font-bold tracking-[0.12em] text-accent uppercase">
+            <span className="border-accent text-accent border px-2 py-1 text-[10px] font-bold tracking-[0.12em] uppercase">
               {t("featured")} #{project.featured_order ?? "—"}
             </span>
           ) : null}
+          <span
+            className={`inline-flex items-center gap-1 border px-2 py-1 text-[10px] font-bold tracking-[0.1em] uppercase ${
+              translationsComplete
+                ? "border-teal/50 text-teal"
+                : "border-amber-400 text-amber-800"
+            }`}
+          >
+            <Languages className="h-3 w-3" aria-hidden="true" />
+            {translationsComplete
+              ? t("translationComplete")
+              : t("translationIncomplete")}
+          </span>
         </div>
         <p className="mt-2 text-sm break-words text-black/60">
-          {project.slug} · {project.category} · {t("sortOrder")} #{project.sort_order}
+          {project.slug} · {project.category} · {t("sortOrder")} #
+          {project.sort_order}
+        </p>
+        <p className="mt-1 text-xs text-black/45">
+          {t("updatedAt", {
+            date: formatAdminDate(project.updated_at, locale),
+          })}
         </p>
         <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
           <ReorderControls
@@ -510,6 +666,20 @@ function ProjectRow({
       <div className="flex flex-wrap gap-2 sm:justify-end">
         <Button type="button" variant="secondary" size="sm" onClick={onEdit}>
           {t("edit")}
+        </Button>
+        <Button asChild variant="ghost" size="sm">
+          <a
+            href={project.project_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("preview")}
+            <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+          </a>
+        </Button>
+        <Button type="button" variant="ghost" size="sm" onClick={onDuplicate}>
+          {t("duplicate")}
+          <Copy className="ml-2 h-4 w-4" aria-hidden="true" />
         </Button>
         <ActionForm
           action={toggleProjectPublished}
@@ -558,23 +728,19 @@ function SiteImageCard({ imageKey, image }) {
     return () => URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
 
-  // Server data wins after a save: show the stored URL and drop the consumed
-  // file so a second save does not upload the same image again.
-  useEffect(() => {
-    setImageUrl(image.image_url || "");
-    setPreviewUrl("");
-    setClientError(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }, [image.image_url]);
-
   function handleFileChange(event) {
     const file = event.target.files?.[0];
 
     if (!file) {
       setPreviewUrl("");
       setClientError(null);
+      return;
+    }
+
+    if (!acceptedImageTypes.includes(file.type)) {
+      event.target.value = "";
+      setPreviewUrl("");
+      setClientError(t("imageTypeInvalid"));
       return;
     }
 
@@ -590,14 +756,16 @@ function SiteImageCard({ imageKey, image }) {
   }
 
   return (
-    <div className="border border-line bg-white/70 p-5 sm:p-7">
+    <div className="border-line border bg-white/70 p-5 sm:p-7">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <span className="section-kicker">{t(`siteImages.${imageKey}.section`)}</span>
+          <span className="section-kicker">
+            {t(`siteImages.${imageKey}.section`)}
+          </span>
           <h3 className="mt-2 text-xl">{t(`siteImages.${imageKey}.title`)}</h3>
         </div>
         {image.is_default ? (
-          <span className="border border-line px-2 py-1 text-[10px] font-bold tracking-[0.12em] text-black/55 uppercase">
+          <span className="border-line border px-2 py-1 text-[10px] font-bold tracking-[0.12em] text-black/55 uppercase">
             {t("siteImages.defaultBadge")}
           </span>
         ) : null}
@@ -620,7 +788,9 @@ function SiteImageCard({ imageKey, image }) {
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <Label htmlFor={`site-image-url-${imageKey}`}>{t("imageUrl")}</Label>
+              <Label htmlFor={`site-image-url-${imageKey}`}>
+                {t("imageUrl")}
+              </Label>
               <Input
                 id={`site-image-url-${imageKey}`}
                 name="image_url"
@@ -631,13 +801,15 @@ function SiteImageCard({ imageKey, image }) {
               />
             </div>
             <div>
-              <Label htmlFor={`site-image-file-${imageKey}`}>{t("imageFile")}</Label>
+              <Label htmlFor={`site-image-file-${imageKey}`}>
+                {t("imageFile")}
+              </Label>
               <Input
                 ref={fileInputRef}
                 id={`site-image-file-${imageKey}`}
                 name="image_file"
                 type="file"
-                accept="image/*"
+                accept={acceptedImageTypesAttribute}
                 onChange={handleFileChange}
               />
             </div>
@@ -673,12 +845,14 @@ function SiteImageCard({ imageKey, image }) {
             <Button type="submit" size="sm" disabled={isPending}>
               {isPending ? "..." : t("saveChanges")}
             </Button>
-            <ActionFeedback state={clientError ? { error: clientError } : state} />
+            <ActionFeedback
+              state={clientError ? { error: clientError } : state}
+            />
           </div>
         </form>
       </div>
 
-      <div className="mt-5 border-t border-line pt-4">
+      <div className="border-line mt-5 border-t pt-4">
         <ActionForm
           action={resetSiteImage}
           confirmMessage={t("siteImages.confirmReset")}
@@ -699,7 +873,12 @@ export default function AdminPanel({
   siteImagesError,
 }) {
   const t = useTranslations("Admin");
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("overview");
   const [editingProjectId, setEditingProjectId] = useState(null);
+  const [draftProject, setDraftProject] = useState(null);
+  const [editorVersion, setEditorVersion] = useState(0);
+  const [editorDirty, setEditorDirty] = useState(false);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("all");
 
@@ -712,7 +891,8 @@ export default function AdminPanel({
   );
 
   const featuredPositions = useMemo(
-    () => new Map(featuredProjects.map((project, index) => [project.id, index])),
+    () =>
+      new Map(featuredProjects.map((project, index) => [project.id, index])),
     [featuredProjects],
   );
 
@@ -721,16 +901,6 @@ export default function AdminPanel({
   const pagePositions = useMemo(
     () => new Map(projects.map((project, index) => [project.id, index])),
     [projects],
-  );
-
-  const stats = useMemo(
-    () => ({
-      total: projects.length,
-      published: projects.filter((project) => project.is_published).length,
-      drafts: projects.filter((project) => !project.is_published).length,
-      featured: featuredProjects.length,
-    }),
-    [featuredProjects.length, projects],
   );
 
   const isFiltered = query.trim() !== "" || status !== "all";
@@ -742,10 +912,15 @@ export default function AdminPanel({
       if (status === "published" && !project.is_published) return false;
       if (status === "draft" && project.is_published) return false;
       if (status === "featured" && !project.is_featured) return false;
+      if (status === "incomplete" && hasCompleteTranslations(project)) {
+        return false;
+      }
       if (!needle) return true;
 
       return [project.name, project.slug, project.category].some((value) =>
-        String(value ?? "").toLowerCase().includes(needle),
+        String(value ?? "")
+          .toLowerCase()
+          .includes(needle),
       );
     });
   }, [projects, query, status]);
@@ -755,19 +930,80 @@ export default function AdminPanel({
   );
   const isNew = editingProjectId === "new";
   const editorProject = isNew
-    ? {
+    ? (draftProject ?? {
         ...emptyProject,
         sort_order: projects.length + 1,
         featured_order: featuredProjects.length + 1,
-      }
+      })
     : editingProject;
 
-  const closeEditor = useCallback(() => setEditingProjectId(null), []);
+  const closeEditor = useCallback(() => {
+    setEditingProjectId(null);
+    setDraftProject(null);
+    setEditorDirty(false);
+  }, []);
+
+  const openNewProject = useCallback(() => {
+    if (editorDirty && !window.confirm(t("confirmDiscard"))) return;
+    setDraftProject(null);
+    setEditingProjectId("new");
+    setEditorVersion((version) => version + 1);
+    setActiveTab("projects");
+  }, [editorDirty, t]);
+
+  const openEditProject = useCallback(
+    (projectId) => {
+      if (editorDirty && !window.confirm(t("confirmDiscard"))) return;
+      setDraftProject(null);
+      setEditingProjectId(projectId);
+      setEditorVersion((version) => version + 1);
+      setActiveTab("projects");
+    },
+    [editorDirty, t],
+  );
+
+  const duplicateProject = useCallback(
+    (project) => {
+      if (editorDirty && !window.confirm(t("confirmDiscard"))) return;
+      setDraftProject({
+        ...project,
+        id: undefined,
+        slug: createCopySlug(project.slug, projects),
+        name: `${project.name} (${t("copySuffix")})`,
+        is_published: false,
+        is_featured: false,
+        featured_order: featuredProjects.length + 1,
+        sort_order: projects.length + 1,
+        created_at: undefined,
+        updated_at: undefined,
+      });
+      setEditingProjectId("new");
+      setEditorVersion((version) => version + 1);
+      setActiveTab("projects");
+    },
+    [editorDirty, featuredProjects.length, projects, t],
+  );
+
+  function changeTab(nextTab) {
+    if (
+      editorDirty &&
+      activeTab === "projects" &&
+      nextTab !== "projects" &&
+      !window.confirm(t("confirmDiscard"))
+    ) {
+      return;
+    }
+
+    if (nextTab !== "projects" && editingProjectId) {
+      closeEditor();
+    }
+    setActiveTab(nextTab);
+  }
 
   return (
-    <div className="min-h-screen pb-24 pt-36 sm:pt-44">
+    <div className="min-h-screen pt-36 pb-24 sm:pt-44">
       <div className="container">
-        <div className="mb-8 flex flex-col justify-between gap-6 border-b border-line pb-8 md:flex-row md:items-end">
+        <div className="border-line mb-8 flex flex-col justify-between gap-6 border-b pb-8 md:flex-row md:items-end">
           <div>
             <span className="section-kicker">Myriad Tech / Admin</span>
             <h1 className="mt-4 max-w-3xl">{t("title")}</h1>
@@ -777,11 +1013,18 @@ export default function AdminPanel({
             <Button
               type="button"
               disabled={Boolean(error)}
-              onClick={() => setEditingProjectId("new")}
+              onClick={openNewProject}
             >
               {t("newProject")}
             </Button>
-            <form action={signOut}>
+            <form
+              action={signOut}
+              onSubmit={(event) => {
+                if (editorDirty && !window.confirm(t("confirmDiscard"))) {
+                  event.preventDefault();
+                }
+              }}
+            >
               <input type="hidden" name="locale" value={locale} />
               <Button type="submit" variant="secondary">
                 {t("logout")}
@@ -790,8 +1033,11 @@ export default function AdminPanel({
           </div>
         </div>
 
-        <Tabs defaultValue="projects" className="w-full">
-          <TabsList className="mb-8 grid grid-cols-2 gap-2 sm:flex sm:w-fit">
+        <Tabs value={activeTab} onValueChange={changeTab} className="w-full">
+          <TabsList className="mb-8 grid grid-cols-3 gap-2 sm:flex sm:w-fit">
+            <TabsTrigger value="overview" className="sm:min-w-[10rem]">
+              {t("tabs.overview")}
+            </TabsTrigger>
             <TabsTrigger value="projects" className="sm:min-w-[12rem]">
               {t("tabs.projects")}
             </TabsTrigger>
@@ -800,35 +1046,62 @@ export default function AdminPanel({
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="projects">
-            <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <StatCard label={t("stats.total")} value={stats.total} />
-              <StatCard label={t("stats.published")} value={stats.published} />
-              <StatCard label={t("stats.drafts")} value={stats.drafts} />
-              <StatCard label={t("stats.featured")} value={stats.featured} />
-            </div>
+          <TabsContent value="overview">
+            {error ? (
+              <div className="flex flex-col items-start gap-4 border border-red-200 bg-red-50 px-6 py-10 text-red-800">
+                <p>{t("loadError")}</p>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => router.refresh()}
+                >
+                  <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {t("retry")}
+                </Button>
+              </div>
+            ) : (
+              <AdminOverview
+                locale={locale}
+                projects={projects}
+                onEditProject={openEditProject}
+                onNewProject={openNewProject}
+              />
+            )}
+          </TabsContent>
 
+          <TabsContent value="projects">
             {editorProject ? (
               <div className="mb-10">
                 <ProjectForm
-                  key={editorProject.id || "new"}
+                  key={`${editorProject.id || "new"}-${editorVersion}`}
                   project={editorProject}
                   locale={locale}
                   isNew={isNew}
                   projectCount={projects.length}
                   featuredCount={featuredProjects.length}
                   onCancel={closeEditor}
+                  onDirtyChange={setEditorDirty}
                   onSaved={closeEditor}
                 />
               </div>
             ) : null}
 
             {error ? (
-              <div className="border border-red-200 bg-red-50 px-6 py-10 text-red-800">
-                {t("loadError")}
+              <div className="flex flex-col items-start gap-4 border border-red-200 bg-red-50 px-6 py-10 text-red-800">
+                <p>{t("loadError")}</p>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => router.refresh()}
+                >
+                  <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {t("retry")}
+                </Button>
               </div>
             ) : projects.length === 0 ? (
-              <div className="border border-line bg-white/50 px-6 py-10 text-black/60">
+              <div className="border-line border bg-white/50 px-6 py-10 text-black/60">
                 {t("empty")}
               </div>
             ) : (
@@ -871,9 +1144,14 @@ export default function AdminPanel({
                     total: projects.length,
                   })}
                 </p>
+                {isFiltered ? (
+                  <p className="mb-4 text-sm text-amber-800">
+                    {t("reorderFilteredHint")}
+                  </p>
+                ) : null}
 
                 {visibleProjects.length === 0 ? (
-                  <div className="border border-line bg-white/50 px-6 py-10 text-black/60">
+                  <div className="border-line border bg-white/50 px-6 py-10 text-black/60">
                     {t("noMatches")}
                   </div>
                 ) : (
@@ -888,7 +1166,9 @@ export default function AdminPanel({
                         featuredCount={featuredProjects.length}
                         reorderDisabled={isFiltered}
                         reorderHint={t("reorderFilteredHint")}
-                        onEdit={() => setEditingProjectId(project.id)}
+                        locale={locale}
+                        onEdit={() => openEditProject(project.id)}
+                        onDuplicate={() => duplicateProject(project)}
                       />
                     ))}
                   </div>
@@ -898,17 +1178,28 @@ export default function AdminPanel({
           </TabsContent>
 
           <TabsContent value="site-images">
-            <p className="section-copy mb-8 max-w-2xl">{t("siteImages.subtitle")}</p>
+            <p className="section-copy mb-8 max-w-2xl">
+              {t("siteImages.subtitle")}
+            </p>
             {siteImagesError ? (
-              <div className="mb-6 border border-amber-200 bg-amber-50 px-6 py-4 text-amber-900">
-                {t("siteImages.loadError")}
+              <div className="mb-6 flex flex-col items-start gap-3 border border-amber-200 bg-amber-50 px-6 py-4 text-amber-900">
+                <p>{t("siteImages.loadError")}</p>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => router.refresh()}
+                >
+                  <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {t("retry")}
+                </Button>
               </div>
             ) : null}
             <div className="grid gap-6">
               {SITE_IMAGE_KEYS.map((imageKey) =>
                 siteImages[imageKey] ? (
                   <SiteImageCard
-                    key={imageKey}
+                    key={`${imageKey}-${siteImages[imageKey].image_url}`}
                     imageKey={imageKey}
                     image={siteImages[imageKey]}
                   />

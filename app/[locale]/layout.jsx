@@ -1,4 +1,3 @@
-import { Roboto, Recursive } from "next/font/google";
 import { notFound } from "next/navigation";
 import "./globals.css";
 import Header from "../../components/layout/Header";
@@ -12,22 +11,11 @@ import { Suspense } from "react";
 import GoogleAnalytics from "@/components/google-analytics";
 import CookieBanner from "@/components/cookie-banner";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import LenisScroll from "./LenisScroll";
 import IntroOverlay from "../../components/layout/IntroOverlay";
 import CurtainProvider from "../../components/layout/CurtainProvider";
 import LanguageSwapOverlay from "../../components/layout/LanguageSwapOverlay";
 import { routing } from "@/i18n/routing";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-  variable: "--font-roboto",
-});
-const recursive = Recursive({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900", "1000"],
-  variable: "--font-recursive",
-});
+import { recursive, roboto } from "@/lib/fonts";
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -60,8 +48,7 @@ export default async function RootLayout({ children, params }) {
   const messages = await getMessages(locale);
 
   // `suppressHydrationWarning` on <html>: the intro boot script sets
-  // `intro-active` on it before React hydrates, and Lenis adds its own class
-  // straight after.
+  // `intro-active` on it before React hydrates.
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
@@ -76,7 +63,6 @@ export default async function RootLayout({ children, params }) {
             <SkipLink />
             <Header />
             <main id="main-content" tabIndex={-1}>
-              <LenisScroll />
               {children}
             </main>
             <Footer />

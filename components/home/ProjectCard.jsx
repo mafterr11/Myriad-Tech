@@ -20,6 +20,7 @@ const ProjectCard = ({
   descriptionClassName = "line-clamp-4",
   readMoreThreshold = 140,
   compactMobile = false,
+  headingLevel = "h3",
 }) => {
   const t = useTranslations("Proiecte");
   const category = t.has(`category.${project.category}`)
@@ -42,6 +43,7 @@ const ProjectCard = ({
     Boolean(description.trim()) &&
     (compactMobile || description.length > readMoreThreshold);
   const imageAlt = t("page.imageAlt", { name: project.name, category });
+  const HeadingTag = headingLevel === "h2" ? "h2" : "h3";
 
   return (
     <Card
@@ -113,11 +115,11 @@ const ProjectCard = ({
             aria-hidden="true"
           />
         </div>
-        <h3
+        <HeadingTag
           className={`project-card-title mt-3 mb-4 font-recursive text-2xl ${compactMobile ? "max-md:mt-1.5 max-md:mb-1.5 max-md:line-clamp-2 max-md:text-xl max-md:leading-tight" : ""}`}
         >
           {project.name}
-        </h3>
+        </HeadingTag>
         <p
           className={`${descriptionClassName} text-base leading-7 text-black/70 ${compactMobile ? "max-md:line-clamp-2 max-md:text-sm max-md:leading-5" : ""}`}
         >
@@ -129,7 +131,7 @@ const ProjectCard = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className={`focus-ring relative z-30 mt-2 mb-2 h-auto min-w-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
+                className={`focus-ring relative z-30 mt-2 mb-2 min-h-11 min-w-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
               >
                 {t("page.readMore")}
                 <ArrowRight size={14} aria-hidden="true" />
@@ -165,7 +167,7 @@ const ProjectCard = ({
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${t("page.demo")}: ${project.name}`}
-          className={`project-card-foot focus-ring relative z-30 mt-auto flex w-full shrink-0 items-center justify-between gap-2 pt-4 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline ${compactMobile ? "max-md:gap-1.5 max-md:pt-2 max-md:text-sm" : ""}`}
+          className={`project-card-foot focus-ring relative z-30 mt-auto flex min-h-11 w-full shrink-0 items-center justify-between gap-2 pt-4 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline ${compactMobile ? "max-md:gap-1.5 max-md:pt-2 max-md:text-sm" : ""}`}
         >
           <span className={compactMobile ? "max-md:min-w-0 max-md:truncate" : undefined}>
             {t("page.demo")}

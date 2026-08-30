@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BiSolidFoodMenu } from "react-icons/bi";
@@ -21,6 +21,8 @@ const NavMobile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isHireMeOpen, setIsHireMeOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const menuButtonRef = useRef(null);
+  const panelRef = useRef(null);
   const closeMenu = () => setIsMenuOpen(false);
   const openHireMe = () => {
     setIsHireMeOpen(true);
@@ -45,6 +47,9 @@ const NavMobile = () => {
   ];
 
   useEffect(() => {
+    // The portal must wait until the browser DOM exists; rendering it during
+    // SSR would produce different server and client trees.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -78,17 +83,48 @@ const NavMobile = () => {
   useEffect(() => {
     if (!isMenuOpen) return undefined;
 
+    const panel = panelRef.current;
+    const focusableSelector =
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const getFocusable = () =>
+      panel ? [...panel.querySelectorAll(focusableSelector)] : [];
+
     const handleKeyDown = (event) => {
-      if (event.key === "Escape") closeMenu();
+      if (event.key === "Escape") {
+        closeMenu();
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusable = getFocusable();
+      if (focusable.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
     const previousOverflow = document.body.style.overflow;
+    const menuButton = menuButtonRef.current;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
+    const focusFrame = requestAnimationFrame(() => getFocusable()[0]?.focus());
 
     return () => {
+      cancelAnimationFrame(focusFrame);
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
+      menuButton?.focus();
     };
   }, [isMenuOpen]);
 
@@ -100,14 +136,13 @@ const NavMobile = () => {
   return (
     <div className="xl:hidden">
       <button
+        ref={menuButtonRef}
         type="button"
-        aria-label={
-          isMenuOpen ? "Close navigation menu" : "Open navigation menu"
-        }
+        aria-label={isMenuOpen ? t("closeMenu") : t("openMenu")}
         aria-expanded={isMenuOpen}
         aria-controls="mobile-navigation"
         onClick={() => setIsMenuOpen((open) => !open)}
-        className="focus-ring flex h-11 w-11 items-center justify-center border-0 bg-transparent animate-none text-2xl text-black transition-none"
+        className="focus-ring flex h-11 w-11 animate-none items-center justify-center border-0 bg-transparent text-2xl text-black transition-none"
       >
         {isMenuOpen ? (
           <IoCloseOutline aria-hidden="true" />
@@ -132,26 +167,27 @@ const NavMobile = () => {
                 >
                   <button
                     type="button"
-                    aria-label="Close navigation menu"
+                    aria-label={t("closeMenu")}
                     onClick={closeMenu}
                     className="absolute inset-0 z-0 cursor-default"
                   />
                   <motion.aside
+                    ref={panelRef}
                     id="mobile-navigation"
                     role="dialog"
                     aria-modal="true"
-                    aria-label="Mobile navigation"
+                    aria-label={t("mobileMenu")}
                     initial={{ x: "10%", opacity: 0.92 }}
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: "10%", opacity: 0.92 }}
                     transition={panelTransition}
-                    className="mobile-nav-panel full-mobile-height relative z-10 flex flex-col items-center justify-between border-l border-accent bg-body px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
+                    className="mobile-nav-panel full-mobile-height border-accent bg-body relative z-10 flex flex-col items-center justify-between border-l px-4 py-6 text-black shadow-2xl sm:px-6 sm:py-8"
                   >
                     <button
                       type="button"
                       onClick={closeMenu}
-                      aria-label="Close navigation menu"
-                      className="focus-ring absolute top-4 right-3 flex h-11 w-11 items-center justify-center border-0 bg-transparent animate-none text-2xl transition-none sm:top-5 sm:right-5"
+                      aria-label={t("closeMenu")}
+                      className="focus-ring absolute top-4 right-3 flex h-11 w-11 animate-none items-center justify-center border-0 bg-transparent text-2xl transition-none sm:top-5 sm:right-5"
                     >
                       <IoCloseOutline aria-hidden="true" />
                     </button>
@@ -165,7 +201,7 @@ const NavMobile = () => {
 
                     <nav
                       className="flex flex-col gap-y-3"
-                      aria-label="Mobile navigation links"
+                      aria-label={t("mobileMenu")}
                     >
                       {links.map((link) => {
                         const active = isActive(link.path);
@@ -174,16 +210,16 @@ const NavMobile = () => {
                             key={link.name}
                             href={link.path}
                             aria-current={active ? "page" : undefined}
-                            className={`focus-ring flex items-center gap-x-3 border-b border-line px-2 py-3 text-base sm:gap-x-4 sm:px-3 sm:text-lg ${active ? "font-bold text-accent" : "text-black/75"}`}
+                            className={`focus-ring border-line flex items-center gap-x-3 border-b px-2 py-3 text-base sm:gap-x-4 sm:px-3 sm:text-lg ${active ? "text-accent font-bold" : "text-black/75"}`}
                             onClick={closeMenu}
                           >
                             <div
-                              className="text-xl text-accent sm:text-2xl"
+                              className="text-accent text-xl sm:text-2xl"
                               aria-hidden="true"
                             >
                               {link.icon}
                             </div>
-                            <div className="uppercase tracking-[0.1em]">
+                            <div className="tracking-[0.1em] uppercase">
                               {link.name}
                             </div>
                           </Link>

@@ -91,14 +91,24 @@
     "unavailable": "Supabase authentication is not configured yet."
   },
   "Admin": {
-    "title": "Project administration",
-    "subtitle": "Create, publish, order, and maintain the projects shown on the site.",
+    "title": "Portfolio administration",
+    "subtitle": "Publish, order, and maintain projects and key site images from one place.",
     "newProject": "New project",
     "editProject": "Edit project",
     "createProject": "Create project",
     "saveChanges": "Save changes",
     "cancel": "Cancel",
     "logout": "Sign out",
+    "openWebsite": "Open website",
+    "preview": "Preview",
+    "duplicate": "Duplicate",
+    "copySuffix": "copy",
+    "retry": "Try again",
+    "translationComplete": "RO + EN complete",
+    "translationIncomplete": "Translation incomplete",
+    "updatedAt": "Updated {date}",
+    "confirmDiscard": "Discard your unsaved changes?",
+    "unsavedChanges": "You have unsaved changes",
     "slug": "Slug",
     "name": "Name",
     "category": "Category",
@@ -108,6 +118,7 @@
     "imageFile": "Image file",
     "imageHint": "Upload an image or paste a local path/public project-images Storage URL. Maximum 4 MB for uploads.",
     "imageTooLarge": "The image must be 4 MB or smaller.",
+    "imageTypeInvalid": "Use a JPEG, PNG, WebP, or AVIF image.",
     "projectUrl": "Project URL",
     "githubUrl": "GitHub URL (optional)",
     "published": "Published",
@@ -142,20 +153,41 @@
     "resultCount": "Showing {shown} of {total} projects.",
     "noMatches": "No project matches the current search or filter.",
     "tabs": {
+      "overview": "Overview",
       "projects": "Projects",
-      "siteImages": "Site images"
+      "siteImages": "Images"
+    },
+    "overview": {
+      "title": "Portfolio status",
+      "subtitle": "See what is live, what needs attention, and what changed recently.",
+      "statsLabel": "Portfolio summary",
+      "activityKicker": "Activity",
+      "recent": "Recently updated projects"
+    },
+    "formSections": {
+      "basic": "Basic information",
+      "basicHint": "The project's identity and public URL.",
+      "content": "Content and translations",
+      "contentHint": "Complete both languages before publishing.",
+      "media": "Project image",
+      "mediaHint": "The image used by project cards.",
+      "links": "Links",
+      "publishing": "Publishing and order",
+      "publishingHint": "Control visibility and the project's position."
     },
     "stats": {
       "total": "Projects",
       "published": "Published",
       "drafts": "Drafts",
-      "featured": "On homepage"
+      "featured": "On homepage",
+      "incomplete": "Missing translations"
     },
     "filters": {
       "all": "All",
       "published": "Published",
       "draft": "Drafts",
-      "featured": "Homepage"
+      "featured": "Homepage",
+      "incomplete": "Missing translations"
     },
     "siteImages": {
       "subtitle": "Replace the photos used in the homepage hero and about sections, and keep their alternative text accurate in both languages.",
@@ -178,6 +210,10 @@
   },
   "Nav": {
     "skip": "Skip to content",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "mobileMenu": "Mobile navigation",
+    "languageSwitch": "Change language",
     "home": {
       "name": "Home",
       "link": "/"

@@ -120,6 +120,7 @@ export default function SolicitatiOfertaForm() {
                     type="text"
                     id="nume"
                     autoComplete="name"
+                    aria-required="true"
                     className="contact-input pr-12"
                     {...field}
                   />
@@ -148,6 +149,7 @@ export default function SolicitatiOfertaForm() {
                     type="email"
                     id="email"
                     autoComplete="email"
+                    aria-required="true"
                     className="contact-input pr-12"
                     {...field}
                   />
@@ -204,6 +206,7 @@ export default function SolicitatiOfertaForm() {
                     id="mesaj"
                     maxLength={MESSAGE_MAX}
                     aria-describedby="mesaj-counter"
+                    aria-required="true"
                     className="contact-input min-h-[10rem] pr-12"
                     {...field}
                   />
@@ -241,6 +244,7 @@ export default function SolicitatiOfertaForm() {
                   <Input
                     type="checkbox"
                     id="acceptTerms"
+                    aria-required="true"
                     checked={field.value}
                     onChange={(event) => field.onChange(event.target.checked)}
                     onBlur={field.onBlur}

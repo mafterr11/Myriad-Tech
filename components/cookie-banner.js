@@ -14,6 +14,9 @@ export default function CookieBanner() {
   const t = useTranslations("Cookies");
 
   useEffect(() => {
+    // Consent is browser-only state. Reading it after hydration deliberately
+    // keeps the server and initial client render identical.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCookieConsent(getLocalStorage("cookie_consent", null));
     setIsLoading(false);
   }, []);

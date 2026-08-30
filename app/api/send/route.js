@@ -3,7 +3,9 @@ import { Resend } from "resend";
 import * as z from "zod";
 
 const RECAPTCHA_ACTION = "InquirySubmit";
-const RECAPTCHA_MIN_SCORE = 0.1;
+// Google's documented starting threshold is 0.5. The previous 0.1 accepted
+// traffic reCAPTCHA already considered very likely automated.
+const RECAPTCHA_MIN_SCORE = 0.5;
 const RECAPTCHA_ALLOWED_HOSTNAMES = new Set([
   "myriad-tech.ro",
   "www.myriad-tech.ro",

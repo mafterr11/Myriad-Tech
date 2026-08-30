@@ -85,6 +85,7 @@ const ProjectsPage = ({ projects = [], error }) => {
                     project={project}
                     key={project.id || project.slug}
                     compactMobile
+                    headingLevel="h2"
                   />
                 ))}
               </div>

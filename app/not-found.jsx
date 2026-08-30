@@ -1,23 +1,12 @@
 import Link from "next/link";
-import { Roboto, Recursive } from "next/font/google";
 import { NextIntlClientProvider, createTranslator } from "next-intl";
 import { routing } from "@/i18n/routing";
 import messages from "@/messages/ro.json";
 import { constructMetadata } from "@/lib/utils";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { recursive, roboto } from "@/lib/fonts";
 import "./[locale]/globals.css";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-  variable: "--font-roboto",
-});
-const recursive = Recursive({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900", "1000"],
-  variable: "--font-recursive",
-});
 
 export const metadata = constructMetadata({ noIndex: true });
 

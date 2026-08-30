@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { useReducedMotion } from "framer-motion";
 import { usePathname, useRouter } from "@/i18n/navigation";
@@ -10,6 +10,7 @@ import { startLanguageSwap, useLanguageSwap } from "@/lib/language-swap";
 
 export default function LocalSwitcher() {
   const [isPending, startTransition] = useTransition();
+  const t = useTranslations("Nav");
   const router = useRouter();
   const localeActive = useLocale();
   const pathname = usePathname();
@@ -67,7 +68,7 @@ export default function LocalSwitcher() {
         onFocus={warm}
         disabled={isPending}
         id="language-switch"
-        aria-label="Language Switch"
+        aria-label={t("languageSwitch")}
       />
       <Label
         htmlFor="language-switch"

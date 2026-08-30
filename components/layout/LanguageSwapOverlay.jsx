@@ -91,7 +91,11 @@ const LanguageSwapOverlay = () => {
   // forwards. With the navigation deferred nothing should normally interrupt a
   // sweep at all; this is what keeps a late arrival from replaying one.
   const offsetRef = useRef({ key: 0, offset: 0 });
+  // This ref intentionally freezes the first timing sample for a phase; state
+  // would schedule another render and shift the animation it is measuring.
+  // eslint-disable-next-line react-hooks/refs
   if (swap.phase !== "idle" && offsetRef.current.key !== swap.phaseStartedAt) {
+    // eslint-disable-next-line react-hooks/refs
     offsetRef.current = {
       key: swap.phaseStartedAt,
       offset: elapsedSince(swap.phaseStartedAt),
@@ -219,7 +223,10 @@ const LanguageSwapOverlay = () => {
       data-to={to || undefined}
       style={
         sweeping
-          ? { "--lang-swap-offset": `${offsetRef.current.offset}ms` }
+          ? {
+              // eslint-disable-next-line react-hooks/refs
+              "--lang-swap-offset": `${offsetRef.current.offset}ms`,
+            }
           : undefined
       }
       aria-hidden="true"

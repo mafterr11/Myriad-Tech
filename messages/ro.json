@@ -91,14 +91,24 @@
     "unavailable": "Autentificarea Supabase nu este configurata inca."
   },
   "Admin": {
-    "title": "Administrare proiecte",
-    "subtitle": "Creeaza, publica, ordoneaza si actualizeaza proiectele afisate pe site.",
+    "title": "Administrare portofoliu",
+    "subtitle": "Publică, ordonează și actualizează proiectele și imaginile principale ale site-ului dintr-un singur loc.",
     "newProject": "Proiect nou",
     "editProject": "Editeaza proiectul",
     "createProject": "Creeaza proiectul",
     "saveChanges": "Salveaza modificarile",
     "cancel": "Anuleaza",
     "logout": "Deconectare",
+    "openWebsite": "Deschide site-ul",
+    "preview": "Previzualizează",
+    "duplicate": "Duplică",
+    "copySuffix": "copie",
+    "retry": "Încearcă din nou",
+    "translationComplete": "RO + EN complete",
+    "translationIncomplete": "Traducere incompletă",
+    "updatedAt": "Actualizat {date}",
+    "confirmDiscard": "Renunți la modificările nesalvate?",
+    "unsavedChanges": "Ai modificări nesalvate",
     "slug": "Slug",
     "name": "Nume",
     "category": "Categorie",
@@ -108,6 +118,7 @@
     "imageFile": "Fisier imagine",
     "imageHint": "Incarca o imagine sau introdu un path local/URL public din Storage project-images. Incarcarile au maximum 4 MB.",
     "imageTooLarge": "Imaginea trebuie sa aiba maximum 4 MB.",
+    "imageTypeInvalid": "Folosește o imagine JPEG, PNG, WebP sau AVIF.",
     "projectUrl": "URL proiect",
     "githubUrl": "URL GitHub (optional)",
     "published": "Publicat",
@@ -142,20 +153,41 @@
     "resultCount": "Se afiseaza {shown} din {total} proiecte.",
     "noMatches": "Niciun proiect nu corespunde cautarii sau filtrului curent.",
     "tabs": {
+      "overview": "Prezentare",
       "projects": "Proiecte",
-      "siteImages": "Imaginile site-ului"
+      "siteImages": "Imagini"
+    },
+    "overview": {
+      "title": "Starea portofoliului",
+      "subtitle": "Vezi rapid ce este publicat, ce mai necesită lucru și ce ai editat recent.",
+      "statsLabel": "Rezumat portofoliu",
+      "activityKicker": "Activitate",
+      "recent": "Proiecte actualizate recent"
+    },
+    "formSections": {
+      "basic": "Informații de bază",
+      "basicHint": "Identitatea proiectului și URL-ul public.",
+      "content": "Conținut și traduceri",
+      "contentHint": "Completează ambele limbi înainte de publicare.",
+      "media": "Imagine proiect",
+      "mediaHint": "Imaginea folosită în cardurile proiectului.",
+      "links": "Linkuri",
+      "publishing": "Publicare și ordine",
+      "publishingHint": "Controlează vizibilitatea și poziția proiectului."
     },
     "stats": {
       "total": "Proiecte",
       "published": "Publicate",
       "drafts": "Ciorne",
-      "featured": "Pe homepage"
+      "featured": "Pe homepage",
+      "incomplete": "Traduceri lipsă"
     },
     "filters": {
       "all": "Toate",
       "published": "Publicate",
       "draft": "Ciorne",
-      "featured": "Homepage"
+      "featured": "Homepage",
+      "incomplete": "Traduceri lipsă"
     },
     "siteImages": {
       "subtitle": "Inlocuieste fotografiile din sectiunile hero si despre mine de pe homepage si pastreaza textul alternativ corect in ambele limbi.",
@@ -178,6 +210,10 @@
   },
   "Nav": {
     "skip": "Sari la conținut",
+    "openMenu": "Deschide meniul de navigare",
+    "closeMenu": "Închide meniul de navigare",
+    "mobileMenu": "Navigare mobilă",
+    "languageSwitch": "Schimbă limba",
     "home": {
       "name": "Acasă",
       "link": "/ro"

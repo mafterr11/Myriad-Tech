@@ -98,8 +98,8 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
 - The `prefers-reduced-motion` block in `globals.css` only shortens **CSS**
   transitions. Framer Motion drives its variants from JavaScript and ignores
   it, so `lib/motion-client.js` checks `useReducedMotion` itself and flattens
-  every variant to the settled state. Lenis opts out of smooth scroll the
-  same way.
+  every variant to the settled state. Scrolling is browser-native; do not add
+  a permanent animation-frame loop just to smooth ordinary page scrolling.
 
 ### Intro panel (first visit) and route curtain
 
@@ -113,8 +113,7 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   `insertBefore`/`removeChild` NotFoundErrors on the next route change, and
   Next fell back to a full page load for every navigation. The script only
   sets `intro-active` on `<html>`; CSS decides whether the panel is
-  displayed. `<html>` carries `suppressHydrationWarning` for that class (and
-  for the one Lenis adds).
+  displayed. `<html>` carries `suppressHydrationWarning` for that class.
 - Shown once per tab via `sessionStorage` key `mt-intro-seen`; skipped for
   `prefers-reduced-motion` and for `/admin`. Note that a tab opened from an
   existing one (middle click, duplicate) inherits `sessionStorage`, so it
