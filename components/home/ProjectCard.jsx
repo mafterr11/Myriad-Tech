@@ -16,7 +16,7 @@ import { useTranslations } from "next-intl";
 
 const ProjectCard = ({
   project,
-  cardClassName = "h-[530px]",
+  cardClassName = "min-h-[530px]",
   descriptionClassName = "line-clamp-4",
   readMoreThreshold = 140,
   compactMobile = false,
@@ -47,7 +47,7 @@ const ProjectCard = ({
 
   return (
     <Card
-      className={`project-card group relative flex ${cardClassName} w-full overflow-hidden ${compactMobile ? "flex-col max-md:!h-[390px] md:!h-[530px]" : "flex-col"}`}
+      className={`project-card group relative flex ${cardClassName} w-full overflow-hidden ${compactMobile ? "flex-col max-md:!min-h-[390px] md:!min-h-[530px]" : "flex-col"}`}
     >
       {/* The whole card is clickable, but only the "demo" link at the bottom
           is focusable. The overlay and the corner icon repeat that exact
@@ -64,7 +64,7 @@ const ProjectCard = ({
       />
 
       <CardHeader
-        className={`relative z-20 p-0 pointer-events-none ${compactMobile ? "max-md:!h-[190px] max-md:w-full max-md:shrink-0" : ""}`}
+        className={`relative z-20 shrink-0 p-0 pointer-events-none ${compactMobile ? "max-md:!h-[190px] max-md:w-full" : ""}`}
       >
         <div
           className={`project-card-media bg-work ${compactMobile ? "max-md:!h-full max-md:!w-full max-md:!border-r-0 max-md:!border-b max-md:!border-line" : ""}`}
@@ -116,12 +116,12 @@ const ProjectCard = ({
           />
         </div>
         <HeadingTag
-          className={`project-card-title mt-3 mb-4 font-recursive text-2xl ${compactMobile ? "max-md:mt-1.5 max-md:mb-1.5 max-md:line-clamp-2 max-md:text-xl max-md:leading-tight" : ""}`}
+          className={`project-card-title mt-3 mb-4 line-clamp-2 shrink-0 font-recursive text-2xl ${compactMobile ? "max-md:mt-1.5 max-md:mb-1.5 max-md:text-xl max-md:leading-tight" : ""}`}
         >
           {project.name}
         </HeadingTag>
         <p
-          className={`${descriptionClassName} text-base leading-7 text-black/70 ${compactMobile ? "max-md:line-clamp-2 max-md:text-sm max-md:leading-5" : ""}`}
+          className={`${descriptionClassName} shrink-0 text-base leading-7 text-black/70 ${compactMobile ? "max-md:line-clamp-2 max-md:text-sm max-md:leading-5" : ""}`}
         >
           {description}
         </p>
@@ -131,7 +131,7 @@ const ProjectCard = ({
               <Button
                 variant="ghost"
                 size="sm"
-                className={`focus-ring relative z-30 mt-2 mb-2 min-h-11 min-w-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
+                className={`focus-ring relative z-30 mt-2 mb-2 min-h-11 min-w-0 shrink-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
               >
                 {t("page.readMore")}
                 <ArrowRight size={14} aria-hidden="true" />

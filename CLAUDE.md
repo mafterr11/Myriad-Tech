@@ -288,3 +288,27 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   `localizedRoutes` in `lib/utils.ts` (canonical + hreflang + sitemap), and a
   legacy redirect in `next.config.mjs`. The English legal pages moved off the
   Romanian slugs this way (`/en/privacy-policy`, `/en/cookie-policy`).
+
+## Project cards
+
+- **The cards are sized by their content, never by a fixed pixel height.**
+  `ProjectCard` used to take `h-[530px]` (`h-[560px]` in the swiper, inside a
+  `h-[620px]` Swiper box) while its content needed a little over 600px. The
+  description was the only flex child that could shrink, so flexbox squeezed
+  it below its `line-clamp` height and the `overflow: hidden` sliced straight
+  through a line of text — half a row of letters, no ellipsis. On mobile the
+  cage was tighter still (`!h-[390px]`) and it cut the *title* in half.
+  `line-clamp` was doing nothing: the clamp only decides where text ends when
+  the box is at least as tall as the lines it asks for.
+- So every text block carries `shrink-0`, the card takes a `min-h-*` floor
+  instead of a fixed height, and the Swiper has no height at all. Equal
+  heights still come out per row, from the layout rather than from a magic
+  number: grid items stretch on the projects page, and in the swiper the
+  slides stretch to the tallest one, with `h-full` on the card so it fills the
+  slide it was given. **Do not put a fixed height back on the card, the slide
+  or the Swiper** — any of them re-creates the squeeze the moment a
+  description runs one line longer than the number assumed.
+- Verify by measuring, not by eye: a clipped line is a text box whose height
+  is not a whole multiple of its `line-height`. Sweeping /ro, /en and both
+  projects pages across 360–1920px that way found 273 clipped elements before
+  the fix and none after.
