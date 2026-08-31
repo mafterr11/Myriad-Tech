@@ -28,7 +28,7 @@ const WorkSwiper = ({ projects = [] }) => {
   return (
     <div ref={containerRef}>
       <Swiper
-        className="!px-5 pb-10 sm:!px-7 xl:!px-0"
+        className="!px-5 sm:!px-7 xl:!px-0"
         slidesPerView={1}
         slidesPerGroup={1}
         breakpoints={{
@@ -41,7 +41,7 @@ const WorkSwiper = ({ projects = [] }) => {
         }}
         spaceBetween={18}
         modules={[Pagination, Autoplay]}
-        pagination={{ clickable: true }}
+        pagination={{ el: ".swiper-pagination", clickable: true }}
         autoplay={
           prefersReducedMotion
             ? false
@@ -67,6 +67,10 @@ const WorkSwiper = ({ projects = [] }) => {
             />
           </SwiperSlide>
         ))}
+        <div
+          slot="container-end"
+          className="swiper-pagination !static mt-3 flex min-h-6 items-center justify-center"
+        />
       </Swiper>
     </div>
   );
