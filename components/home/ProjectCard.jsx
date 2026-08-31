@@ -64,7 +64,7 @@ const ProjectCard = ({
       />
 
       <CardHeader
-        className={`relative z-20 shrink-0 p-0 pointer-events-none ${compactMobile ? "max-md:!h-[190px] max-md:w-full" : ""}`}
+        className={`relative z-20 shrink-0 p-0 pointer-events-none ${compactMobile ? "max-md:!h-[160px] max-md:w-full" : ""}`}
       >
         <div
           className={`project-card-media bg-work ${compactMobile ? "max-md:!h-full max-md:!w-full max-md:!border-r-0 max-md:!border-b max-md:!border-line" : ""}`}
@@ -103,7 +103,7 @@ const ProjectCard = ({
       </CardHeader>
 
       <div
-        className={`relative z-20 flex min-h-0 flex-1 flex-col px-5 py-5 pointer-events-none ${compactMobile ? "max-md:min-w-0 max-md:overflow-hidden max-md:px-4 max-md:py-3" : ""}`}
+        className={`relative z-20 flex min-h-0 flex-1 flex-col px-5 py-5 pointer-events-none ${compactMobile ? "max-md:min-w-0 max-md:px-4 max-md:py-3" : ""}`}
       >
         <div
           className={`project-card-eyebrow mb-3 flex items-center justify-between gap-3 text-xs font-bold tracking-[0.12em] text-black/45 uppercase ${compactMobile ? "max-md:mb-1 max-md:gap-2 max-md:pb-1.5 max-md:text-[10px] max-md:tracking-[0.1em]" : ""}`}
@@ -125,59 +125,67 @@ const ProjectCard = ({
         >
           {description}
         </p>
-        {hasMoreDescription && (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className={`focus-ring relative z-30 mt-2 mb-2 min-h-11 min-w-0 shrink-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-1 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
-              >
-                {t("page.readMore")}
-                <ArrowRight size={14} aria-hidden="true" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-none border-line bg-body px-5 py-7 sm:px-10 sm:py-10">
-              <DialogHeader className="pr-8">
-                <span className="text-xs font-bold tracking-[0.12em] text-black/55 uppercase">
-                  {category}
-                </span>
-                <DialogTitle className="font-recursive text-2xl leading-tight font-normal sm:text-3xl">
-                  {project.name}
-                </DialogTitle>
-              </DialogHeader>
-              <div className="relative aspect-[16/10] w-full overflow-hidden border border-line bg-work sm:aspect-video">
-                <Image
-                  className="object-contain object-center"
-                  src={image}
-                  fill
-                  sizes="(max-width: 640px) calc(100vw - 4rem), 44rem"
-                  alt={imageAlt}
-                  loading="lazy"
-                />
-              </div>
-              <DialogDescription className="!text-black/80 text-base leading-7 sm:text-lg sm:leading-8">
-                {description}
-              </DialogDescription>
-            </DialogContent>
-          </Dialog>
-        )}
-        <Link
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${t("page.demo")}: ${project.name}`}
-          className={`project-card-foot focus-ring relative z-30 mt-auto flex min-h-11 w-full shrink-0 items-center justify-between gap-2 pt-4 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline ${compactMobile ? "max-md:gap-1.5 max-md:pt-2 max-md:text-sm" : ""}`}
+        <div
+          className={
+            compactMobile
+              ? "contents max-md:mt-auto max-md:flex max-md:flex-wrap max-md:items-center max-md:justify-between max-md:gap-x-2 max-md:border-t max-md:border-line"
+              : "contents"
+          }
         >
-          <span className={compactMobile ? "max-md:min-w-0 max-md:truncate" : undefined}>
-            {t("page.demo")}
-          </span>
-          <ArrowRight
-            size={18}
-            className={compactMobile ? "max-md:h-3.5 max-md:w-3.5" : undefined}
-            aria-hidden="true"
-          />
-        </Link>
+          {hasMoreDescription && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`focus-ring relative z-30 mt-2 mb-2 min-h-11 min-w-0 shrink-0 self-start pointer-events-auto border-0 p-0 text-xs font-bold tracking-normal text-black/70 underline-offset-4 hover:translate-y-0 hover:bg-transparent hover:text-black hover:underline ${compactMobile ? "max-md:mt-0 max-md:mb-0 max-md:gap-1 max-md:text-xs max-md:leading-4" : ""}`}
+                >
+                  {t("page.readMore")}
+                  <ArrowRight size={14} aria-hidden="true" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-none border-line bg-body px-5 py-7 sm:px-10 sm:py-10">
+                <DialogHeader className="pr-8">
+                  <span className="text-xs font-bold tracking-[0.12em] text-black/55 uppercase">
+                    {category}
+                  </span>
+                  <DialogTitle className="font-recursive text-2xl leading-tight font-normal sm:text-3xl">
+                    {project.name}
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="relative aspect-[16/10] w-full overflow-hidden border border-line bg-work sm:aspect-video">
+                  <Image
+                    className="object-contain object-center"
+                    src={image}
+                    fill
+                    sizes="(max-width: 640px) calc(100vw - 4rem), 44rem"
+                    alt={imageAlt}
+                    loading="lazy"
+                  />
+                </div>
+                <DialogDescription className="!text-black/80 text-base leading-7 sm:text-lg sm:leading-8">
+                  {description}
+                </DialogDescription>
+              </DialogContent>
+            </Dialog>
+          )}
+          <Link
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${t("page.demo")}: ${project.name}`}
+            className={`project-card-foot focus-ring relative z-30 mt-auto flex min-h-11 w-full shrink-0 items-center justify-between gap-2 pt-4 pointer-events-auto text-sm font-bold text-accent underline-offset-4 hover:underline ${compactMobile ? "max-md:mt-0 max-md:w-auto max-md:max-w-full max-md:gap-1.5 max-md:!border-t-0 max-md:pt-0 max-md:text-sm" : ""}`}
+          >
+            <span className={compactMobile ? "max-md:min-w-0 max-md:truncate" : undefined}>
+              {t("page.demo")}
+            </span>
+            <ArrowRight
+              size={18}
+              className={compactMobile ? "max-md:h-3.5 max-md:w-3.5" : undefined}
+              aria-hidden="true"
+            />
+          </Link>
+        </div>
       </div>
     </Card>
   );
