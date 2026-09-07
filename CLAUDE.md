@@ -312,3 +312,37 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   is not a whole multiple of its `line-height`. Sweeping /ro, /en and both
   projects pages across 360–1920px that way found 273 clipped elements before
   the fix and none after.
+
+## Project categories
+
+- **Categories are rows in `public.project_categories`, not a hardcoded list.**
+  They used to be five keys in an array in `AdminPanel.jsx`, with the labels in
+  `messages/{ro,en}.json` under `Proiecte.category.*`, so adding one meant a
+  code change in three files. The table carries `label_ro` / `label_en` and a
+  contiguous `sort_order`, which is the order the tabs appear in.
+- `projects.category` is a foreign key to it, **`on update cascade` / `on
+  delete restrict`**. That pair is what makes the admin panel safe: renaming a
+  slug re-points every project that used it in one statement, and a category
+  still in use cannot be deleted at all. `delete_project_category` checks the
+  count first and raises with it, so the UI can disable the button and say why
+  rather than surfacing a constraint error.
+- Writes go through four security definer RPCs with the same admin guard as
+  everything else (`create/update/delete/reorder_project_category`). The lint
+  described under **Security** applies to them too, for the same reason.
+- The message-file labels are still read as a fallback and should stay:
+  `PROJECT_CATEGORY_DEFAULTS` in `lib/categories/constants.js` mirrors them
+  exactly, so the site renders identically when the table is empty, unreachable,
+  **or the migration has not been applied yet**. If you edit the seed labels,
+  edit both — they were checked against each other on the way in, and the
+  English ones are "Presentation" and "E-commerce", not the more obvious
+  "Presentation website" and "Online shop".
+- **The projects page tab row has no fixed column count.** Categories are
+  user-created, so both the number of tabs and the length of a label are
+  unbounded: the list wraps (`flex-wrap`, content-sized triggers) and each
+  label carries `break-words`. Without that last part a name that cannot fit
+  one line is silently cut off by the trigger's `overflow-hidden` -- two
+  columns at 360px leaves about 76px for text. Verified at 320-1920px with 14
+  categories: rows grow, nothing clips, and the page never scrolls sideways.
+- The tabs only list categories that actually have published projects, so an
+  empty category is not a dead-end tab, and a selected filter that disappears
+  falls back to "all" instead of showing an empty grid.

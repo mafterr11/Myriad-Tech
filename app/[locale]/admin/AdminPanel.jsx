@@ -16,8 +16,10 @@ import {
   Copy,
   ExternalLink,
   Languages,
+  Plus,
   RefreshCw,
   Search,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,13 +36,20 @@ import {
   toggleProjectPublished,
   updateProject,
 } from "@/lib/projects/actions";
+import {
+  createProjectCategory,
+  deleteProjectCategory,
+  reorderProjectCategory,
+  updateProjectCategory,
+} from "@/lib/categories/actions";
+import { DEFAULT_PROJECT_CATEGORY } from "@/lib/categories/constants";
 import { resetSiteImage, updateSiteImage } from "@/lib/site-images/actions";
 import AdminOverview from "./AdminOverview";
 
 const emptyProject = {
   slug: "",
   name: "",
-  category: "presentation",
+  category: DEFAULT_PROJECT_CATEGORY,
   description_ro: "",
   description_en: "",
   image_url: "",
@@ -52,7 +61,6 @@ const emptyProject = {
   sort_order: null,
 };
 
-const categories = ["presentation", "progress", "shop", "wordpress", "others"];
 const statusFilters = ["all", "published", "draft", "featured", "incomplete"];
 const initialActionState = { success: false, error: null, message: null };
 const placeholderImage = "/project-bg-light.png";
@@ -92,6 +100,26 @@ function useRefreshOnSuccess(state, onSuccess) {
     router.refresh();
     onSuccess?.();
   }, [onSuccess, router, state]);
+}
+
+// Romanian labels carry diacritics; the slug is ASCII because it is what the
+// database stores and what the slug format check accepts.
+function slugify(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[ș]/gi, "s")
+    .replace(/[ț]/gi, "t")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80)
+    .replace(/-+$/, "");
+}
+
+function categoryOptionLabel(category, locale) {
+  const label = locale === "en" ? category?.label_en : category?.label_ro;
+  return (typeof label === "string" && label.trim()) || category?.slug || "";
 }
 
 function hasCompleteTranslations(project) {
@@ -242,6 +270,7 @@ function ProjectForm({
   isNew,
   projectCount,
   featuredCount,
+  categories,
   onCancel,
   onDirtyChange,
   onSaved,
@@ -432,18 +461,33 @@ function ProjectForm({
         </div>
         <div>
           <Label htmlFor="project-category">{t("category")}</Label>
+          {/* The category a project already has is always offered, even if it
+              is not in the list any more, so opening an old project cannot
+              silently re-file it under whichever category happens to be first. */}
           <select
             id="project-category"
             name="category"
-            defaultValue={project.category || "presentation"}
+            defaultValue={
+              project.category || categories[0]?.slug || DEFAULT_PROJECT_CATEGORY
+            }
             className="mt-1 flex h-[54px] w-full rounded-[8px] border border-slate-200 bg-white px-4 py-2 text-base"
+            required
           >
             {categories.map((category) => (
-              <option key={category} value={category}>
-                {t(`categoryOptions.${category}`)}
+              <option key={category.slug} value={category.slug}>
+                {categoryOptionLabel(category, locale)}
               </option>
             ))}
+            {project.category &&
+            !categories.some((item) => item.slug === project.category) ? (
+              <option value={project.category}>{project.category}</option>
+            ) : null}
           </select>
+          {categories.length === 0 ? (
+            <p className="mt-2 text-sm text-amber-800">
+              {t("categories.noneHint")}
+            </p>
+          ) : null}
         </div>
         <div className="border-line border-b pt-3 pb-3 md:col-span-2">
           <h3 className="text-lg">{t("formSections.content")}</h3>
@@ -889,10 +933,226 @@ function SiteImageCard({ imageKey, image }) {
   );
 }
 
+
+// One row of the category manager. Editing is inline and always shows the slug
+// -- renaming it re-points every project through the foreign key cascade, which
+// is worth being able to see before saving.
+function CategoryRow({ category, locale, projectCount, canMoveUp, canMoveDown }) {
+  const t = useTranslations("Admin");
+  const [isEditing, setIsEditing] = useState(false);
+  const [state, formAction, isPending] = useActionState(
+    updateProjectCategory,
+    initialActionState,
+  );
+
+  const stopEditing = useCallback(() => setIsEditing(false), []);
+  useRefreshOnSuccess(state, stopEditing);
+
+  const inUse = projectCount > 0;
+
+  return (
+    <div className="border-line border bg-white/70 p-4 sm:p-5">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-base font-bold break-words">
+            {categoryOptionLabel(category, locale)}
+          </p>
+          <p className="mt-1 font-mono text-xs break-all text-black/50">
+            {category.slug}
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="border-line bg-body-light text-accent shrink-0 border px-2 py-1 text-[10px] font-bold tracking-[0.12em] uppercase">
+            {t("categories.usage", { count: projectCount })}
+          </span>
+          <div className="flex items-center gap-1">
+            <ActionForm
+              action={reorderProjectCategory}
+              size="icon"
+              disabled={!canMoveUp}
+              title={t("moveUp")}
+              fields={
+                <>
+                  <input type="hidden" name="slug" value={category.slug} />
+                  <input type="hidden" name="offset" value="-1" />
+                </>
+              }
+            >
+              <ArrowUp size={16} aria-hidden="true" />
+              <span className="sr-only">{t("moveUp")}</span>
+            </ActionForm>
+            <ActionForm
+              action={reorderProjectCategory}
+              size="icon"
+              disabled={!canMoveDown}
+              title={t("moveDown")}
+              fields={
+                <>
+                  <input type="hidden" name="slug" value={category.slug} />
+                  <input type="hidden" name="offset" value="1" />
+                </>
+              }
+            >
+              <ArrowDown size={16} aria-hidden="true" />
+              <span className="sr-only">{t("moveDown")}</span>
+            </ActionForm>
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => setIsEditing((editing) => !editing)}
+          >
+            {isEditing ? t("cancel") : t("edit")}
+          </Button>
+          {/* A category in use cannot be deleted: the database refuses it, so
+              the button explains why instead of offering a click that fails. */}
+          <ActionForm
+            action={deleteProjectCategory}
+            disabled={inUse}
+            confirmMessage={t("categories.confirmDelete")}
+            title={inUse ? t("categories.deleteBlocked") : t("delete")}
+            fields={<input type="hidden" name="slug" value={category.slug} />}
+          >
+            <Trash2 size={16} aria-hidden="true" />
+            <span className="sr-only">{t("delete")}</span>
+          </ActionForm>
+        </div>
+      </div>
+
+      {inUse ? (
+        <p className="mt-2 text-xs text-black/50">
+          {t("categories.deleteBlocked")}
+        </p>
+      ) : null}
+
+      {isEditing ? (
+        <form action={formAction} className="mt-4 grid gap-4 md:grid-cols-3">
+          <input type="hidden" name="slug" value={category.slug} />
+          <div>
+            <Label htmlFor={`category-label-ro-${category.slug}`}>
+              {t("categories.labelRo")}
+            </Label>
+            <Input
+              id={`category-label-ro-${category.slug}`}
+              name="label_ro"
+              defaultValue={category.label_ro}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor={`category-label-en-${category.slug}`}>
+              {t("categories.labelEn")}
+            </Label>
+            <Input
+              id={`category-label-en-${category.slug}`}
+              name="label_en"
+              defaultValue={category.label_en}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor={`category-next-slug-${category.slug}`}>
+              {t("categories.slug")}
+            </Label>
+            <Input
+              id={`category-next-slug-${category.slug}`}
+              name="next_slug"
+              defaultValue={category.slug}
+              pattern="[a-z0-9]+(-[a-z0-9]+)*"
+              title={t("categories.slugHint")}
+            />
+          </div>
+          <div className="flex items-center gap-3 md:col-span-3">
+            <Button type="submit" disabled={isPending}>
+              {t("saveChanges")}
+            </Button>
+            <ActionFeedback state={state} />
+          </div>
+        </form>
+      ) : null}
+    </div>
+  );
+}
+
+// Creating a category only needs the two labels; the slug is derived from the
+// Romanian name so the admin never has to think about one, but stays editable
+// because it is what a project row stores.
+function NewCategoryForm() {
+  const t = useTranslations("Admin");
+  const [slug, setSlug] = useState("");
+  const [slugTouched, setSlugTouched] = useState(false);
+  const [state, formAction, isPending] = useActionState(
+    createProjectCategory,
+    initialActionState,
+  );
+  const formRef = useRef(null);
+
+  const handleCreated = useCallback(() => {
+    formRef.current?.reset();
+    setSlug("");
+    setSlugTouched(false);
+  }, []);
+
+  useRefreshOnSuccess(state, handleCreated);
+
+  return (
+    <form
+      ref={formRef}
+      action={formAction}
+      className="border-line grid gap-4 border bg-white/70 p-4 md:grid-cols-3 sm:p-5"
+    >
+      <div className="md:col-span-3">
+        <h3 className="text-lg">{t("categories.newTitle")}</h3>
+        <p className="mt-1 text-sm text-black/55">{t("categories.newHint")}</p>
+      </div>
+      <div>
+        <Label htmlFor="new-category-label-ro">{t("categories.labelRo")}</Label>
+        <Input
+          id="new-category-label-ro"
+          name="label_ro"
+          onChange={(event) => {
+            if (!slugTouched) setSlug(slugify(event.target.value));
+          }}
+          required
+        />
+      </div>
+      <div>
+        <Label htmlFor="new-category-label-en">{t("categories.labelEn")}</Label>
+        <Input id="new-category-label-en" name="label_en" required />
+      </div>
+      <div>
+        <Label htmlFor="new-category-slug">{t("categories.slug")}</Label>
+        <Input
+          id="new-category-slug"
+          name="slug"
+          value={slug}
+          onChange={(event) => {
+            setSlugTouched(true);
+            setSlug(event.target.value);
+          }}
+          pattern="[a-z0-9]+(-[a-z0-9]+)*"
+          title={t("categories.slugHint")}
+          required
+        />
+      </div>
+      <div className="flex flex-wrap items-center gap-3 md:col-span-3">
+        <Button type="submit" disabled={isPending || !slug}>
+          <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
+          {t("categories.create")}
+        </Button>
+        <ActionFeedback state={state} />
+      </div>
+    </form>
+  );
+}
+
 export default function AdminPanel({
   locale,
   projects = [],
   error,
+  categories = [],
+  categoriesError,
   siteImages = {},
   siteImagesError,
 }) {
@@ -926,6 +1186,16 @@ export default function AdminPanel({
     () => new Map(projects.map((project, index) => [project.id, index])),
     [projects],
   );
+
+  // Counted over every project, published or not: a draft still holds the
+  // category in place through the foreign key.
+  const projectsPerCategory = useMemo(() => {
+    const counts = new Map();
+    projects.forEach((project) => {
+      counts.set(project.category, (counts.get(project.category) ?? 0) + 1);
+    });
+    return counts;
+  }, [projects]);
 
   const isFiltered = query.trim() !== "" || status !== "all";
 
@@ -1058,14 +1328,29 @@ export default function AdminPanel({
         </div>
 
         <Tabs value={activeTab} onValueChange={changeTab} className="w-full">
-          <TabsList className="mb-8 grid grid-cols-3 gap-2 sm:flex sm:w-fit">
-            <TabsTrigger value="overview" className="sm:min-w-[10rem]">
+          <TabsList className="mb-8 flex flex-wrap gap-2 sm:w-fit">
+            <TabsTrigger
+              value="overview"
+              className="min-w-0 flex-none basis-[calc(50%-0.25rem)] sm:basis-auto sm:min-w-[10rem]"
+            >
               {t("tabs.overview")}
             </TabsTrigger>
-            <TabsTrigger value="projects" className="sm:min-w-[12rem]">
+            <TabsTrigger
+              value="projects"
+              className="min-w-0 flex-none basis-[calc(50%-0.25rem)] sm:basis-auto sm:min-w-[12rem]"
+            >
               {t("tabs.projects")}
             </TabsTrigger>
-            <TabsTrigger value="site-images" className="sm:min-w-[12rem]">
+            <TabsTrigger
+              value="categories"
+              className="min-w-0 flex-none basis-[calc(50%-0.25rem)] sm:basis-auto sm:min-w-[12rem]"
+            >
+              {t("tabs.categories")}
+            </TabsTrigger>
+            <TabsTrigger
+              value="site-images"
+              className="min-w-0 flex-none basis-[calc(50%-0.25rem)] sm:basis-auto sm:min-w-[12rem]"
+            >
               {t("tabs.siteImages")}
             </TabsTrigger>
           </TabsList>
@@ -1102,6 +1387,7 @@ export default function AdminPanel({
                   project={editorProject}
                   locale={locale}
                   isNew={isNew}
+                  categories={categories}
                   projectCount={projects.length}
                   featuredCount={featuredProjects.length}
                   onCancel={closeEditor}
@@ -1199,6 +1485,44 @@ export default function AdminPanel({
                 )}
               </>
             )}
+          </TabsContent>
+
+          <TabsContent value="categories">
+            <p className="section-copy mb-8 max-w-2xl">
+              {t("categories.subtitle")}
+            </p>
+            {categoriesError ? (
+              <div className="mb-6 flex flex-col items-start gap-3 border border-amber-200 bg-amber-50 px-6 py-4 text-amber-900">
+                <p>{t("categories.loadError")}</p>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => router.refresh()}
+                >
+                  <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {t("retry")}
+                </Button>
+              </div>
+            ) : null}
+            <div className="grid gap-4">
+              {categories.map((category, index) => (
+                <CategoryRow
+                  key={category.slug}
+                  category={category}
+                  locale={locale}
+                  projectCount={projectsPerCategory.get(category.slug) ?? 0}
+                  canMoveUp={index > 0}
+                  canMoveDown={index < categories.length - 1}
+                />
+              ))}
+              {categories.length === 0 && !categoriesError ? (
+                <p className="border-line border bg-white/50 px-6 py-10 text-center text-black/60">
+                  {t("categories.empty")}
+                </p>
+              ) : null}
+              <NewCategoryForm />
+            </div>
           </TabsContent>
 
           <TabsContent value="site-images">

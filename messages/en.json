@@ -127,13 +127,6 @@
     "featuredOrder": "Homepage order",
     "sortOrder": "Projects page order",
     "orderHint": "Choosing an occupied position automatically reorders the other projects to keep positions continuous and duplicate-free.",
-    "categoryOptions": {
-      "presentation": "Presentation",
-      "progress": "In progress",
-      "shop": "E-commerce",
-      "wordpress": "Wordpress",
-      "others": "Others"
-    },
     "statusPublished": "Published",
     "statusDraft": "Draft",
     "edit": "Edit",
@@ -156,7 +149,8 @@
     "tabs": {
       "overview": "Overview",
       "projects": "Projects",
-      "siteImages": "Images"
+      "siteImages": "Images",
+      "categories": "Categories"
     },
     "overview": {
       "title": "Portfolio status",
@@ -207,6 +201,22 @@
         "section": "Homepage / About",
         "title": "About section image"
       }
+    },
+    "categories": {
+      "subtitle": "The categories shown on the Projects page. Add, rename, reorder or delete as many as you need.",
+      "newTitle": "New category",
+      "newHint": "The Romanian and English names appear on the Projects page tabs and on each project card badge.",
+      "create": "Add category",
+      "labelRo": "Romanian name",
+      "labelEn": "English name",
+      "slug": "Slug",
+      "slugHint": "Lowercase letters, numbers and hyphens only. Changing it moves every project in this category with it.",
+      "usage": "{count, plural, =0 {no projects} one {# project} other {# projects}}",
+      "confirmDelete": "Delete this category?",
+      "deleteBlocked": "A category still used by projects cannot be deleted. Move those projects to another category first.",
+      "empty": "No categories yet. Add the first one below.",
+      "loadError": "Categories could not be loaded.",
+      "noneHint": "There are no categories. Add one from the Categories tab before saving this project."
     }
   },
   "Nav": {

@@ -1,6 +1,10 @@
 import { setRequestLocale } from "next-intl/server";
 import { constructMetadata } from "@/lib/utils";
 import { getPublishedProjects, localizeProject } from "@/lib/projects/queries";
+import {
+  categoryLabelMap,
+  getProjectCategories,
+} from "@/lib/categories/queries";
 import BreadcrumbJsonLd from "@/components/seo/BreadcrumbJsonLd";
 import ProjectsJsonLd from "@/components/seo/ProjectsJsonLd";
 import ProjectsPage from "./ProjectsPage";
@@ -36,16 +40,28 @@ export async function generateMetadata({ params }) {
 const Projects = async ({ params }) => {
   const { locale } = await params;
   setRequestLocale(locale);
-  const result = await getPublishedProjects();
+  const [result, categoryResult] = await Promise.all([
+    getPublishedProjects(),
+    getProjectCategories(),
+  ]);
+  const labels = categoryLabelMap(categoryResult.categories, locale);
   const projects = result.projects.map((project) =>
-    localizeProject(project, locale),
+    localizeProject(project, locale, labels),
   );
+  const categories = categoryResult.categories.map((category) => ({
+    slug: category.slug,
+    label: labels[category.slug],
+  }));
 
   return (
     <>
       <BreadcrumbJsonLd locale={locale} route="projects" />
       <ProjectsJsonLd locale={locale} projects={projects} />
-      <ProjectsPage projects={projects} error={result.error} />
+      <ProjectsPage
+        projects={projects}
+        categories={categories}
+        error={result.error}
+      />
     </>
   );
 };

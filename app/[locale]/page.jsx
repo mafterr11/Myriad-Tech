@@ -3,6 +3,10 @@ import dynamicImport from "next/dynamic";
 import OrganizationJsonLd from "@/components/seo/OrganizationJsonLd";
 import { getFeaturedProjects, localizeProject } from "@/lib/projects/queries";
 import { getSiteImages, localizeSiteImage } from "@/lib/site-images/queries";
+import {
+  categoryLabelMap,
+  getProjectCategories,
+} from "@/lib/categories/queries";
 
 const Hero = dynamicImport(() => import("@/components/home/Hero"));
 const About = dynamicImport(() => import("@/components/home/About"));
@@ -19,12 +23,14 @@ export const revalidate = 3600;
 export default async function Home({ params }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [result, siteImages] = await Promise.all([
+  const [result, siteImages, categories] = await Promise.all([
     getFeaturedProjects(),
     getSiteImages(),
+    getProjectCategories(),
   ]);
+  const labels = categoryLabelMap(categories.categories, locale);
   const projects = result.projects.map((project) =>
-    localizeProject(project, locale),
+    localizeProject(project, locale, labels),
   );
 
   return (

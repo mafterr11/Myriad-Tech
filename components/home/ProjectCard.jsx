@@ -23,9 +23,14 @@ const ProjectCard = ({
   headingLevel = "h3",
 }) => {
   const t = useTranslations("Proiecte");
-  const category = t.has(`category.${project.category}`)
-    ? t(`category.${project.category}`)
-    : project.category;
+  // Categories are editable in the admin panel, so the label is resolved from
+  // the database and travels on the project. The message file is still the
+  // fallback for the five categories that predate that table.
+  const category =
+    project.categoryLabel ||
+    (t.has(`category.${project.category}`)
+      ? t(`category.${project.category}`)
+      : project.category);
   const image = project.image || "/project-bg-light.png";
   const link = project.link || "#";
   const description = project.description || "";

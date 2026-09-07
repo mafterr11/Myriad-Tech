@@ -127,13 +127,6 @@
     "featuredOrder": "Ordine pe homepage",
     "sortOrder": "Ordine in pagina proiectelor",
     "orderHint": "Daca alegi o pozitie ocupata, celelalte proiecte sunt reordonate automat pentru a pastra pozitii continue, fara duplicate.",
-    "categoryOptions": {
-      "presentation": "Site de prezentare",
-      "progress": "In desfasurare",
-      "shop": "Magazin online",
-      "wordpress": "Wordpress",
-      "others": "Altele"
-    },
     "statusPublished": "Publicat",
     "statusDraft": "Ciorna",
     "edit": "Editeaza",
@@ -156,7 +149,8 @@
     "tabs": {
       "overview": "Prezentare",
       "projects": "Proiecte",
-      "siteImages": "Imagini"
+      "siteImages": "Imagini",
+      "categories": "Categorii"
     },
     "overview": {
       "title": "Starea portofoliului",
@@ -207,6 +201,22 @@
         "section": "Homepage / Despre",
         "title": "Imaginea sectiunii despre mine"
       }
+    },
+    "categories": {
+      "subtitle": "Categoriile din pagina Proiecte. Poți adăuga, redenumi, reordona sau șterge oricâte.",
+      "newTitle": "Categorie nouă",
+      "newHint": "Numele în română și engleză apar pe taburile din pagina Proiecte și pe eticheta fiecărui card.",
+      "create": "Adaugă categoria",
+      "labelRo": "Nume în română",
+      "labelEn": "Nume în engleză",
+      "slug": "Slug",
+      "slugHint": "Doar litere mici, cifre și cratime. Dacă îl schimbi, proiectele din categorie sunt mutate automat.",
+      "usage": "{count, plural, =0 {niciun proiect} one {# proiect} few {# proiecte} other {# de proiecte}}",
+      "confirmDelete": "Ștergi această categorie?",
+      "deleteBlocked": "Nu poți șterge o categorie folosită de proiecte. Mută întâi proiectele în altă categorie.",
+      "empty": "Nu există încă nicio categorie. Adaugă prima mai jos.",
+      "loadError": "Categoriile nu au putut fi încărcate.",
+      "noneHint": "Nu există categorii. Adaugă una din tabul Categorii înainte de a salva proiectul."
     }
   },
   "Nav": {
