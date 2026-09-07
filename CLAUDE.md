@@ -78,11 +78,11 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
 - After changing the CSP, load a page and check the console — a wrong policy
   fails silently and takes reCAPTCHA down with it, which kills the contact
   form.
-- **Supabase advisors flag the six admin RPCs as "callable by signed-in
+- **Supabase advisors flag the ten admin RPCs as "callable by signed-in
   users". That lint is a false positive here.** It does not read function
-  bodies, and all six (`create/update/delete_project_with_ordering`,
-  `toggle_project_published`, `reorder_project`, `upsert_site_image`) open
-  with the same guard:
+  bodies, and all ten (`create/update/delete_project_with_ordering`,
+  `toggle_project_published`, `reorder_project`, `upsert_site_image`,
+  `create/update/delete/reorder_project_category`) open with the same guard:
   `if coalesce((select auth.jwt() -> 'app_metadata' ->> 'role'), '') <> 'admin' then raise exception`.
   That matches `isAdminClaims` in `lib/admin/auth.js`. The base tables also
   revoke insert/update/delete from `anon` and `authenticated`, so the RPCs
@@ -328,7 +328,12 @@ Next.js 16 (App Router, Turbopack) + next-intl, Supabase, deployed on Vercel.
   rather than surfacing a constraint error.
 - Writes go through four security definer RPCs with the same admin guard as
   everything else (`create/update/delete/reorder_project_category`). The lint
-  described under **Security** applies to them too, for the same reason.
+  described under **Security** applies to them too, for the same reason -- the
+  guard was exercised against the live database, which refused both a create
+  and a delete made without an admin claim.
+- Applied to Supabase on 2026-09-07 as migration `20260907185000`. The file
+  name matches that version on purpose: rename it and `supabase db push` treats
+  the migration as unapplied.
 - The message-file labels are still read as a fallback and should stay:
   `PROJECT_CATEGORY_DEFAULTS` in `lib/categories/constants.js` mirrors them
   exactly, so the site renders identically when the table is empty, unreachable,
