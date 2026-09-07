@@ -1,0 +1,7 @@
+interface:
+  display_name: "Restart Protocol"
+  short_description: "Safely restart Codex Desktop on Windows"
+  default_prompt: "Use $restart-protocol to safely restart Codex Desktop."
+
+policy:
+  allow_implicit_invocation: false
