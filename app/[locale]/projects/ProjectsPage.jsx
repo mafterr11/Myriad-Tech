@@ -3,7 +3,25 @@
 import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 import ProjectCard from "@/components/home/ProjectCard";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
+
+// A name like "Jocuri/Aplicații" is a single unbroken token to the browser, so
+// break-words splits it wherever it runs out of room -- "JOCURI/APLICA" then
+// "ȚII". A slash is a natural place to wrap, so offer one there explicitly and
+// let break-words stay as the last resort for a genuinely long single word.
+function wrappableLabel(label) {
+  const text = String(label ?? "");
+  if (!text.includes("/")) {
+    return text;
+  }
+
+  return text.split("/").map((part, index) => (
+    <Fragment key={`${part}-${index}`}>
+      {index > 0 ? <>/&#8203;</> : null}
+      {part}
+    </Fragment>
+  ));
+}
 
 const ProjectsPage = ({ projects = [], categories = [], error }) => {
   const t = useTranslations("Proiecte");
@@ -112,7 +130,7 @@ const ProjectsPage = ({ projects = [], categories = [], error }) => {
                 {/* break-words so a single long category name wraps inside its
                     own tab instead of being cut off by the overflow-hidden. */}
                 <span className="min-w-0 leading-tight break-words">
-                  {tab.label}
+                  {wrappableLabel(tab.label)}
                 </span>
                 <span className="border-line bg-body-light text-accent shrink-0 rounded-[1px] border px-2 py-1 text-[0.65rem] leading-none tracking-normal">
                   {tab.count}
