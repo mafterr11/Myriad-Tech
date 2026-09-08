@@ -950,7 +950,7 @@
      Tighter tracking, a shorter rule and no wrapping keep it to one. */
   .hero-kicker {
     gap: 0.5rem;
-    font-size: 0.63rem;
+    font-size: 0.7rem;
     letter-spacing: 0.13em;
     white-space: nowrap;
   }
@@ -993,15 +993,36 @@
      height back somewhere or the buttons drop below the fold again. */
   .hero-actions {
     margin-top: 1.4rem;
+    gap: 1rem;
   }
 
   .hero-actions > * {
     width: 100%;
   }
 
+  /* The 4px/5px offset shadow is drawn for a button the width of its label:
+     you read it as depth because both the button's right edge and the
+     shadow's are on screen at once. Stretched full width it has nowhere to
+     go — it drops a displaced brown slab into the gap above the CV button
+     and pushes 4px past the right gutter, so the pair reads as a
+     misregistered print rather than as a raised button. Straight down, with
+     no sideways offset, is the same ledge without the displacement. */
+  .hero-actions .shadow-button {
+    box-shadow: 0 4px 0 rgba(103, 72, 57, 0.2);
+  }
+
+  /* Two full-width buttons stacked on top of each other are read as a pair,
+     so any difference in height reads as a mistake. Left to their own padding
+     they came out 48px and 50px — same padding, but the secondary's 1px
+     border sits outside the content box on an auto height. Pin the height and
+     zero the vertical padding so the border cannot add to it. The selector
+     needs the element on it: a bare `.hero-actions > *` ties with Tailwind's
+     `py-3.5` on specificity and loses on order. */
   .hero-actions a,
   .hero-actions button {
     width: 100%;
+    min-height: 3rem;
+    padding-block: 0;
   }
 
   .section-title {
@@ -1018,7 +1039,7 @@
   }
 
   .hero-kicker {
-    font-size: 0.58rem;
+    font-size: 0.64rem;
     letter-spacing: 0.1em;
   }
 

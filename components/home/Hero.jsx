@@ -63,7 +63,7 @@ const Hero = ({ image = fallbackImage }) => {
               <Button
                 asChild
                 variant="secondary"
-                className="group w-full sm:w-auto max-md:min-h-11 max-md:py-2.5"
+                className="group w-full sm:w-auto"
               >
                 <a
                   href="/CV.pdf"
