@@ -194,7 +194,7 @@ const NavMobile = () => {
 
                     <div onClick={closeMenu} className="mt-2">
                       <Logo
-                        source="/Myriad Tech header logo telefon.png"
+                        source="/icon.svg"
                         size="h-[3.5rem]"
                       />
                     </div>
