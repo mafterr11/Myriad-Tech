@@ -192,8 +192,8 @@ const NavMobile = () => {
                       <IoCloseOutline aria-hidden="true" />
                     </button>
 
-                    <div onClick={closeMenu} className="mt-2">
-                      <Logo wordmark source="/icon.svg" size="h-[3.5rem]" />
+                    <div onClick={closeMenu} className="mt-6 flex w-full justify-center">
+                      <Logo source="/icon.svg" size="h-[3.5rem]" />
                     </div>
 
                     <nav
