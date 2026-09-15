@@ -85,15 +85,15 @@ export function constructMetadata({
   const alternateUrls = getLocalizedUrls(route);
   const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
-  // Points at the selected card in app/opengraph-image.png. Naming it here
+  // Points at the selected card in app/opengraph-image.jpg. Naming it here
   // rather than relying on the file convention is necessary because this
   // object already defines `openGraph`, which suppresses the automatic tag.
   const socialImages = [
     {
-      url: image ?? "/opengraph-image.png",
+      url: image ?? "/opengraph-image.jpg",
       width: 1200,
       height: 630,
-      type: "image/png",
+      ...(image ? {} : { type: "image/jpeg" }),
       alt:
         locale === "ro"
           ? `${SITE_NAME} — web design, dezvoltare web și SEO din București`
