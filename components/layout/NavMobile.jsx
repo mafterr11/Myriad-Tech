@@ -193,10 +193,7 @@ const NavMobile = () => {
                     </button>
 
                     <div onClick={closeMenu} className="mt-2">
-                      <Logo
-                        source="/icon.svg"
-                        size="h-[3.5rem]"
-                      />
+                      <Logo wordmark source="/icon.svg" size="h-[3.5rem]" />
                     </div>
 
                     <nav
